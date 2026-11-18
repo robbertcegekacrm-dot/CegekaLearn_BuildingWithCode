@@ -281,6 +281,7 @@ ${m.info ? '' : `    <div class="done-row">
     </div>
     <p class="no-print" id="certMsg" hidden style="font-size:.9rem"></p>
     <div class="certificate" id="certificate">
+      <img src="img/cert-illustratie.jpg" alt="" class="cert-illustration" onerror="this.remove()">
       <img src="img/cegeka-logo.png" alt="Cegeka" class="cert-logo" onerror="this.remove()">
       <div class="cert-kicker">Certificaat van deelname</div>
       <div class="cert-title">${all ? 'Gefeliciteerd!' : 'Goed bezig!'}</div>
@@ -316,6 +317,8 @@ ${m.info ? '' : `    <div class="done-row">
     x.restore();
     x.strokeStyle = '#000'; x.lineWidth = 4; x.strokeRect(40, 40, W - 80, H - 80);
     x.fillStyle = '#00C7F9'; x.fillRect(40, H - 52, W - 80, 12);
+    const ill = await loadImg('img/cert-illustratie.jpg');
+    if (ill) { x.save(); x.globalAlpha = 0.9; x.drawImage(ill, 80, 70, 230, 230); x.restore(); }
     const logo = await loadImg('img/cegeka-logo.png');
     if (logo) { const h = 70, w = logo.width * h / logo.height; x.drawImage(logo, (W - w) / 2, 100, w, h); }
     x.textAlign = 'center';

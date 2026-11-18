@@ -358,3 +358,6 @@ dl.glossary dd { margin: 0; }
 ol.todo.plain { list-style: disc; padding-left: 22px; }
 ol.todo.plain > li { padding: 2px 0 8px; }
 ol.todo.plain > li::before { display: none; }
+
+.cert-illustration { position: absolute; top: 20px; left: 20px; width: 120px; height: auto; opacity: .9; z-index: 1; }
+@media (max-width: 560px) { .cert-illustration { width: 72px; top: 12px; left: 12px; } }
