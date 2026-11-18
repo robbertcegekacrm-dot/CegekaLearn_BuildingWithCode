@@ -53,31 +53,16 @@ Pas niets aan. Ontbreekt er iets, vertel me dan in één zin wat ik moet doen.`,
     where: 'Microsoft 365 Copilot of Claude (chat)',
     module: 2,
     text:
-`Je bent een ervaren Power Platform solution architect bij Cegeka.
-Gebruik de building plan skill (cegeka-building-plan) als die beschikbaar is.
+`Gebruik de building plan skill (cegeka-building-plan). Werk je in Copilot, volg dan de regels en het sjabloon uit het bijgevoegde skillbestand.
 
-Maak op basis van de bijgevoegde input een bouwplan in Markdown voor een Dataverse-oplossing "Hardware Manager".
+Maak op basis van de bijgevoegde input het bouwplan voor de oplossing "Hardware Manager".
 Input:
 - transcript van de casevideo van Mark (Hardware Manager)
 - mijn eigen notities
 - samenvatting uit Work IQ (indien beschikbaar)
 
-Gebruik precies deze hoofdstukken:
-1. Doel en scope (wat zit er wel en niet in)
-2. Rollen en gebruikers
-3. Datamodel: tabellen, kolommen (met datatype), keuzelijsten
-4. Relaties: 1:N en N:N, inclusief gedrag bij verwijderen
-5. Security: security roles en wie wat mag zien en doen
-6. App: model-driven app met navigatie, views en formulieren
-7. Flows: per flow de trigger, stappen en uitkomst
-8. Acceptatiecriteria in de vorm Gegeven / Wanneer / Dan
-9. Aannames en open vragen voor de klant
-
-Regels:
-- Verzin geen eisen die niet in de input staan. Zet alles wat je aanneemt onder "Aannames".
-- Gebruik Nederlandse labels en houd het compact: tabellen en opsommingen, geen lappen tekst.
-- Sluit af met een lijst van maximaal 5 vragen die ik aan Mark moet voorleggen.`,
-    tip: 'Je geeft een rol, een vaste structuur en harde regels. Daardoor krijg je een plan dat je kunt reviewen met de klant, en zie je meteen welke aannames de AI heeft gedaan in plaats van dat die verstopt zitten in de tekst.'
+Zet het hele plan in één Markdown-blok, zodat ik het kan opslaan als building-plan.md.`,
+    tip: 'De skill bevat de vaste structuur en de regels, zoals "verzin geen eisen" en "zet aannames apart". Daardoor blijft de prompt kort, krijgt iedereen hetzelfde soort plan, en zie je meteen welke aannames de AI heeft gedaan.'
   },
   {
     id: 'project-setup',
@@ -192,7 +177,7 @@ Werkwijze:
     module: 5,
     text:
 `Voer stap 2 uit het implementatieplan uit: de relaties.
-Leg de relaties uit hoofdstuk 4 van docs/building-plan.md aan (bijvoorbeeld apparaat aan medewerker, onboarding aan medewerker en manager, bestelling aan onboarding).
+Leg de relaties uit hoofdstuk 6 van docs/building-plan.md aan (bijvoorbeeld apparaat aan medewerker, onboarding aan medewerker en manager, bestelling aan onboarding).
 Benoem per relatie het type (1:N of N:N), de lookup-kolom en het gedrag bij verwijderen.
 Toon eerst je voorstel, wacht op akkoord, voer uit, controleer en stel een commit message voor.`,
     tip: 'Door het gedrag bij verwijderen expliciet te vragen, voorkom je dat er straks per ongeluk apparaten of bestellingen mee verdwijnen.'
@@ -204,7 +189,7 @@ Toon eerst je voorstel, wacht op akkoord, voer uit, controleer en stel een commi
     module: 5,
     text:
 `Voer stap 3 uit het implementatieplan uit: de model-driven app "Hardware Manager".
-Maak de app met navigatie, de views en de formulieren uit hoofdstuk 6 van docs/building-plan.md.
+Maak de app met navigatie, de views en de formulieren uit hoofdstuk 8 van docs/building-plan.md.
 Zorg dat Mark op het formulier van een medewerker direct de gekoppelde apparaten en onboardings ziet.
 Volg de building standards voor naamgeving en formulierindeling.
 Toon eerst je voorstel, wacht op akkoord, voer uit, publiceer de wijzigingen en stel een commit message voor.`,
@@ -464,8 +449,8 @@ const MODULES = [
           'Wacht tot het volledige plan klaar is.',
           'Vraag Claude of Copilot het plan in één Markdown-codeblok te zetten als dat nog niet zo is.'
         ],
-        img: { file: 'm2-s3-bouwplan-resultaat.png', caption: 'Het gegenereerde bouwplan in de chat met de negen hoofdstukken, met het datamodel als tabel zichtbaar.' },
-        check: 'Het plan heeft alle negen hoofdstukken, inclusief aannames en open vragen.',
+        img: { file: 'm2-s3-bouwplan-resultaat.png', caption: 'Het gegenereerde bouwplan in de chat met de elf hoofdstukken, met het datamodel als tabel zichtbaar.' },
+        check: 'Het plan heeft alle elf hoofdstukken, van input tot aannames en open vragen.',
         help: 'Mist er een hoofdstuk? Vraag: "Vul hoofdstuk X aan op basis van de input. Verander de rest niet."'
       },
       {
@@ -473,6 +458,7 @@ const MODULES = [
         title: 'Review het plan en sla het op',
         goal: 'Je bouwplan klopt met de casus en staat als building-plan.md klaar.',
         do: [
+          '<strong>Componentkeuzes:</strong> staat er ergens BEVESTIGEN? Neem een besluit en laat het plan aanpassen.',
           '<strong>Tabellen:</strong> zijn apparaat, medewerker, onboarding en bestelling aanwezig? Hebben de kolommen logische datatypes?',
           '<strong>Relaties:</strong> kan één medewerker meerdere apparaten hebben? Hangt de bestelling aan de onboarding?',
           '<strong>Security:</strong> wie mag apparaten zien en wie mag bestellen? Klopt dat met wat Mark zei?',
