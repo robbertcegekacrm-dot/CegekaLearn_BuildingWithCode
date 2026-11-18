@@ -291,10 +291,11 @@ const MODULES = [
   {
     id: 'm0',
     number: 0,
-    title: 'Welkom',
+    title: 'Introductie',
+    info: true,
     duration: '5 min',
     badge: 'Kick-off',
-    intro: 'Maak kennis met Mark, de nieuwe Hardware Manager van Cegeka, en ontdek wat je vandaag bouwt en hoe.',
+    intro: 'Maak kennis met Mark, de nieuwe Hardware Manager van Cegeka, ontdek wat je vandaag bouwt en hoe, en zorg dat je de voorbereiding uit de handleiding hebt gedaan.',
     tip: 'Bekijk eerst de casevideo. Alles wat je vandaag bouwt, begint bij de vraag van de klant.',
     steps: [
       {
@@ -340,24 +341,13 @@ const MODULES = [
         img: { file: 'm0-s3-aanpak-plan-bouw.png', caption: 'Schema van de aanpak: input (video, notities, Work IQ), bouwplan, review met klant, bouwen met Claude Code en skills, testen.' },
         check: 'Je weet waarom het bouwplan vóór het bouwen komt.',
         help: 'Je kunt de training op elk moment onderbreken. Je voortgang blijft bewaard zolang je dezelfde browser gebruikt.'
-      }
-    ]
-  },
-
-  {
-    id: 'm1',
-    number: 1,
-    title: 'Voorbereiding',
-    badge: 'Klaar voor de start',
-    intro: 'Zorg dat je de handleiding "Aan de slag met Claude Code in VS Code" hebt doorlopen, voeg de Power Platform Tools toe en laat Claude controleren of alles klaarstaat.',
-    tip: 'Het meeste gereedschap heb je al geïnstalleerd met de handleiding. Hier komen alleen de Power Platform Tools erbij.',
-    steps: [
+      },
       {
-        id: 'm1-s1',
-        title: 'Doorloop de handleiding',
+        id: 'm0-s4',
+        lead: `Doe deze voorbereiding vóór de training, met de handleiding <a href="${CONFIG.prepGuideUrl}" target="_blank" rel="noopener"><strong>Aan de slag met Claude Code in VS Code</strong></a>. Daarin staan deze stappen:`,
+        title: 'Voorbereiding vooraf: de handleiding',
         goal: 'Je licentie is actief en Claude Code, Node.js, Git en GitHub werken op je laptop.',
         do: [
-          `Open de handleiding <a href="${CONFIG.prepGuideUrl}" target="_blank" rel="noopener"><strong>Aan de slag met Claude Code in VS Code</strong></a> en werk de stappen hieronder af:`,
           '<strong>Licentie aanvragen</strong> voor Claude via Horizon (Manage Software).',
           '<strong>VS Code, Node.js en Git installeren</strong> via de Company Portal. Herstart VS Code daarna.',
           '<strong>Claude Code toevoegen</strong> als extensie in VS Code en inloggen met je Cegeka-account.',
@@ -368,9 +358,20 @@ const MODULES = [
         img: null,
         check: 'Je kunt alles van de checklist in de handleiding afvinken: licentie actief, VS Code, Node.js en Git geïnstalleerd, Claude Code ingelogd, Git en GitHub gekoppeld, werkmap buiten OneDrive en de testopdracht gelukt.',
         help: 'Vragen over je licentie? Kijk in het artikel <em>Requesting an AI platform license</em> op ONE. Loop je vast bij het installeren, meld het dan vóór de training bij de trainer, zodat je op de dag direct kunt beginnen.'
-      },
+      }
+    ]
+  },
+
+  {
+    id: 'm1',
+    number: 1,
+    title: 'Voorbereiding',
+    badge: 'Klaar voor de start',
+    intro: 'Voeg de Power Platform Tools toe en laat Claude controleren of alles klaarstaat. De handleiding uit de introductie heb je dan al doorlopen.',
+    tip: 'Het meeste gereedschap heb je al geïnstalleerd met de handleiding. Hier komen alleen de Power Platform Tools erbij.',
+    steps: [
       {
-        id: 'm1-s2',
+        id: 'm1-s1',
         title: 'Installeer de Power Platform Tools',
         goal: 'VS Code heeft de Power Platform Tools, met daarin de PAC CLI die Claude gebruikt om met Dataverse te werken.',
         do: [
@@ -378,12 +379,12 @@ const MODULES = [
           'Zoek op <strong>Power Platform Tools</strong> (uitgever Microsoft) en klik <kbd>Install</kbd>.',
           'Sluit VS Code helemaal af en start opnieuw. Pas dan kan Claude de PAC CLI vinden.'
         ],
-        img: { file: 'm1-s2-power-platform-tools.png', caption: 'Het Extensions-paneel in VS Code met Power Platform Tools van Microsoft geïnstalleerd, en het Power Platform-icoon in de linkerbalk.' },
+        img: { file: 'm1-s1-power-platform-tools.png', caption: 'Het Extensions-paneel in VS Code met Power Platform Tools van Microsoft geïnstalleerd, en het Power Platform-icoon in de linkerbalk.' },
         check: 'Power Platform Tools staat onder <em>Installed</em> en je ziet het Power Platform-icoon in de linkerbalk.',
         help: 'Kun je de extensie niet installeren? Vraag de trainer of je laptop extensies uit de Marketplace mag installeren.'
       },
       {
-        id: 'm1-s3',
+        id: 'm1-s2',
         title: 'Laat Claude controleren of je klaar bent',
         goal: 'Claude bevestigt dat Node.js, Git, de PAC CLI en je Git-instellingen in orde zijn.',
         tip: 'Vanaf nu werk je zo: jij vraagt, Claude doet, jij keurt goed. Commando\'s typen hoeft niet.',
@@ -393,7 +394,7 @@ const MODULES = [
           { text: 'Stuur deze prompt naar Claude:', prompt: 'check-installaties' },
           'Claude vraagt toestemming om opdrachten uit te voeren. Lees wat Claude wil doen en geef akkoord.'
         ],
-        img: { file: 'm1-s3-klaar-voor-de-start.png', caption: 'Het Claude Code-paneel met de samenvatting: versies van Node.js, Git en pac, en de ingestelde Git-naam en e-mail.' },
+        img: { file: 'm1-s2-klaar-voor-de-start.png', caption: 'Het Claude Code-paneel met de samenvatting: versies van Node.js, Git en pac, en de ingestelde Git-naam en e-mail.' },
         check: 'Claude meldt voor Node.js, Git en pac een versienummer en bevestigt dat je Git-naam en e-mail zijn ingesteld.',
         help: 'Vindt Claude <code>pac</code> niet? Herstart VS Code helemaal en stuur de prompt opnieuw. Ontbreekt iets anders, ga dan terug naar de betreffende stap in de handleiding.'
       }

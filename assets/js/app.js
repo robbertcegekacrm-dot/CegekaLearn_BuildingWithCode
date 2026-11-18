@@ -19,9 +19,11 @@
   MODULES.forEach(m => m.steps.forEach((s, i) => STEPS.push(Object.assign({}, s, { module: m, index: i }))));
   const FILE_CACHE = {};
   const PROMPT = Object.fromEntries(PROMPTS.map(p => [p.id, p]));
+  const COUNTED = STEPS.filter(s => !s.module.info);
+  const TASK_MODULES = MODULES.filter(m => !m.info);
   const moduleDone = m => m.steps.filter(s => state.done[s.id]).length;
-  const isComplete = m => moduleDone(m) === m.steps.length;
-  const totalDone = () => STEPS.filter(s => state.done[s.id]).length;
+  const isComplete = m => !m.info && moduleDone(m) === m.steps.length;
+  const totalDone = () => COUNTED.filter(s => state.done[s.id]).length;
 
   /* ---------- Tip ---------- */
   const tipBox = text => `
@@ -92,10 +94,10 @@
         <button type="button" aria-expanded="${!!open}">
           <svg class="sb-chevron" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3"/></svg>
           <span>${m.number}. ${esc(m.title)}</span>
-          <span class="sb-count">${done}/${m.steps.length}</span>
+          <span class="sb-count">${m.info ? '' : `${done}/${m.steps.length}`}</span>
         </button>
         <ul class="sb-steps">
-          ${m.steps.map(s => `<li><a href="#${s.id}" class="${s.id === activeStepId ? 'active' : ''}" ${s.id === activeStepId ? 'aria-current="page"' : ''}><span class="sb-dot${state.done[s.id] ? ' done' : ''}"></span><span>${esc(s.title)}</span></a></li>`).join('')}
+          ${m.steps.map(s => `<li><a href="#${s.id}" class="${s.id === activeStepId ? 'active' : ''}" ${s.id === activeStepId ? 'aria-current="page"' : ''}><span class="sb-dot${m.info ? ' info' : state.done[s.id] ? ' done' : ''}"></span><span>${esc(s.title)}</span></a></li>`).join('')}
         </ul>
       </div>`;
     }).join('');
@@ -104,16 +106,16 @@
   }
 
   function updateProgress() {
-    const pct = Math.round(totalDone() / STEPS.length * 100);
+    const pct = Math.round(totalDone() / COUNTED.length * 100);
     $('#progressFill').style.width = pct + '%';
-    $('#progressLabel').textContent = `${pct}% klaar · ${totalDone()} van ${STEPS.length} stappen`;
+    $('#progressLabel').textContent = `${pct}% klaar · ${totalDone()} van ${COUNTED.length} stappen`;
     $('#progress').setAttribute('aria-valuenow', pct);
   }
 
   /* ---------- Pagina's ---------- */
   function renderHome() {
-    const pct = Math.round(totalDone() / STEPS.length * 100);
-    const next = STEPS.find(s => !state.done[s.id]);
+    const pct = Math.round(totalDone() / COUNTED.length * 100);
+    const next = totalDone() ? COUNTED.find(s => !state.done[s.id]) : STEPS[0];
     return `
     <section class="hero">
       <div>
@@ -121,18 +123,24 @@
         <p>Bouw in één sessie een complete Dataverse-oplossing voor Mark, de Hardware Manager. Eerst een bouwplan, daarna bouwen met Claude Code, de PAC CLI en de Cegeka skills.</p>
         <div class="hero-stats">
           <span class="pill">${MODULES.length} modules</span>
-          <span class="pill">${STEPS.length} stappen</span>
+          <span class="pill">${COUNTED.length} stappen</span>
           <span class="pill">${pct}% klaar</span>
         </div>
         <a class="btn primary" href="#${next ? next.id : STEPS[0].id}" style="border-color:#000;background:#fff">${totalDone() ? 'Ga verder' : 'Start de training'} →</a>
       </div>
     </section>
-    ${tipBox(totalDone() === STEPS.length
+    ${tipBox(totalDone() === COUNTED.length
       ? 'Je bent klaar! Vergeet je certificaat niet op te halen.'
       : 'Vink elke stap af met <em>Markeer als klaar</em>. Rond je een module af, dan krijg je een badge.')}
     <h2>Modules</h2>
     <div class="cards">
       ${MODULES.map(m => {
+        if (m.info) return `<a class="card" href="#${m.steps[0].id}">
+          <span class="card-num">Module ${m.number}</span>
+          <h3>${esc(m.title)}</h3>
+          <p>${esc(m.intro)}</p>
+          <div class="card-foot"><span>${m.steps.length} onderdelen om te lezen</span></div>
+        </a>`;
         const d = moduleDone(m), p = Math.round(d / m.steps.length * 100);
         return `<a class="card${isComplete(m) ? ' complete' : ''}" href="#${(m.steps.find(s => !state.done[s.id]) || m.steps[0]).id}">
           <span class="card-num">Module ${m.number}</span>
@@ -155,7 +163,7 @@
     <p class="no-print"><button type="button" class="btn ghost small" id="resetBtn">Voortgang wissen</button></p>`;
   }
 
-  const badgesHtml = () => `<div class="badges">${MODULES.map(m => `
+  const badgesHtml = () => `<div class="badges">${TASK_MODULES.map(m => `
       <div class="badge${isComplete(m) ? ' earned' : ''}" title="${esc(m.badge)}">
         <div class="badge-medal">${m.number}</div>${esc(m.badge)}
       </div>`).join('')}</div>`;
@@ -169,23 +177,24 @@
     <nav class="breadcrumb" aria-label="Kruimelpad"><a href="#start">Overzicht</a> / Module ${m.number}: ${esc(m.title)}</nav>
     <h1>${esc(step.title)}</h1>
     <div class="meta">
-      <span class="pill blue">Module ${m.number} · stap ${step.index + 1} van ${m.steps.length}</span>
+      <span class="pill blue">Module ${m.number} · ${m.info ? 'onderdeel' : 'stap'} ${step.index + 1} van ${m.steps.length}</span>
       ${state.done[step.id] ? '<span class="pill green">Klaar</span>' : ''}
     </div>
     ${intro}
     ${step.index === 0 ? `<p>${esc(m.intro)}</p>` : ''}
-    <div class="box goal"><h3>Doel</h3><p>${step.goal}</p></div>
+    ${m.info ? '' : `<div class="box goal"><h3>Doel</h3><p>${step.goal}</p></div>`}
     ${step.tip && !intro ? tipBox(esc(step.tip)) : ''}
     ${step.video ? videoSlot() : ''}
-    <h2>Wat ga je doen?</h2>
-    <ol class="todo">${step.do.map(renderAction).join('')}</ol>
+    ${m.info ? '' : '<h2>Wat ga je doen?</h2>'}
+    ${step.lead ? `<p>${step.lead}</p>` : ''}
+    <ol class="todo${m.info ? ' plain' : ''}">${step.do.map(renderAction).join('')}</ol>
     ${shot(step.img)}
-    <div class="box check"><h3>Controleer</h3><p>${step.check}</p></div>
-    <details class="box help"><summary>Hulp nodig?</summary><div class="help-body"><p>${step.help}</p></div></details>
-    <div class="done-row">
+    ${m.info ? '' : `<div class="box check"><h3>Controleer</h3><p>${step.check}</p></div>
+    <details class="box help"><summary>Hulp nodig?</summary><div class="help-body"><p>${step.help}</p></div></details>`}
+${m.info ? '' : `    <div class="done-row">
       <label class="done-toggle"><input type="checkbox" id="doneBox" data-step="${step.id}" ${state.done[step.id] ? 'checked' : ''}> Markeer als klaar</label>
       ${next ? `<a class="btn primary small" href="#${next.id}" id="nextQuick">Volgende stap →</a>` : `<a class="btn primary small" href="#certificaat">Naar je certificaat →</a>`}
-    </div>
+    </div>`}
     <div class="pager">
       ${prev ? `<a class="btn ghost" href="#${prev.id}">← ${esc(prev.title)}</a>` : '<span></span>'}
       ${next ? `<a class="btn" href="#${next.id}">${esc(next.title)} →</a>` : ''}
@@ -256,8 +265,8 @@
   }
 
   function renderCert() {
-    const all = totalDone() === STEPS.length;
-    const left = STEPS.length - totalDone();
+    const all = totalDone() === COUNTED.length;
+    const left = COUNTED.length - totalDone();
     const date = new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
     return `
     <nav class="breadcrumb"><a href="#start">Overzicht</a> / Certificaat</nav>
@@ -336,7 +345,7 @@
 
   function celebrate(m) {
     state.badges[m.id] = true; save();
-    const all = totalDone() === STEPS.length;
+    const all = totalDone() === COUNTED.length;
     const toast = $('#toast');
     toast.innerHTML = `<div class="badge-medal">${m.number}</div><div><strong>Badge behaald: ${esc(m.badge)}</strong><br>${all ? 'Alle modules klaar! Haal je certificaat op.' : `Module ${m.number} – ${esc(m.title)} is afgerond.`}</div>`;
     toast.hidden = false;

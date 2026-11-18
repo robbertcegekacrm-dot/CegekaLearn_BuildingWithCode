@@ -352,3 +352,9 @@ dl.glossary dd { margin: 0; }
 .skill-view { margin-top: 12px; }
 .skill-view summary { cursor: pointer; font-weight: 700; color: var(--cg-blue-700); padding: 4px 0; }
 .skill-view .code pre { max-height: 520px; overflow: auto; white-space: pre-wrap; }
+
+.sb-dot.info { border-style: dotted; }
+.done-row.info { background: none; border: 0; padding: 0; justify-content: flex-end; }
+ol.todo.plain { list-style: disc; padding-left: 22px; }
+ol.todo.plain > li { padding: 2px 0 8px; }
+ol.todo.plain > li::before { display: none; }

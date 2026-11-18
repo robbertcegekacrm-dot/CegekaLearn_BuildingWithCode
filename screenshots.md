@@ -12,7 +12,7 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 | [ ] | `video/hardware-manager-case.mp4` | De casevideo van Mark, de Hardware Manager (MP4, H.264). Module 0, stap 1. |
 | [ ] | `img/skills-mappenstructuur.png` | Skills-pagina: de Explorer in VS Code met .claude/skills/cegeka-building-standards/SKILL.md. |
 
-## Module 0 – Welkom
+## Module 0 – Introductie
 
 | | Bestand | Stap | Wat moet erop te zien zijn |
 |---|---|---|---|
@@ -23,8 +23,8 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 
 | | Bestand | Stap | Wat moet erop te zien zijn |
 |---|---|---|---|
-| [ ] | `img/m1-s2-power-platform-tools.png` | Installeer de Power Platform Tools | Het Extensions-paneel in VS Code met Power Platform Tools van Microsoft geïnstalleerd, en het Power Platform-icoon in de linkerbalk. |
-| [ ] | `img/m1-s3-klaar-voor-de-start.png` | Laat Claude controleren of je klaar bent | Het Claude Code-paneel met de samenvatting: versies van Node.js, Git en pac, en de ingestelde Git-naam en e-mail. |
+| [ ] | `img/m1-s1-power-platform-tools.png` | Installeer de Power Platform Tools | Het Extensions-paneel in VS Code met Power Platform Tools van Microsoft geïnstalleerd, en het Power Platform-icoon in de linkerbalk. |
+| [ ] | `img/m1-s2-klaar-voor-de-start.png` | Laat Claude controleren of je klaar bent | Het Claude Code-paneel met de samenvatting: versies van Node.js, Git en pac, en de ingestelde Git-naam en e-mail. |
 
 ## Module 2 – Het bouwplan maken
 
