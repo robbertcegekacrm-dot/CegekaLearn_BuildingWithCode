@@ -2,6 +2,8 @@
 
 Responsive trainingswebsite (Nederlands) in Microsoft Learn-stijl en Cegeka-huisstijl. Deelnemers bouwen de **Hardware Manager**-case in Dataverse met VS Code, Claude Code, GitHub en de PAC CLI.
 
+Werkwijze: deelnemers bouwen vanuit een gesprek met Claude. Ze typen geen commando's; Claude voert Git- en PAC CLI-acties uit op basis van de building standards skill en de deelnemer keurt goed.
+
 Plain HTML, CSS en JavaScript. Geen build-stap, geen dependencies.
 
 ## Structuur
@@ -11,7 +13,7 @@ index.html                  Single-page app (hash-routing: #/stap/m3-s2, #/skill
 assets/css/style.css        Layout en Cegeka-huisstijl (Nunito Sans, Cegeka Blue)
 assets/js/content.js        ALLE inhoud: modules, stappen, prompts, woordenlijst, config
 assets/js/app.js            Logica: sidebar, voortgang, kopieerknoppen, badges, certificaat
-img/                        Screenshots (zie screenshots.md) en cegeka-logo.svg
+img/                        Screenshots (zie screenshots.md), cegeka-logo.png en cegeka-icon.png (favicon)
 video/                      hardware-manager-case.mp4 (casevideo van Mark)
 skills/<skill-naam>/SKILL.md  De twee Cegeka skills (nu placeholders)
 screenshots.md              Checklist van alle screenshots met bestandsnaam en omschrijving

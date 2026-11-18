@@ -10,7 +10,7 @@ const exists = f => fs.existsSync(path.join(root, f));
 const box = f => (exists(f) ? '[x]' : '[ ]');
 let md = `# Screenshots en media checklist\n\nZet elk bestand in de map \`img/\` met **exact** deze bestandsnaam (PNG, bij voorkeur 1600 px breed). De site toont het automatisch; zolang het bestand ontbreekt, zie je een placeholder met deze beschrijving.\n\nDeze lijst wordt gegenereerd met \`node tools/generate-screenshots-md.js\` (vinkjes = bestand staat al in de repo).\n\n`;
 md += `## Algemeen\n\n| | Bestand | Wat moet erop te zien zijn |\n|---|---|---|\n`;
-md += `| ${box('img/cegeka-logo.svg')} | \`img/cegeka-logo.svg\` | Officieel Cegeka-logo (gekleurde versie) voor de header. Zonder dit bestand toont de site de tekst "Cegeka". |\n`;
+md += `| ${box('img/cegeka-logo.png')} | \`img/cegeka-logo.png\` | Officieel Cegeka-logo (gekleurde versie) voor de header en het certificaat. Favicon: \`img/cegeka-icon.png\`. |\n`;
 md += `| ${box(CONFIG.caseVideo)} | \`${CONFIG.caseVideo}\` | De casevideo van Mark, de Hardware Manager (MP4, H.264). Module 0, stap 1. |\n`;
 md += `| ${box('img/skills-mappenstructuur.png')} | \`img/skills-mappenstructuur.png\` | Skills-pagina: de Explorer in VS Code met .claude/skills en daarin de mappen ${CONFIG.skills.plan.folder} en ${CONFIG.skills.standards.folder}, elk met een SKILL.md. |\n\n`;
 let n = 0;

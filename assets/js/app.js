@@ -219,7 +219,7 @@
         <ul>${uses.map(u => `<li>${u}</li>`).join('')}</ul>
         <h3>Waar sla je hem op?</h3>
         <div class="path-box">.claude/skills/${esc(sk.folder)}/SKILL.md</div>
-        <p style="margin-top:14px"><a class="btn primary small" href="${esc(sk.file)}" download="SKILL.md">Download SKILL.md</a>
+        <p style="margin-top:14px"><a class="btn primary small" href="${esc(sk.file)}" download="${esc(sk.download)}">Download ${esc(sk.download)}</a>
         <a class="btn ghost small" href="${esc(sk.file)}" target="_blank" rel="noopener">Bekijk de inhoud</a></p>
       </article>`;
     return `
@@ -229,19 +229,14 @@
     ${markBubble('Zie de skills als het vakmanschap van Cegeka in een bestand. Zonder skills bouwt Claude ook, maar mét skills bouwt Claude zoals wij dat afspreken.')}
     ${card(s.plan,
       'Helpt Copilot of Claude om van klantinput (transcripten, notities, Work IQ) een gestructureerd bouwplan te maken: datamodel, relaties, security, app, flows en acceptatiecriteria, met aannames en open vragen apart.',
-      ['In module 2, als je het bouwplan maakt in Copilot of Claude chat.', 'In Claude chat: upload de skill onder <kbd>Settings</kbd> &gt; <kbd>Capabilities</kbd> &gt; <kbd>Skills</kbd>. In Copilot: voeg SKILL.md toe als bijlage.', 'In je repo, zodat Claude Code het bouwplan later met dezelfde structuur kan aanvullen.'],
+      ['In module 2, als je het bouwplan maakt in Copilot of Claude chat.', 'In Claude chat: upload de skill onder <kbd>Settings</kbd> &gt; <kbd>Capabilities</kbd> &gt; <kbd>Skills</kbd>. In Copilot: voeg het skillbestand toe als bijlage.', 'In je repo, zodat Claude Code het bouwplan later met dezelfde structuur kan aanvullen.'],
       [2])}
     ${card(s.standards,
-      'Legt de Cegeka bouwstandaarden vast voor Power Platform en Dataverse: naamgeving en publisher prefix, solution-opbouw, security roles, connection references en environment variables, en de manier van reviewen en committen.',
-      ['In module 3, als je het project klaarzet en CLAUDE.md maakt.', 'In module 5, bij elke bouwstap en bij de review tegen de standaarden.'],
-      [3, 5])}
+      'Legt de Cegeka bouwstandaarden vast voor Power Platform en Dataverse: projectstructuur en CLAUDE.md, naamgeving en publisher prefix, hoe Claude verbinding maakt met een omgeving en de publisher en solution aanmaakt, security roles, connection references en environment variables, deployen via de PAC CLI en de manier van reviewen en committen. Daardoor hoef jij geen commando\'s te kennen: je vraagt het Claude in gewone taal.',
+      ['In module 3, als Claude het project klaarzet en CLAUDE.md maakt.', 'In module 4, als Claude verbinding maakt met Dataverse en de solution aanmaakt.', 'In module 5 en 6, bij elke bouwstap, de review en de deploy.'],
+      [3, 4, 5, 6])}
     <h2>Zo zet je de skills op de juiste plek</h2>
-    <ol class="todo">
-      <li>Maak in de root van je repo de map <code>.claude/skills/</code> aan (module 3, stap 2).</li>
-      <li>Maak per skill een eigen map met de naam van de skill.</li>
-      <li>Zet het gedownloade bestand in die map en controleer dat het exact <code>SKILL.md</code> heet.</li>
-      <li>Start Claude Code opnieuw en vraag: "Welke skills heb je beschikbaar?"</li>
-    </ol>
+    <p>Je hoeft de mappen niet zelf te maken. In module 3 sleep je de gedownloade bestanden naar je project en zet Claude ze op de juiste plek. Dit is het resultaat:</p>
     ${codeBlock('.claude/\n  skills/\n    ' + s.plan.folder + '/\n      SKILL.md\n    ' + s.standards.folder + '/\n      SKILL.md', 'Structuur')}
     ${shot({ file: 'skills-mappenstructuur.png', caption: 'De Explorer in VS Code met .claude/skills en daarin de mappen ' + s.plan.folder + ' en ' + s.standards.folder + ', elk met een SKILL.md.' })}`;
   }
@@ -286,7 +281,8 @@
       <button type="button" class="btn primary" id="printBtn" ${all ? '' : 'disabled'}>Print of bewaar als PDF</button>
     </div>
     <div class="certificate${all ? '' : ' cert-locked'}" id="certificate">
-      <div class="cert-kicker">Cegeka · Certificaat van deelname</div>
+      <img src="img/cegeka-logo.png" alt="Cegeka" class="cert-logo" onerror="this.remove()">
+      <div class="cert-kicker">Certificaat van deelname</div>
       <div class="cert-title">Gefeliciteerd!</div>
       <div>Hierbij verklaren wij dat</div>
       <div class="cert-name" id="certNameOut">${esc(state.name || 'Jouw naam')}</div>

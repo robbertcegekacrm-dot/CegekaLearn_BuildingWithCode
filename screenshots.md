@@ -8,7 +8,7 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 
 | | Bestand | Wat moet erop te zien zijn |
 |---|---|---|
-| [ ] | `img/cegeka-logo.svg` | Officieel Cegeka-logo (gekleurde versie) voor de header. Zonder dit bestand toont de site de tekst "Cegeka". |
+| [x] | `img/cegeka-logo.png` | Officieel Cegeka-logo (gekleurde versie) voor de header en het certificaat. Favicon: `img/cegeka-icon.png`. |
 | [ ] | `video/hardware-manager-case.mp4` | De casevideo van Mark, de Hardware Manager (MP4, H.264). Module 0, stap 1. |
 | [ ] | `img/skills-mappenstructuur.png` | Skills-pagina: de Explorer in VS Code met .claude/skills en daarin de mappen cegeka-building-plan en cegeka-building-standards, elk met een SKILL.md. |
 
@@ -23,9 +23,9 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 
 | | Bestand | Stap | Wat moet erop te zien zijn |
 |---|---|---|---|
-| [ ] | `img/m1-s1-versies-terminal.png` | Controleer je installaties | De terminal in VS Code met de output van node -v, git --version, pac en claude --version, alle vier zonder fouten. |
-| [ ] | `img/m1-s2-vscode-extensies.png` | Installeer de VS Code-extensies | Het Extensions-paneel in VS Code met Power Platform Tools en Claude Code allebei geïnstalleerd. |
-| [ ] | `img/m1-s3-claude-login.png` | Meld je aan bij Claude | De terminal met Claude Code na een geslaagde login: de welkomstmelding met het aangemelde account. |
+| [ ] | `img/m1-s1-vscode-extensies.png` | Installeer de VS Code-extensies | Het Extensions-paneel in VS Code met Claude Code en Power Platform Tools allebei geïnstalleerd. |
+| [ ] | `img/m1-s2-claude-code-open.png` | Open Claude Code en meld je aan | VS Code met het Claude Code-paneel open, het aangemelde account zichtbaar en een eerste antwoord van Claude. |
+| [ ] | `img/m1-s3-installaties-gecontroleerd.png` | Laat Claude je installaties controleren | Het Claude Code-paneel met de samenvatting: versies van Node.js, Git en pac, en de bevestiging dat Git is ingesteld. |
 | [ ] | `img/m1-s4-github-login.png` | Meld je aan bij GitHub | Het Accounts-menu linksonder in VS Code met het aangemelde GitHub-account. |
 
 ## Module 2 – Het bouwplan maken
@@ -41,26 +41,24 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 
 | | Bestand | Stap | Wat moet erop te zien zijn |
 |---|---|---|---|
-| [ ] | `img/m3-s1-github-nieuwe-repo.png` | Maak een GitHub-repo en clone hem | Het scherm Create a new repository op GitHub met naam hardware-manager, Private en Add a README file aangevinkt. |
-| [ ] | `img/m3-s2-mappenstructuur.png` | Maak de mappenstructuur | De Explorer in VS Code met de mappen .claude/skills, docs en solution en het bestand README.md. |
-| [ ] | `img/m3-s3-docs-building-plan.png` | Zet het bouwplan in docs/ | De Explorer met docs/building-plan.md geselecteerd en de Markdown-preview geopend. |
-| [ ] | `img/m3-s4-skills-mappen.png` | Zet de Cegeka skills in .claude/skills/ | De Explorer met .claude/skills/cegeka-building-plan/SKILL.md en .claude/skills/cegeka-building-standards/SKILL.md uitgeklapt. |
-| [ ] | `img/m3-s5-claude-md.png` | Maak CLAUDE.md | CLAUDE.md geopend in VS Code met de ingevulde omgeving-URL, solutionnaam en publisher prefix. |
-| [ ] | `img/m3-s6-eerste-commit-github.png` | Maak je eerste commit | De repo op github.com met de mappen .claude, docs, het bestand CLAUDE.md en de eerste commit-melding. |
+| [ ] | `img/m3-s1-github-nieuwe-repo.png` | Maak een GitHub-repo en open hem in VS Code | Het scherm Create a new repository op GitHub met naam hardware-manager, Private en Add a README file aangevinkt. |
+| [ ] | `img/m3-s2-bestanden-in-project.png` | Zet je bouwplan en de skills in de projectmap | De Explorer in VS Code met README.md, building-plan.md, cegeka-building-plan-SKILL.md en cegeka-building-standards-SKILL.md in de root van hardware-manager. |
+| [ ] | `img/m3-s3-projectstructuur.png` | Laat Claude de projectstructuur maken | De Explorer met .claude/skills/cegeka-building-plan/SKILL.md, .claude/skills/cegeka-building-standards/SKILL.md, docs/building-plan.md en de map solution, met daarnaast de samenvatting van Claude. |
+| [ ] | `img/m3-s4-claude-md.png` | Laat Claude CLAUDE.md maken | CLAUDE.md geopend in VS Code met de ingevulde omgeving-URL, solutionnaam HardwareManager en publisher prefix cgk. |
+| [ ] | `img/m3-s5-eerste-commit-github.png` | Laat Claude de eerste commit maken | De repo op github.com met de mappen .claude, docs, het bestand CLAUDE.md en de eerste commit-melding. |
 
 ## Module 4 – Verbinden met Dataverse
 
 | | Bestand | Stap | Wat moet erop te zien zijn |
 |---|---|---|---|
-| [ ] | `img/m4-s1-pac-auth-create.png` | Maak een PAC-verbinding | De terminal met de output van pac auth create en pac auth list, met de actieve verbinding naar de dev-omgeving gemarkeerd. |
-| [ ] | `img/m4-s2-pac-org-who.png` | Controleer met pac org who | De output van pac org who met Org URL, Unique Name, User en Environment ID van de dev-omgeving. |
-| [ ] | `img/m4-s3-nieuwe-solution.png` | Maak of kies de publisher en solution | Het paneel New solution in make.powerapps.com met naam HardwareManager en de publisher met prefix cgk geselecteerd. |
+| [ ] | `img/m4-s1-verbonden-met-omgeving.png` | Laat Claude verbinden met je dev-omgeving | Het Claude Code-paneel met de bevestiging van de verbinding: omgeving-URL, omgevingsnaam en aangemeld account. |
+| [ ] | `img/m4-s2-solution-klaar.png` | Laat Claude de publisher en solution klaarzetten | make.powerapps.com met de solution Hardware Manager in de lijst, en in VS Code de map solution/ met de opgehaalde solution. |
 
 ## Module 5 – Bouwen met Claude Code
 
 | | Bestand | Stap | Wat moet erop te zien zijn |
 |---|---|---|---|
-| [ ] | `img/m5-s1-claude-start.png` | Start Claude Code | Claude Code gestart in de terminal van VS Code, in de map hardware-manager, met de twee Cegeka skills in de lijst. |
+| [ ] | `img/m5-s1-skills-check.png` | Controleer of Claude de skills kent | Het Claude Code-paneel in het project hardware-manager met de samenvatting van de building plan skill en de building standards skill. |
 | [ ] | `img/m5-s2-implementatieplan.png` | Eerste prompt: lezen en plannen | Claude Code in de terminal tijdens het lezen van CLAUDE.md, de skills en het bouwplan, en daarna docs/implementation-plan.md geopend in de editor. |
 | [ ] | `img/m5-s3-plan-review.png` | Review het implementatieplan | docs/implementation-plan.md naast docs/building-plan.md in VS Code (split view) voor de review. |
 | [ ] | `img/m5-s4-datamodel-tabellen.png` | Bouw het datamodel | De solution HardwareManager in make.powerapps.com met de nieuwe tabellen (Apparaat, Onboarding, Bestelling) en hun kolommen. |
@@ -73,7 +71,7 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 
 | | Bestand | Stap | Wat moet erop te zien zijn |
 |---|---|---|---|
-| [ ] | `img/m6-s1-pac-import.png` | Pak in en importeer via de PAC CLI | De terminal met de output van pac solution pack en pac solution import, eindigend met een geslaagde import. |
+| [ ] | `img/m6-s1-deploy-geslaagd.png` | Laat Claude de solution deployen | Het Claude Code-paneel met de samenvatting van de deploy: gecontroleerde omgeving, ingepakte solution en geslaagde import. |
 | [ ] | `img/m6-s2-app-geopend.png` | Open de app in de omgeving | De Hardware Manager-app geopend in de browser, met het dashboard of de lijst met apparaten als startpagina. |
 | [ ] | `img/m6-s3-testscenario-tijdlijn.png` | Test het scenario van Mark | Het formulier van een bestelling met de gekoppelde onboarding en medewerker, en de bestelactiviteit zichtbaar in de tijdlijn. |
 
@@ -81,13 +79,13 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 
 | | Bestand | Stap | Wat moet erop te zien zijn |
 |---|---|---|---|
-| [ ] | `img/m7-s1-git-log.png` | Laatste commit en push | De output van git log --oneline met de commits per bouwstap, van projectstructuur tot afronding. |
+| [ ] | `img/m7-s1-commitgeschiedenis.png` | Laatste commit en push | Het Claude Code-paneel met de commitgeschiedenis: een commit per bouwstap, van projectstructuur tot afronding. |
 | [ ] | `img/m7-s2-vergelijking.png` | Vergelijk het resultaat met het bouwplan | docs/building-plan.md naast de app, of een opleververslag met per hoofdstuk de status klaar, afwijking of ontbreekt. |
 | [ ] | `img/m7-s3-bonus-dashboard.png` | Reflecteer en doe een bonusuitdaging | Een bonusresultaat: het dashboard in de Hardware Manager-app met een grafiek van apparaten per status. |
 
 ---
 
-Totaal: 34 screenshots, 1 logo en 1 video.
+Totaal: 32 screenshots, 1 logo en 1 video.
 
 **Tips**
 
