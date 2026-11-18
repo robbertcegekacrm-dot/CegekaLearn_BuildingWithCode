@@ -340,3 +340,11 @@ dl.glossary dd { margin: 0; }
 .cert-logo { height: 40px; width: auto; margin: 0 auto 14px; display: block; }
 .brand-logo { height: 28px; }
 .btn:disabled { opacity: .45; cursor: not-allowed; }
+
+/* Tip-blok (vervangt Mark) */
+.tip { display: flex; gap: 14px; align-items: flex-start; margin: 18px 0 22px; padding: 14px 18px; background: var(--grey-100); border-radius: var(--radius); }
+.tip-icon { width: 26px; height: auto; flex: 0 0 26px; margin-top: 2px; }
+.tip-label { display: block; font-weight: 800; font-size: .78rem; color: var(--cg-purple); text-transform: uppercase; letter-spacing: .06em; }
+.hero-icon { width: 120px; height: auto; }
+.cert-tagline { font-weight: 700; color: var(--cg-blue-700); }
+@media (max-width: 900px) { .hero-icon { display: none; } }

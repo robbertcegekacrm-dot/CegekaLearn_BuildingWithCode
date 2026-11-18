@@ -278,7 +278,7 @@ const GLOSSARY = [
    Modules en stappen.
    Per stap:
      goal   : doel van de stap
-     mark   : (optioneel) tekstballon van Mark
+     tip    : (optioneel) tip met het Cegeka-icoon
      do     : lijst van acties. Een actie is een string, of een object:
               { text, code, lang }  -> codeblok met kopieerknop
               { text, prompt: id }  -> prompt uit PROMPTS met kopieerknop
@@ -295,13 +295,13 @@ const MODULES = [
     duration: '5 min',
     badge: 'Kick-off',
     intro: 'Maak kennis met Mark, de nieuwe Hardware Manager van Cegeka, en ontdek wat je vandaag bouwt en hoe.',
-    mark: 'Hoi! Ik ben Mark, de nieuwe Hardware Manager. Ik raak het overzicht kwijt over wie welke laptop heeft. Help jij me?',
+    tip: 'Bekijk eerst de casevideo. Alles wat je vandaag bouwt, begint bij de vraag van de klant.',
     steps: [
       {
         id: 'm0-s1',
         title: 'Bekijk de casevideo van Mark',
         goal: 'Je begrijpt de vraag van de klant voordat je iets gaat bouwen.',
-        mark: 'In deze video vertel ik waar ik tegenaan loop. Let goed op: alles wat je straks bouwt, begint bij mijn verhaal.',
+        tip: 'Noteer tijdens het kijken de woorden die de klant zelf gebruikt. Die namen komen straks terug in je tabellen en statussen.',
         video: true,
         do: [
           'Start de video hieronder en kijk hem helemaal uit.',
@@ -329,7 +329,7 @@ const MODULES = [
         id: 'm0-s3',
         title: 'De aanpak: eerst plannen, dan bouwen',
         goal: 'Je kent de werkwijze van de training.',
-        mark: 'Ik heb liever een goed plan dan een snelle app die niet doet wat ik vroeg.',
+        tip: 'Een goed plan is sneller dan een snelle app die niet doet wat de klant vroeg.',
         do: [
           '<strong>Plan eerst.</strong> Je maakt met Copilot of Claude een bouwplan op basis van de casevideo, en controleert dat plan zoals je dat met een klant zou doen.',
           '<strong>Bouw daarna.</strong> Claude Code bouwt de oplossing stap voor stap in Dataverse, met de building standards skill als vakmanschap en het bouwplan als opdracht.',
@@ -350,7 +350,7 @@ const MODULES = [
     title: 'Voorbereiding',
     badge: 'Klaar voor de start',
     intro: 'Zorg dat je de handleiding "Aan de slag met Claude Code in VS Code" hebt doorlopen, voeg de Power Platform Tools toe en laat Claude controleren of alles klaarstaat.',
-    mark: 'Voordat je begint: gereedschap op orde. Het meeste heb je al gedaan met de handleiding. Nu nog even het Power Platform-gereedschap erbij.',
+    tip: 'Het meeste gereedschap heb je al geïnstalleerd met de handleiding. Hier komen alleen de Power Platform Tools erbij.',
     steps: [
       {
         id: 'm1-s1',
@@ -386,7 +386,7 @@ const MODULES = [
         id: 'm1-s3',
         title: 'Laat Claude controleren of je klaar bent',
         goal: 'Claude bevestigt dat Node.js, Git, de PAC CLI en je Git-instellingen in orde zijn.',
-        mark: 'Vanaf nu werk je zo: jij vraagt, Claude doet, jij keurt goed. Commando\'s typen hoeft niet.',
+        tip: 'Vanaf nu werk je zo: jij vraagt, Claude doet, jij keurt goed. Commando\'s typen hoeft niet.',
         do: [
           'Open in VS Code je werkmap (bijvoorbeeld <code>Projecten</code>) via <kbd>File</kbd> &gt; <kbd>Open Folder</kbd>.',
           'Open het Claude Code-paneel via het <strong>Spark-icoon (✱)</strong> rechtsboven in de editor, of rechtsonder in de statusbalk via <strong>✱ Claude Code</strong>.',
@@ -407,7 +407,7 @@ const MODULES = [
     duration: '10 min',
     badge: 'Architect',
     intro: 'Verzamel input, laat Copilot of Claude een bouwplan maken met de building plan skill en review het kritisch.',
-    mark: 'Laat me eerst zien wát je gaat bouwen. Dan zeg ik of het klopt, voordat er iets gebouwd wordt.',
+    tip: 'Laat het plan eerst controleren door de klant, voordat er iets gebouwd wordt. Aanpassen op papier is sneller dan in de app.',
     steps: [
       {
         id: 'm2-s1',
@@ -440,7 +440,7 @@ const MODULES = [
         id: 'm2-s3',
         title: 'Voer de bouwplan-prompt uit',
         goal: 'Je hebt een eerste versie van het bouwplan in Markdown.',
-        mark: 'Let op het hoofdstuk aannames. Daar zie je wat de AI zelf heeft ingevuld. Dat wil ik zeker weten!',
+        tip: 'Lees het hoofdstuk aannames extra goed. Daar staat wat de AI zelf heeft ingevuld.',
         do: [
           { text: 'Kopieer de prompt en plak hem onder de skill en je input. Verstuur.', prompt: 'bouwplan' },
           'Wacht tot het volledige plan klaar is.',
@@ -478,7 +478,7 @@ const MODULES = [
     duration: '10 min',
     badge: 'Op orde',
     intro: 'Maak een projectmap, zet je bouwplan en de building standards skill erin, laat Claude de structuur, CLAUDE.md en de eerste commit maken en publiceer het op GitHub.',
-    mark: 'Een opgeruimde werkplaats bouwt beter. Dat geldt voor mijn magazijn en voor jouw repo.',
+    tip: 'Een vaste structuur in je repo helpt Claude: het weet dan precies waar het plan, de skill en de solution staan.',
     steps: [
       {
         id: 'm3-s1',
@@ -497,7 +497,7 @@ const MODULES = [
         id: 'm3-s2',
         title: 'Plak je bouwplan en de skill in je project',
         goal: 'De bestanden die Claude nodig heeft staan in je project.',
-        mark: 'Die skill is het vakmanschap van Cegeka. Daarmee bouwt Claude zoals jullie dat afspraken.',
+        tip: 'De skill is het vakmanschap van Cegeka. Daarmee bouwt Claude volgens onze afspraken.',
         do: [
           'Klik in de Explorer van VS Code op het icoon <kbd>New File</kbd> (of rechtermuisknop &gt; <kbd>New File</kbd>).',
           'Typ als naam <code>docs/building-plan.md</code> en druk <kbd>Enter</kbd>. VS Code maakt de map <code>docs</code> er vanzelf bij.',
@@ -560,7 +560,7 @@ const MODULES = [
     duration: '5 min',
     badge: 'Verbonden',
     intro: 'Laat Claude verbinding maken met je dev-omgeving en de publisher en solution klaarzetten.',
-    mark: 'Bijna bouwen! Eerst zeker weten dat je in de goede omgeving zit. Ik wil geen laptops in productie zien verdwijnen.',
+    tip: 'Controleer altijd eerst in welke omgeving je zit, voordat je iets bouwt.',
     steps: [
       {
         id: 'm4-s1',
@@ -599,7 +599,7 @@ const MODULES = [
     duration: '20 min',
     badge: 'Bouwer',
     intro: 'Laat Claude Code eerst plannen en bouw daarna stap voor stap: datamodel, relaties, app, flows en bestelactiviteit. Na elke stap: review en commit.',
-    mark: 'Nu wordt het leuk! Bouw rustig stap voor stap. Ik kijk mee.',
+    tip: 'Bouw rustig stap voor stap: review na elke stap en laat Claude committen. Zo kun je altijd terug.',
     steps: [
       {
         id: 'm5-s1',
@@ -617,7 +617,7 @@ const MODULES = [
         id: 'm5-s2',
         title: 'Eerste prompt: lezen en plannen',
         goal: 'Claude Code heeft een implementatieplan gemaakt, zonder iets te bouwen.',
-        mark: 'Dit is mijn favoriete stap. Plan eerst, dan weet iedereen wat er gaat gebeuren.',
+        tip: 'Dit is de belangrijkste stap: met een goed implementatieplan weet je precies wat Claude gaat doen.',
         do: [
           { text: 'Kopieer de prompt en plak hem in Claude Code. Druk <kbd>Enter</kbd>.', prompt: 'eerste-claude' },
           'Geef toestemming als Claude bestanden wil lezen.',
@@ -689,7 +689,7 @@ const MODULES = [
         id: 'm5-s7',
         title: 'Bouw de onboarding- en bestelflow',
         goal: 'Een onboarding leidt tot een keuze van de manager en een bestelling.',
-        mark: 'Dit is waar ik van droom: nieuwe collega, manager kiest een laptop, bestelling staat klaar. Zonder Excel!',
+        tip: 'Laat Claude eerst per flow de trigger, stappen en uitkomst tonen. Zo controleer je de logica voordat er iets draait.',
         do: [
           { text: 'Geef Claude de prompt voor de flows:', prompt: 'flows' },
           'Review de trigger, stappen en uitkomst per flow en geef akkoord.',
@@ -725,7 +725,7 @@ const MODULES = [
     duration: '5 min',
     badge: 'Live',
     intro: 'Pak de solution in, importeer hem via de PAC CLI en test het scenario van Mark van begin tot eind.',
-    mark: 'Het moment van de waarheid. Ik heb een nieuwe collega die maandag begint...',
+    tip: 'Test met het scenario uit de casevideo: dan weet je of de oplossing doet wat de klant vroeg.',
     steps: [
       {
         id: 'm6-s1',
@@ -756,7 +756,7 @@ const MODULES = [
         id: 'm6-s3',
         title: 'Test het scenario van Mark',
         goal: 'De oplossing doet wat Mark vroeg, van begin tot eind.',
-        mark: 'Laat maar zien! Als dit werkt, trakteer ik op de koffie.',
+        tip: 'Loop het scenario helemaal door, van laptop registreren tot bestelactiviteit. Vink daarna de acceptatiecriteria af.',
         do: [
           '<strong>Registreer een laptop:</strong> maak een nieuw apparaat aan, bijvoorbeeld een laptop met serienummer.',
           '<strong>Koppel hem aan een medewerker:</strong> vul de medewerker in op het apparaat en controleer dat het apparaat op het formulier van de medewerker staat.',
@@ -779,7 +779,7 @@ const MODULES = [
     duration: '5 min',
     badge: 'Afgerond',
     intro: 'Leg alles vast, vergelijk het resultaat met het bouwplan en kijk terug op de samenwerking met de agent.',
-    mark: 'Wat een verschil met mijn oude Excel-lijst. Dank je wel!',
+    tip: 'Kijk terug: waar hield jij de regie en wat deed de agent? Dat is de kern van werken met Claude Code.',
     steps: [
       {
         id: 'm7-s1',

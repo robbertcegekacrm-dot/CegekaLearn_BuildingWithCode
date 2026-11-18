@@ -48,18 +48,18 @@ The user builds by talking to you. They never type commands: you choose and run 
 - For status, use the standard Status Reason (`statuscode`) with custom values mapped to Active or Inactive. Never add a custom "Status" choice.
 - Local choices unless shared across tables. Global choices get a unique display name (for example "HW Apparaattype", not "Type").
 - Explicit option values: choices from `<option prefix>0000` in plan order, status reasons from `<option prefix>0100`. Ordinal scales get ascending values.
-- Every option of every choice gets a color, including State and Status Reason. Use the tints from the table below. Set choice colors via the Web API on create. State and Status Reason colors cannot be set via the Web API: set them for all tables at once at the end of the data model step, with a minimal solution that only contains those two columns per table (export, set `Color`, import).
+- Every option of every choice column gets a color from the tints below. Set the color via the Web API when you create the choice.
 
 ## Apps, views and forms
 - Model-driven app with standard modern look, no custom theme. Set the app setting `HeaderAndNavigationRefresh` to Yes and read it back.
 - Views: Power Apps grid control with colored option sets enabled. Every table gets a default active view with explicit columns and widths, plus the views from the plan.
-- Forms: one main form per table, logical tabs and sections. Choice fields (including Status Reason and header fields) use the OptionSet Wrapper control so colors show. Subgrids show related records only.
+- Forms: one main form per table, logical tabs and sections. Choice fields use the OptionSet Wrapper control so colors show. Subgrids show related records only.
 - Start page or overview page only when the plan asks for one (see Pages).
 
 ## Review checklist
 Use this when the user asks for a review. Report as a table: rule | OK / deviation / missing | evidence | proposal. Change nothing until the user chooses.
 - All components in the solution, prefix everywhere, Dutch labels
-- Status via Status Reason, every option colored with a tint
+- Status via Status Reason, choice options colored with a tint
 - Relations and delete behavior as in the plan
 - Views with grid control, forms with OptionSet Wrapper, related-only subgrids
 - Flows use connection references, are on, and are in the solution
@@ -94,8 +94,6 @@ Choice option colors (always the light tint, consistent across tables):
 | Problem, rejected | Afgewezen, Defect, Verlopen | `#FAC9C9` |
 | Inactive, other | Inactief, Uit dienst, Overig | `#D7D7D7` |
 | Categories | Type, Afdeling | cycle `#B2EEFD`, `#B2DFEB`, `#D0BCD0`, `#B2D0D8`, `#D9F7FE` |
-
-Standard State: Active `#B2EEFD`, Inactive `#D7D7D7`.
 
 ## Pages
 - Inside a model-driven app (custom pages, generative pages, web resources): look like the app. Fluent UI v9 components and tokens, app font, neutral background, white cards (8 px radius, light shadow), 24 px padding. No color bands or hero banners. Brand colors only as accents: Sea Blue for charts and selection, Dark Blue for the primary button and links, tint badges for status. One primary button per page.

@@ -22,27 +22,12 @@
   const isComplete = m => moduleDone(m) === m.steps.length;
   const totalDone = () => STEPS.filter(s => state.done[s.id]).length;
 
-  /* ---------- Mark (eigen illustratie) ---------- */
-  const MARK_SVG = `
-<svg class="mark-avatar" viewBox="0 0 96 96" role="img" aria-label="Mark, de Hardware Manager">
-  <circle cx="48" cy="48" r="46" fill="#E5F9FE" stroke="#000" stroke-width="3"/>
-  <path d="M18 88c4-16 16-24 30-24s26 8 30 24" fill="#0095BB" stroke="#000" stroke-width="3"/>
-  <path d="M40 64l8 9 8-9" fill="#fff" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
-  <circle cx="48" cy="40" r="19" fill="#F6D2B8" stroke="#000" stroke-width="3"/>
-  <path d="M29 37c0-12 9-19 19-19s20 6 19 18c-4-5-10-7-17-7-8 0-14 3-21 8z" fill="#3D3D3D" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
-  <circle cx="41" cy="41" r="6" fill="#fff" stroke="#000" stroke-width="2.5"/>
-  <circle cx="56" cy="41" r="6" fill="#fff" stroke="#000" stroke-width="2.5"/>
-  <path d="M47 41h3" stroke="#000" stroke-width="2.5"/>
-  <circle cx="41" cy="41.5" r="1.8" fill="#000"/><circle cx="56" cy="41.5" r="1.8" fill="#000"/>
-  <path d="M42 51c3 3 9 3 12 0" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="58" y="70" width="24" height="15" rx="2" fill="#00C7F9" stroke="#000" stroke-width="2.5" transform="rotate(-8 70 77)"/>
-</svg>`;
-
-  const markBubble = (text, big) => `
-    <div class="mark${big ? ' big' : ''}">
-      ${MARK_SVG}
-      <div class="mark-bubble"><span class="mark-name">Mark · Hardware Manager</span>${text}</div>
-    </div>`;
+  /* ---------- Tip ---------- */
+  const tipBox = text => `
+    <aside class="tip" aria-label="Tip">
+      <img src="img/cegeka-icon.png" alt="" class="tip-icon" onerror="this.remove()">
+      <div><span class="tip-label">Tip</span>${text}</div>
+    </aside>`;
 
   /* ---------- Bouwstenen ---------- */
   const COPY_ICON = '<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
@@ -140,11 +125,10 @@
         </div>
         <a class="btn primary" href="#${next ? next.id : STEPS[0].id}" style="border-color:#000;background:#fff">${totalDone() ? 'Ga verder' : 'Start de training'} →</a>
       </div>
-      <div class="hero-mark">${MARK_SVG}</div>
     </section>
-    ${markBubble(totalDone() === STEPS.length
+    ${tipBox(totalDone() === STEPS.length
       ? 'Je bent klaar! Vergeet je certificaat niet op te halen.'
-      : 'Welkom! Ik ben je gids vandaag. Je vinkt elke stap af met <em>Markeer als klaar</em>. Rond je een module af, dan krijg je een badge.')}
+      : 'Vink elke stap af met <em>Markeer als klaar</em>. Rond je een module af, dan krijg je een badge.')}
     <h2>Modules</h2>
     <div class="cards">
       ${MODULES.map(m => {
@@ -179,7 +163,7 @@
     const m = step.module;
     const i = STEPS.indexOf(STEPS.find(s => s.id === step.id));
     const prev = STEPS[i - 1], next = STEPS[i + 1];
-    const intro = step.index === 0 && m.mark ? markBubble(esc(m.mark)) : '';
+    const intro = step.index === 0 && m.tip ? tipBox(esc(m.tip)) : '';
     return `
     <nav class="breadcrumb" aria-label="Kruimelpad"><a href="#start">Overzicht</a> / Module ${m.number}: ${esc(m.title)}</nav>
     <h1>${esc(step.title)}</h1>
@@ -190,7 +174,7 @@
     ${intro}
     ${step.index === 0 ? `<p>${esc(m.intro)}</p>` : ''}
     <div class="box goal"><h3>Doel</h3><p>${step.goal}</p></div>
-    ${step.mark ? markBubble(esc(step.mark)) : ''}
+    ${step.tip && !intro ? tipBox(esc(step.tip)) : ''}
     ${step.video ? videoSlot() : ''}
     <h2>Wat ga je doen?</h2>
     <ol class="todo">${step.do.map(renderAction).join('')}</ol>
@@ -224,7 +208,7 @@
     <nav class="breadcrumb"><a href="#start">Overzicht</a> / Skills</nav>
     <h1>De Cegeka skills</h1>
     <p>Een skill is een <code>SKILL.md</code>-bestand met instructies en best practices die Claude automatisch gebruikt als ze relevant zijn. Cegeka heeft er twee: de building plan skill gebruik je in de chat om het bouwplan te maken, de building standards skill zet je in je project zodat Claude Code volgens de Cegeka-standaarden bouwt.</p>
-    ${markBubble('Zie de skills als het vakmanschap van Cegeka in een bestand. Zonder skills bouwt Claude ook, maar mét skills bouwt Claude zoals wij dat afspreken.')}
+    ${tipBox('Zie de skills als het vakmanschap van Cegeka in een bestand. Zonder skills bouwt Claude ook, maar mét skills bouwt Claude zoals wij dat afspreken.')}
     ${card(s.plan,
       'Helpt Copilot of Claude om van klantinput (transcripten, notities, Work IQ) een gestructureerd bouwplan te maken: datamodel, relaties, security, app, flows en acceptatiecriteria, met aannames en open vragen apart.',
       ['In module 2, als je het bouwplan maakt in Copilot of Claude chat.', 'Niet in Claude Code: in je project heb je alleen het bouwplan zelf nodig (docs/building-plan.md).'],
@@ -273,7 +257,7 @@
     return `
     <nav class="breadcrumb"><a href="#start">Overzicht</a> / Certificaat</nav>
     <h1>Certificaat</h1>
-    ${all ? markBubble('Gefeliciteerd! Je hebt de Hardware Manager gebouwd. Vul je naam in en print of bewaar je certificaat als PDF.')
+    ${all ? tipBox('Gefeliciteerd! Je hebt de Hardware Manager gebouwd. Vul je naam in en print of bewaar je certificaat als PDF.')
           : `<div class="lock-note no-print">Nog ${left} ${left === 1 ? 'stap' : 'stappen'} te gaan. Rond alle modules af om je certificaat te ontgrendelen.</div>`}
     <div class="cert-form no-print">
       <label for="certName" class="sr-only" style="font-weight:700">Je naam</label>
@@ -293,7 +277,7 @@
       ${badgesHtml()}
       <div class="cert-foot">
         <div><strong>Datum</strong><br>${date}</div>
-        <div class="cert-sign">${MARK_SVG}<div><strong>Mark</strong><br>Hardware Manager</div></div>
+        <div class="cert-tagline">shaping digital together</div>
       </div>
     </div>`;
   }
