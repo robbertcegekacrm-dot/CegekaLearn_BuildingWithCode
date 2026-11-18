@@ -337,3 +337,6 @@ dl.glossary dd { margin: 0; }
 .certificate .badge { width: 80px; }
 .certificate .badge-medal { width: 48px; height: 48px; font-size: 1rem; }
 .hero-mark .mark-avatar { width: 140px; height: 140px; }
+.cert-logo { height: 40px; width: auto; margin: 0 auto 14px; display: block; }
+.brand-logo { height: 28px; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
