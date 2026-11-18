@@ -1,0 +1,435 @@
+/* =========================================================================
+   App-logica: routing, sidebar, voortgang (localStorage), kopieerknoppen,
+   badges, confetti en certificaat. Inhoud staat in content.js.
+   ========================================================================= */
+(function () {
+  'use strict';
+
+  const $ = (sel, el = document) => el.querySelector(sel);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  /* ---------- Opslag ---------- */
+  const defaults = { done: {}, badges: {}, name: '', open: {} };
+  let state = defaults;
+  try { state = Object.assign({}, defaults, JSON.parse(localStorage.getItem(CONFIG.storageKey)) || {}); } catch (e) { /* opslag niet beschikbaar */ }
+  const save = () => { try { localStorage.setItem(CONFIG.storageKey, JSON.stringify(state)); } catch (e) { /* negeer */ } };
+
+  /* ---------- Afgeleide data ---------- */
+  const STEPS = [];
+  MODULES.forEach(m => m.steps.forEach((s, i) => STEPS.push(Object.assign({}, s, { module: m, index: i }))));
+  const PROMPT = Object.fromEntries(PROMPTS.map(p => [p.id, p]));
+  const moduleDone = m => m.steps.filter(s => state.done[s.id]).length;
+  const isComplete = m => moduleDone(m) === m.steps.length;
+  const totalDone = () => STEPS.filter(s => state.done[s.id]).length;
+
+  /* ---------- Mark (eigen illustratie) ---------- */
+  const MARK_SVG = `
+<svg class="mark-avatar" viewBox="0 0 96 96" role="img" aria-label="Mark, de Hardware Manager">
+  <circle cx="48" cy="48" r="46" fill="#E5F9FE" stroke="#000" stroke-width="3"/>
+  <path d="M18 88c4-16 16-24 30-24s26 8 30 24" fill="#0095BB" stroke="#000" stroke-width="3"/>
+  <path d="M40 64l8 9 8-9" fill="#fff" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="48" cy="40" r="19" fill="#F6D2B8" stroke="#000" stroke-width="3"/>
+  <path d="M29 37c0-12 9-19 19-19s20 6 19 18c-4-5-10-7-17-7-8 0-14 3-21 8z" fill="#3D3D3D" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="41" cy="41" r="6" fill="#fff" stroke="#000" stroke-width="2.5"/>
+  <circle cx="56" cy="41" r="6" fill="#fff" stroke="#000" stroke-width="2.5"/>
+  <path d="M47 41h3" stroke="#000" stroke-width="2.5"/>
+  <circle cx="41" cy="41.5" r="1.8" fill="#000"/><circle cx="56" cy="41.5" r="1.8" fill="#000"/>
+  <path d="M42 51c3 3 9 3 12 0" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="58" y="70" width="24" height="15" rx="2" fill="#00C7F9" stroke="#000" stroke-width="2.5" transform="rotate(-8 70 77)"/>
+</svg>`;
+
+  const markBubble = (text, big) => `
+    <div class="mark${big ? ' big' : ''}">
+      ${MARK_SVG}
+      <div class="mark-bubble"><span class="mark-name">Mark · Hardware Manager</span>${text}</div>
+    </div>`;
+
+  /* ---------- Bouwstenen ---------- */
+  const COPY_ICON = '<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+  const copyBtn = label => `<button type="button" class="copy-btn" data-copy aria-label="Kopieer ${esc(label)}">${COPY_ICON}<span>Kopieer</span></button>`;
+
+  const codeBlock = (code, label) => `
+    <div class="code">
+      <div class="code-head"><span>${esc(label || 'Terminal')}</span>${copyBtn(label || 'commando')}</div>
+      <pre><code>${esc(code)}</code></pre>
+    </div>`;
+
+  const promptBlock = (id, withTip = true) => {
+    const p = PROMPT[id];
+    if (!p) return '';
+    return `
+    <div class="code prompt">
+      <div class="code-head"><span>Prompt · ${esc(p.title)} · ${esc(p.where)}</span>${copyBtn('prompt ' + p.title)}</div>
+      <pre><code>${esc(p.text)}</code></pre>
+    </div>
+    ${withTip ? `<div class="prompt-tip"><strong>Waarom dit werkt:</strong> ${esc(p.tip)}</div>` : ''}`;
+  };
+
+  const CAMERA = '<svg width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l2-2h6l2 2h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>';
+  const shot = img => !img ? '' : `
+    <figure class="shot">
+      <img src="img/${esc(img.file)}" alt="${esc(img.caption)}" loading="lazy" onerror="this.closest('figure').classList.add('missing')">
+      <div class="ph">${CAMERA}<strong>Screenshot volgt</strong><code>img/${esc(img.file)}</code><span class="ph-desc">${esc(img.caption)}</span></div>
+      <figcaption>${esc(img.caption)}</figcaption>
+    </figure>`;
+
+  const videoSlot = () => `
+    <div class="video">
+      <video controls preload="metadata" src="${esc(CONFIG.caseVideo)}" onerror="this.closest('.video').classList.add('missing')"></video>
+      <div class="ph">
+        <div class="play-icon"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l12 7-12 7z" fill="#000"/></svg></div>
+        <strong>Casevideo volgt</strong><code>${esc(CONFIG.caseVideo)}</code>
+        <span>Mark, de nieuwe Hardware Manager, vertelt over zijn uitdaging met hardwareregistratie, onboarding en bestellingen.</span>
+      </div>
+    </div>`;
+
+  const renderAction = a => {
+    if (typeof a === 'string') return `<li>${a}</li>`;
+    let html = `<li>${a.text || ''}`;
+    if (a.code) html += codeBlock(a.code, a.lang === 'markdown' ? 'CLAUDE.md' : a.lang === 'text' ? 'Structuur' : 'Terminal');
+    if (a.codes) html += a.codes.map(c => codeBlock(c.code, c.label)).join('');
+    if (a.prompt) html += promptBlock(a.prompt);
+    return html + '</li>';
+  };
+
+  /* ---------- Sidebar ---------- */
+  function renderSidebar(activeStepId, activePage) {
+    const activeModule = activeStepId ? STEPS.find(s => s.id === activeStepId).module.id : null;
+    const links = [['home', '#/', 'Overzicht'], ['skills', '#/skills', 'Skills'], ['prompts', '#/prompts', 'Voorbeeldprompts'], ['woordenlijst', '#/woordenlijst', 'Woordenlijst'], ['certificaat', '#/certificaat', 'Certificaat']];
+    let html = `<ul class="sb-links">${links.map(([k, h, t]) => `<li><a href="${h}" class="${activePage === k ? 'active' : ''}">${t}</a></li>`).join('')}</ul>`;
+    html += MODULES.map(m => {
+      const open = m.id === activeModule || state.open[m.id];
+      const done = moduleDone(m);
+      return `
+      <div class="sb-module${open ? ' open' : ''}${isComplete(m) ? ' complete' : ''}" data-module="${m.id}">
+        <button type="button" aria-expanded="${!!open}">
+          <svg class="sb-chevron" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3"/></svg>
+          <span>${m.number}. ${esc(m.title)}</span>
+          <span class="sb-count">${done}/${m.steps.length}</span>
+        </button>
+        <ul class="sb-steps">
+          ${m.steps.map(s => `<li><a href="#/stap/${s.id}" class="${s.id === activeStepId ? 'active' : ''}" ${s.id === activeStepId ? 'aria-current="page"' : ''}><span class="sb-dot${state.done[s.id] ? ' done' : ''}"></span><span>${esc(s.title)}</span></a></li>`).join('')}
+        </ul>
+      </div>`;
+    }).join('');
+    $('#sidebarInner').innerHTML = html;
+    document.querySelectorAll('.topnav a').forEach(a => a.classList.toggle('active', a.dataset.nav === activePage));
+  }
+
+  function updateProgress() {
+    const pct = Math.round(totalDone() / STEPS.length * 100);
+    $('#progressFill').style.width = pct + '%';
+    $('#progressLabel').textContent = `${pct}% klaar · ${totalDone()} van ${STEPS.length} stappen`;
+    $('#progress').setAttribute('aria-valuenow', pct);
+  }
+
+  /* ---------- Pagina's ---------- */
+  function renderHome() {
+    const pct = Math.round(totalDone() / STEPS.length * 100);
+    const next = STEPS.find(s => !state.done[s.id]);
+    return `
+    <section class="hero">
+      <div>
+        <h1>${esc(CONFIG.title)}</h1>
+        <p>Bouw in één sessie een complete Dataverse-oplossing voor Mark, de Hardware Manager. Eerst een bouwplan, daarna bouwen met Claude Code, de PAC CLI en de Cegeka skills.</p>
+        <div class="hero-stats">
+          <span class="pill">${MODULES.length} modules</span>
+          <span class="pill">${STEPS.length} stappen</span>
+          <span class="pill">${esc(CONFIG.totalDuration)}</span>
+          <span class="pill">${pct}% klaar</span>
+        </div>
+        <a class="btn primary" href="#/stap/${next ? next.id : STEPS[0].id}" style="border-color:#000;background:#fff">${totalDone() ? 'Ga verder' : 'Start de training'} →</a>
+      </div>
+      <div class="hero-mark">${MARK_SVG}</div>
+    </section>
+    ${markBubble(totalDone() === STEPS.length
+      ? 'Je bent klaar! Vergeet je certificaat niet op te halen.'
+      : 'Welkom! Ik ben je gids vandaag. Je vinkt elke stap af met <em>Markeer als klaar</em>. Rond je een module af, dan krijg je een badge.')}
+    <h2>Modules</h2>
+    <div class="cards">
+      ${MODULES.map(m => {
+        const d = moduleDone(m), p = Math.round(d / m.steps.length * 100);
+        return `<a class="card${isComplete(m) ? ' complete' : ''}" href="#/stap/${(m.steps.find(s => !state.done[s.id]) || m.steps[0]).id}">
+          <span class="card-num">Module ${m.number} · ${esc(m.duration)}</span>
+          <h3>${esc(m.title)}</h3>
+          <p>${esc(m.intro)}</p>
+          <div class="card-bar"><span style="width:${p}%"></span></div>
+          <div class="card-foot"><span>${d}/${m.steps.length} stappen</span><span>${isComplete(m) ? 'Badge behaald' : ''}</span></div>
+        </a>`;
+      }).join('')}
+    </div>
+    <h2>Jouw badges</h2>
+    ${badgesHtml()}
+    <h2>Wat heb je nodig?</h2>
+    <ul>
+      <li>Een laptop met VS Code, Node.js, Git, de PAC CLI en Claude Code (dat controleer je in module 1)</li>
+      <li>Een Cegeka Claude-licentie en een GitHub-account</li>
+      <li>Een Power Platform dev-omgeving met maker-rechten</li>
+      <li>De twee Cegeka skills (zie <a href="#/skills">Skills</a>) en de casevideo van Mark</li>
+    </ul>
+    <p class="no-print"><button type="button" class="btn ghost small" id="resetBtn">Voortgang wissen</button></p>`;
+  }
+
+  const badgesHtml = () => `<div class="badges">${MODULES.map(m => `
+      <div class="badge${isComplete(m) ? ' earned' : ''}" title="${esc(m.badge)}">
+        <div class="badge-medal">${m.number}</div>${esc(m.badge)}
+      </div>`).join('')}</div>`;
+
+  function renderStep(step) {
+    const m = step.module;
+    const i = STEPS.indexOf(STEPS.find(s => s.id === step.id));
+    const prev = STEPS[i - 1], next = STEPS[i + 1];
+    const intro = step.index === 0 && m.mark ? markBubble(esc(m.mark)) : '';
+    return `
+    <nav class="breadcrumb" aria-label="Kruimelpad"><a href="#/">Overzicht</a> / Module ${m.number}: ${esc(m.title)}</nav>
+    <h1>${esc(step.title)}</h1>
+    <div class="meta">
+      <span class="pill blue">Module ${m.number} · stap ${step.index + 1} van ${m.steps.length}</span>
+      <span class="pill">${esc(m.duration)} voor de module</span>
+      ${state.done[step.id] ? '<span class="pill green">Klaar</span>' : ''}
+    </div>
+    ${intro}
+    ${step.index === 0 ? `<p>${esc(m.intro)}</p>` : ''}
+    <div class="box goal"><h3>Doel</h3><p>${step.goal}</p></div>
+    ${step.mark ? markBubble(esc(step.mark)) : ''}
+    ${step.video ? videoSlot() : ''}
+    <h2>Wat ga je doen?</h2>
+    <ol class="todo">${step.do.map(renderAction).join('')}</ol>
+    ${shot(step.img)}
+    <div class="box check"><h3>Controleer</h3><p>${step.check}</p></div>
+    <details class="box help"><summary>Hulp nodig?</summary><div class="help-body"><p>${step.help}</p></div></details>
+    <div class="done-row">
+      <label class="done-toggle"><input type="checkbox" id="doneBox" data-step="${step.id}" ${state.done[step.id] ? 'checked' : ''}> Markeer als klaar</label>
+      ${next ? `<a class="btn primary small" href="#/stap/${next.id}" id="nextQuick">Volgende stap →</a>` : `<a class="btn primary small" href="#/certificaat">Naar je certificaat →</a>`}
+    </div>
+    <div class="pager">
+      ${prev ? `<a class="btn ghost" href="#/stap/${prev.id}">← ${esc(prev.title)}</a>` : '<span></span>'}
+      ${next ? `<a class="btn" href="#/stap/${next.id}">${esc(next.title)} →</a>` : ''}
+    </div>`;
+  }
+
+  function renderSkills() {
+    const s = CONFIG.skills;
+    const card = (sk, desc, uses, modules) => `
+      <article class="skill-card">
+        <h2>${esc(sk.name)}</h2>
+        <div class="skill-uses">${modules.map(m => `<span class="pill purple">Module ${m}</span>`).join('')}</div>
+        <p>${desc}</p>
+        <h3>Wanneer gebruik je hem?</h3>
+        <ul>${uses.map(u => `<li>${u}</li>`).join('')}</ul>
+        <h3>Waar sla je hem op?</h3>
+        <div class="path-box">.claude/skills/${esc(sk.folder)}/SKILL.md</div>
+        <p style="margin-top:14px"><a class="btn primary small" href="${esc(sk.file)}" download="SKILL.md">Download SKILL.md</a>
+        <a class="btn ghost small" href="${esc(sk.file)}" target="_blank" rel="noopener">Bekijk de inhoud</a></p>
+      </article>`;
+    return `
+    <nav class="breadcrumb"><a href="#/">Overzicht</a> / Skills</nav>
+    <h1>De Cegeka skills</h1>
+    <p>Een skill is een map met een <code>SKILL.md</code>-bestand: instructies en best practices die Claude automatisch gebruikt als ze relevant zijn. Met deze twee skills bouwt Claude volgens de werkwijze en standaarden van Cegeka.</p>
+    ${markBubble('Zie de skills als het vakmanschap van Cegeka in een bestand. Zonder skills bouwt Claude ook, maar mét skills bouwt Claude zoals wij dat afspreken.')}
+    ${card(s.plan,
+      'Helpt Copilot of Claude om van klantinput (transcripten, notities, Work IQ) een gestructureerd bouwplan te maken: datamodel, relaties, security, app, flows en acceptatiecriteria, met aannames en open vragen apart.',
+      ['In module 2, als je het bouwplan maakt in Copilot of Claude chat.', 'In Claude chat: upload de skill onder <kbd>Settings</kbd> &gt; <kbd>Capabilities</kbd> &gt; <kbd>Skills</kbd>. In Copilot: voeg SKILL.md toe als bijlage.', 'In je repo, zodat Claude Code het bouwplan later met dezelfde structuur kan aanvullen.'],
+      [2])}
+    ${card(s.standards,
+      'Legt de Cegeka bouwstandaarden vast voor Power Platform en Dataverse: naamgeving en publisher prefix, solution-opbouw, security roles, connection references en environment variables, en de manier van reviewen en committen.',
+      ['In module 3, als je het project klaarzet en CLAUDE.md maakt.', 'In module 5, bij elke bouwstap en bij de review tegen de standaarden.'],
+      [3, 5])}
+    <h2>Zo zet je de skills op de juiste plek</h2>
+    <ol class="todo">
+      <li>Maak in de root van je repo de map <code>.claude/skills/</code> aan (module 3, stap 2).</li>
+      <li>Maak per skill een eigen map met de naam van de skill.</li>
+      <li>Zet het gedownloade bestand in die map en controleer dat het exact <code>SKILL.md</code> heet.</li>
+      <li>Start Claude Code opnieuw en vraag: "Welke skills heb je beschikbaar?"</li>
+    </ol>
+    ${codeBlock('.claude/\n  skills/\n    ' + s.plan.folder + '/\n      SKILL.md\n    ' + s.standards.folder + '/\n      SKILL.md', 'Structuur')}
+    ${shot({ file: 'skills-mappenstructuur.png', caption: 'De Explorer in VS Code met .claude/skills en daarin de mappen ' + s.plan.folder + ' en ' + s.standards.folder + ', elk met een SKILL.md.' })}`;
+  }
+
+  function renderPrompts() {
+    return `
+    <nav class="breadcrumb"><a href="#/">Overzicht</a> / Voorbeeldprompts</nav>
+    <h1>Voorbeeldprompts</h1>
+    <p>Alle prompts uit de training op één plek. Kopieer, pas aan waar <code>[haken]</code> staan en plak in Copilot, Claude of Claude Code.</p>
+    <div class="toc">${PROMPTS.map(p => `<a href="#/prompts" data-jump="p-${p.id}">${esc(p.title)}</a>`).join('')}</div>
+    ${PROMPTS.map(p => `
+      <section class="prompt-entry" id="p-${p.id}">
+        <h2>${esc(p.title)}</h2>
+        <div class="meta"><span class="pill blue">${esc(p.where)}</span><span class="pill">Module ${p.module}</span></div>
+        ${promptBlock(p.id)}
+      </section>`).join('')}`;
+  }
+
+  function renderGlossary() {
+    return `
+    <nav class="breadcrumb"><a href="#/">Overzicht</a> / Woordenlijst</nav>
+    <h1>Woordenlijst</h1>
+    <p>De begrippen die je in deze training tegenkomt.</p>
+    <input type="search" class="search" id="glossSearch" placeholder="Zoek een begrip..." aria-label="Zoek in de woordenlijst">
+    <dl class="glossary" id="glossList">
+      ${GLOSSARY.map(g => `<div data-term="${esc((g.term + ' ' + g.def).toLowerCase())}"><dt>${esc(g.term)}</dt><dd>${g.def}</dd></div>`).join('')}
+    </dl>`;
+  }
+
+  function renderCert() {
+    const all = totalDone() === STEPS.length;
+    const left = STEPS.length - totalDone();
+    const date = new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+    return `
+    <nav class="breadcrumb"><a href="#/">Overzicht</a> / Certificaat</nav>
+    <h1>Certificaat</h1>
+    ${all ? markBubble('Gefeliciteerd! Je hebt de Hardware Manager gebouwd. Vul je naam in en print of bewaar je certificaat als PDF.')
+          : `<div class="lock-note no-print">Nog ${left} ${left === 1 ? 'stap' : 'stappen'} te gaan. Rond alle modules af om je certificaat te ontgrendelen.</div>`}
+    <div class="cert-form no-print">
+      <label for="certName" class="sr-only" style="font-weight:700">Je naam</label>
+      <input id="certName" type="text" placeholder="Vul je naam in" value="${esc(state.name)}" autocomplete="name">
+      <button type="button" class="btn primary" id="printBtn" ${all ? '' : 'disabled'}>Print of bewaar als PDF</button>
+    </div>
+    <div class="certificate${all ? '' : ' cert-locked'}" id="certificate">
+      <div class="cert-kicker">Cegeka · Certificaat van deelname</div>
+      <div class="cert-title">Gefeliciteerd!</div>
+      <div>Hierbij verklaren wij dat</div>
+      <div class="cert-name" id="certNameOut">${esc(state.name || 'Jouw naam')}</div>
+      <div>de training heeft afgerond</div>
+      <p class="cert-course">${esc(CONFIG.title)}</p>
+      <div>en met Claude Code, de PAC CLI en de Cegeka skills een complete Dataverse-oplossing heeft gebouwd.</div>
+      ${badgesHtml()}
+      <div class="cert-foot">
+        <div><strong>Datum</strong><br>${date}</div>
+        <div class="cert-sign">${MARK_SVG}<div><strong>Mark</strong><br>Hardware Manager</div></div>
+      </div>
+    </div>`;
+  }
+
+  /* ---------- Router ---------- */
+  function route() {
+    const hash = location.hash.replace(/^#\/?/, '');
+    const [page, id] = hash.split('/');
+    const main = $('#main');
+    let active = 'home', stepId = null;
+
+    if (page === 'stap' && STEPS.find(s => s.id === id)) {
+      stepId = id; active = null;
+      main.innerHTML = renderStep(STEPS.find(s => s.id === id));
+    } else if (page === 'skills') { active = 'skills'; main.innerHTML = renderSkills(); }
+    else if (page === 'prompts') { active = 'prompts'; main.innerHTML = renderPrompts(); }
+    else if (page === 'woordenlijst') { active = 'woordenlijst'; main.innerHTML = renderGlossary(); }
+    else if (page === 'certificaat') { active = 'certificaat'; main.innerHTML = renderCert(); }
+    else { main.innerHTML = renderHome(); }
+
+    renderSidebar(stepId, active);
+    updateProgress();
+    closeMenu();
+    window.scrollTo(0, 0);
+    main.focus({ preventScroll: true });
+    const t = stepId ? STEPS.find(s => s.id === stepId).title : ({ skills: 'Skills', prompts: 'Voorbeeldprompts', woordenlijst: 'Woordenlijst', certificaat: 'Certificaat' }[active] || 'Overzicht');
+    document.title = `${t} | ${CONFIG.title}`;
+  }
+
+  /* ---------- Interactie ---------- */
+  function toggleDone(id, checked) {
+    const step = STEPS.find(s => s.id === id);
+    const wasComplete = isComplete(step.module);
+    if (checked) state.done[id] = true; else delete state.done[id];
+    save();
+    renderSidebar(id, null);
+    updateProgress();
+    const pills = $('.meta');
+    if (pills) {
+      const p = pills.querySelector('.pill.green');
+      if (checked && !p) pills.insertAdjacentHTML('beforeend', '<span class="pill green">Klaar</span>');
+      if (!checked && p) p.remove();
+    }
+    if (!wasComplete && isComplete(step.module)) celebrate(step.module);
+  }
+
+  function celebrate(m) {
+    state.badges[m.id] = true; save();
+    const all = totalDone() === STEPS.length;
+    const toast = $('#toast');
+    toast.innerHTML = `<div class="badge-medal">${m.number}</div><div><strong>Badge behaald: ${esc(m.badge)}</strong><br>${all ? 'Alle modules klaar! Haal je certificaat op.' : `Module ${m.number} – ${esc(m.title)} is afgerond.`}</div>`;
+    toast.hidden = false;
+    clearTimeout(celebrate.t);
+    celebrate.t = setTimeout(() => { toast.hidden = true; }, 5000);
+    confetti(all ? 260 : 140);
+  }
+
+  function confetti(n) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const c = $('#confetti'), ctx = c.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    c.width = innerWidth * dpr; c.height = innerHeight * dpr; ctx.scale(dpr, dpr);
+    const colors = ['#00C7F9', '#80E3FC', '#0095BB', '#632064', '#F04B4C', '#000000'];
+    const parts = Array.from({ length: n }, () => ({
+      x: innerWidth / 2 + (Math.random() - .5) * 200, y: innerHeight * .35,
+      vx: (Math.random() - .5) * 14, vy: Math.random() * -14 - 4,
+      w: 6 + Math.random() * 6, h: 8 + Math.random() * 8, r: Math.random() * 6, vr: (Math.random() - .5) * .3,
+      color: colors[Math.floor(Math.random() * colors.length)]
+    }));
+    const start = performance.now();
+    (function frame(t) {
+      ctx.clearRect(0, 0, innerWidth, innerHeight);
+      parts.forEach(p => {
+        p.vy += .35; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.color; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.restore();
+      });
+      if (t - start < 3500) requestAnimationFrame(frame); else ctx.clearRect(0, 0, innerWidth, innerHeight);
+    })(start);
+  }
+
+  async function copyText(btn) {
+    const pre = btn.closest('.code').querySelector('pre');
+    const text = pre.innerText.replace(/\n$/, '');
+    try { await navigator.clipboard.writeText(text); }
+    catch (e) {
+      const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+    }
+    btn.classList.add('copied'); btn.querySelector('span').textContent = 'Gekopieerd';
+    setTimeout(() => { btn.classList.remove('copied'); btn.querySelector('span').textContent = 'Kopieer'; }, 1800);
+  }
+
+  function openMenu() { $('#sidebar').classList.add('open'); $('#scrim').hidden = false; $('#menuBtn').setAttribute('aria-expanded', 'true'); }
+  function closeMenu() { $('#sidebar').classList.remove('open'); $('#scrim').hidden = true; $('#menuBtn').setAttribute('aria-expanded', 'false'); }
+
+  document.addEventListener('click', e => {
+    const copy = e.target.closest('[data-copy]');
+    if (copy) return copyText(copy);
+    const modBtn = e.target.closest('.sb-module > button');
+    if (modBtn) {
+      const mod = modBtn.parentElement, id = mod.dataset.module;
+      const open = !mod.classList.contains('open');
+      mod.classList.toggle('open', open); modBtn.setAttribute('aria-expanded', open);
+      state.open[id] = open; save();
+      return;
+    }
+    const jump = e.target.closest('[data-jump]');
+    if (jump) { e.preventDefault(); const el = document.getElementById(jump.dataset.jump); if (el) el.scrollIntoView({ behavior: 'smooth' }); return; }
+    if (e.target.id === 'printBtn') return window.print();
+    if (e.target.id === 'resetBtn') {
+      if (confirm('Weet je zeker dat je al je voortgang wilt wissen?')) { state = Object.assign({}, defaults, { done: {}, badges: {}, open: {} }); save(); route(); }
+    }
+  });
+
+  document.addEventListener('change', e => {
+    if (e.target.id === 'doneBox') toggleDone(e.target.dataset.step, e.target.checked);
+  });
+
+  document.addEventListener('input', e => {
+    if (e.target.id === 'certName') {
+      state.name = e.target.value.trim(); save();
+      $('#certNameOut').textContent = state.name || 'Jouw naam';
+    }
+    if (e.target.id === 'glossSearch') {
+      const q = e.target.value.toLowerCase().trim();
+      document.querySelectorAll('#glossList > div').forEach(d => { d.hidden = q && !d.dataset.term.includes(q); });
+    }
+  });
+
+  $('#menuBtn').addEventListener('click', () => ($('#sidebar').classList.contains('open') ? closeMenu() : openMenu()));
+  $('#scrim').addEventListener('click', closeMenu);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+  window.addEventListener('hashchange', route);
+  route();
+})();
