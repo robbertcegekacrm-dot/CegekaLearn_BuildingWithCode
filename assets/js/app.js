@@ -161,8 +161,8 @@
     ${badgesHtml()}
     <h2>Wat heb je nodig?</h2>
     <ul>
-      <li>Een laptop met VS Code, Node.js, Git, de PAC CLI en Claude Code (dat controleer je in module 1)</li>
-      <li>Een Cegeka Claude-licentie en een GitHub-account</li>
+      <li>De voorbereiding uit de handleiding <a href="${esc(CONFIG.prepGuideUrl)}" target="_blank" rel="noopener">Aan de slag met Claude Code in VS Code</a>: licentie, VS Code, Node.js, Git, Claude Code, GitHub en een werkmap buiten OneDrive</li>
+      <li>De Power Platform Tools-extensie in VS Code (module 1)</li>
       <li>Een Power Platform dev-omgeving met maker-rechten</li>
       <li>De twee Cegeka skills (zie <a href="#skills">Skills</a>) en de casevideo van Mark</li>
     </ul>

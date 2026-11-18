@@ -23,10 +23,8 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 
 | | Bestand | Stap | Wat moet erop te zien zijn |
 |---|---|---|---|
-| [ ] | `img/m1-s1-vscode-extensies.png` | Installeer de VS Code-extensies | Het Extensions-paneel in VS Code met Claude Code en Power Platform Tools allebei geïnstalleerd. |
-| [ ] | `img/m1-s2-claude-code-open.png` | Open Claude Code en meld je aan | VS Code met het Claude Code-paneel open, het aangemelde account zichtbaar en een eerste antwoord van Claude. |
-| [ ] | `img/m1-s3-installaties-gecontroleerd.png` | Laat Claude je installaties controleren | Het Claude Code-paneel met de samenvatting: versies van Node.js, Git en pac, en de bevestiging dat Git is ingesteld. |
-| [ ] | `img/m1-s4-github-login.png` | Meld je aan bij GitHub | Het Accounts-menu linksonder in VS Code met het aangemelde GitHub-account. |
+| [ ] | `img/m1-s2-power-platform-tools.png` | Installeer de Power Platform Tools | Het Extensions-paneel in VS Code met Power Platform Tools van Microsoft geïnstalleerd, en het Power Platform-icoon in de linkerbalk. |
+| [ ] | `img/m1-s3-klaar-voor-de-start.png` | Laat Claude controleren of je klaar bent | Het Claude Code-paneel met de samenvatting: versies van Node.js, Git en pac, en de ingestelde Git-naam en e-mail. |
 
 ## Module 2 – Het bouwplan maken
 
@@ -41,11 +39,11 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 
 | | Bestand | Stap | Wat moet erop te zien zijn |
 |---|---|---|---|
-| [ ] | `img/m3-s1-github-nieuwe-repo.png` | Maak een GitHub-repo en open hem in VS Code | Het scherm Create a new repository op GitHub met naam hardware-manager, Private en Add a README file aangevinkt. |
-| [ ] | `img/m3-s2-bestanden-in-project.png` | Zet je bouwplan en de skills in de projectmap | De Explorer in VS Code met README.md, building-plan.md, cegeka-building-plan-SKILL.md en cegeka-building-standards-SKILL.md in de root van hardware-manager. |
+| [ ] | `img/m3-s1-projectmap-geopend.png` | Maak je projectmap | VS Code met de lege map hardware-manager geopend in de Explorer. |
+| [ ] | `img/m3-s2-bestanden-in-project.png` | Zet je bouwplan en de skills in de projectmap | De Explorer in VS Code met building-plan.md, cegeka-building-plan-SKILL.md en cegeka-building-standards-SKILL.md in de map hardware-manager. |
 | [ ] | `img/m3-s3-projectstructuur.png` | Laat Claude de projectstructuur maken | De Explorer met .claude/skills/cegeka-building-plan/SKILL.md, .claude/skills/cegeka-building-standards/SKILL.md, docs/building-plan.md en de map solution, met daarnaast de samenvatting van Claude. |
 | [ ] | `img/m3-s4-claude-md.png` | Laat Claude CLAUDE.md maken | CLAUDE.md geopend in VS Code met de ingevulde omgeving-URL, solutionnaam HardwareManager en publisher prefix cgk. |
-| [ ] | `img/m3-s5-eerste-commit-github.png` | Laat Claude de eerste commit maken | De repo op github.com met de mappen .claude, docs, het bestand CLAUDE.md en de eerste commit-melding. |
+| [ ] | `img/m3-s5-publish-branch.png` | Eerste commit en publiceren op GitHub | Het Source Control-paneel in VS Code met de knop Publish Branch en de keuze voor een private repository. |
 
 ## Module 4 – Verbinden met Dataverse
 
@@ -85,7 +83,7 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 
 ---
 
-Totaal: 32 screenshots, 1 logo en 1 video.
+Totaal: 30 screenshots, 1 logo en 1 video.
 
 **Tips**
 

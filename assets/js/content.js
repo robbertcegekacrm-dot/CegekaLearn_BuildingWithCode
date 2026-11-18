@@ -12,6 +12,7 @@ const CONFIG = {
   publisherPrefix: 'cgk',
   envUrlExample: 'https://<jouw-org>.crm4.dynamics.com',
   repoName: 'hardware-manager',
+  prepGuideUrl: 'https://cegekagroup-my.sharepoint.com/:w:/g/personal/daan_degraaff_cegeka_com/IQBshG45kfB5RpKY2jZrgvwVAQN4xo6hzj7-HWJvicc_UtA?e=g1doad',
   caseVideo: 'video/hardware-manager-case.mp4',
   skills: {
     plan: {
@@ -40,10 +41,11 @@ const PROMPTS = [
     where: 'Claude Code',
     module: 1,
     text:
-`Controleer of mijn laptop klaar is voor deze training. Kijk of Node.js (versie 18 of hoger), Git en de Power Platform CLI (pac) geïnstalleerd zijn en geef per onderdeel de versie.
-Stel daarna Git in met mijn naam "[Voornaam Achternaam]" en e-mail "[voornaam.achternaam@cegeka.com]", tenzij dat al goed staat.
-Ontbreekt er iets, leg dan in één zin uit hoe ik het installeer.`,
-    tip: 'Je vraagt om het resultaat (is alles er?) in plaats van losse commando\'s. Claude kiest zelf de juiste checks voor jouw besturingssysteem en jij keurt alleen goed.'
+`Controleer of mijn laptop klaar is voor de training "Bouwen met Claude Code in Dataverse":
+- Node.js (versie 18 of hoger), Git en de Power Platform CLI (pac): geef per onderdeel de versie
+- Git: staan mijn naam en e-mailadres ingesteld? Laat zien wat er staat.
+Pas niets aan. Ontbreekt er iets, vertel me dan in één zin wat ik moet doen.`,
+    tip: 'Je vraagt om het resultaat (is alles er?) in plaats van losse commando\'s. "Pas niets aan" houdt het een veilige controle: Claude kijkt alleen, jij beslist wat er moet gebeuren.'
   },
   {
     id: 'bouwplan',
@@ -84,6 +86,8 @@ Regels:
     module: 3,
     text:
 `Zet dit project klaar volgens de building standards skill:
+- zet de map onder versiebeheer met Git
+- maak een README.md met één zin over dit project
 - maak de mappen docs/, solution/ en .claude/skills/
 - verplaats building-plan.md naar docs/building-plan.md
 - zet cegeka-building-plan-SKILL.md in .claude/skills/cegeka-building-plan/SKILL.md
@@ -113,7 +117,7 @@ Laat me de inhoud zien voordat je het bestand opslaat.`,
     where: 'Claude Code',
     module: 3,
     text:
-`Commit alle wijzigingen van deze stap met een korte, duidelijke commit message in het Nederlands en push naar GitHub. Laat me de commit message zien voordat je commit.`,
+`Commit alle wijzigingen van deze stap met een korte, duidelijke commit message in het Nederlands en push naar GitHub (als de repo al op GitHub staat). Laat me de commit message zien voordat je commit.`,
     tip: 'Eén vaste zin na elke bouwstap. Claude schrijft een commit message die beschrijft wat er echt veranderd is, en jij houdt een nette geschiedenis waar je altijd naar terug kunt.'
   },
   {
@@ -362,64 +366,54 @@ const MODULES = [
     id: 'm1',
     number: 1,
     title: 'Voorbereiding',
-    duration: '5 min',
     badge: 'Klaar voor de start',
-    intro: 'Installeer de VS Code-extensies, start Claude Code en laat Claude controleren of je laptop klaar is.',
-    mark: 'Voordat je begint: gereedschap op orde. Goed nieuws: het meeste controleert Claude voor je.',
+    intro: 'Zorg dat je de handleiding "Aan de slag met Claude Code in VS Code" hebt doorlopen, voeg de Power Platform Tools toe en laat Claude controleren of alles klaarstaat.',
+    mark: 'Voordat je begint: gereedschap op orde. Het meeste heb je al gedaan met de handleiding. Nu nog even het Power Platform-gereedschap erbij.',
     steps: [
       {
         id: 'm1-s1',
-        title: 'Installeer de VS Code-extensies',
-        goal: 'VS Code heeft de Claude Code-extensie en de Power Platform Tools.',
+        title: 'Doorloop de handleiding',
+        goal: 'Je licentie is actief en Claude Code, Node.js, Git en GitHub werken op je laptop.',
         do: [
-          'Open VS Code en klik links op het blokjesicoon <kbd>Extensions</kbd> (of druk <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd>).',
-          'Zoek op <strong>Claude Code</strong> (uitgever Anthropic) en klik <kbd>Install</kbd>.',
-          'Zoek op <strong>Power Platform Tools</strong> (uitgever Microsoft) en klik <kbd>Install</kbd>. Deze extensie brengt ook de PAC CLI mee, die Claude straks gebruikt.',
-          'Herstart VS Code.'
+          `Open de handleiding <a href="${CONFIG.prepGuideUrl}" target="_blank" rel="noopener"><strong>Aan de slag met Claude Code in VS Code</strong></a> en werk de stappen hieronder af:`,
+          '<strong>Licentie aanvragen</strong> voor Claude via Horizon (Manage Software).',
+          '<strong>VS Code, Node.js en Git installeren</strong> via de Company Portal. Herstart VS Code daarna.',
+          '<strong>Claude Code toevoegen</strong> als extensie in VS Code en inloggen met je Cegeka-account.',
+          '<strong>Git en GitHub koppelen:</strong> je naam en noreply-mailadres instellen en in VS Code inloggen met GitHub.',
+          '<strong>Een werkmap inrichten buiten OneDrive</strong>, bijvoorbeeld <code>C:\\Users\\jouwnaam\\Projecten</code>.',
+          '<strong>De testopdracht uitvoeren</strong> en de testmap publiceren als private repository.'
         ],
-        img: { file: 'm1-s1-vscode-extensies.png', caption: 'Het Extensions-paneel in VS Code met Claude Code en Power Platform Tools allebei geïnstalleerd.' },
-        check: 'Beide extensies staan onder <em>Installed</em>, en je ziet het Claude-icoon en het Power Platform-icoon in VS Code.',
-        help: 'Kun je geen extensies installeren? Vraag de trainer of je laptop extensies uit de Marketplace mag installeren.'
+        img: null,
+        check: 'Je kunt alles van de checklist in de handleiding afvinken: licentie actief, VS Code, Node.js en Git geïnstalleerd, Claude Code ingelogd, Git en GitHub gekoppeld, werkmap buiten OneDrive en de testopdracht gelukt.',
+        help: 'Vragen over je licentie? Kijk in het artikel <em>Requesting an AI platform license</em> op ONE. Loop je vast bij het installeren, meld het dan vóór de training bij de trainer, zodat je op de dag direct kunt beginnen.'
       },
       {
         id: 'm1-s2',
-        title: 'Open Claude Code en meld je aan',
-        goal: 'Claude Code draait in VS Code en is gekoppeld aan je Cegeka Claude-account.',
+        title: 'Installeer de Power Platform Tools',
+        goal: 'VS Code heeft de Power Platform Tools, met daarin de PAC CLI die Claude gebruikt om met Dataverse te werken.',
         do: [
-          'Maak een nieuwe map voor de training, bijvoorbeeld <code>claude-training</code>, en open die via <kbd>File</kbd> &gt; <kbd>Open Folder</kbd>.',
-          'Klik rechtsboven in de editor op het <strong>Claude-icoon</strong> om Claude Code te openen.',
-          'Bij de eerste keer vraagt Claude je om in te loggen. Kies je <strong>Claude-account</strong> en meld je in de browser aan met je Cegeka-account.',
-          'Ga terug naar VS Code en typ een eerste bericht, bijvoorbeeld: "Hoi Claude, wat kun je voor me doen in dit project?"'
+          'Open Extensions met <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd> of via het blokjesicoon in de linkerbalk.',
+          'Zoek op <strong>Power Platform Tools</strong> (uitgever Microsoft) en klik <kbd>Install</kbd>.',
+          'Sluit VS Code helemaal af en start opnieuw. Pas dan kan Claude de PAC CLI vinden.'
         ],
-        img: { file: 'm1-s2-claude-code-open.png', caption: 'VS Code met het Claude Code-paneel open, het aangemelde account zichtbaar en een eerste antwoord van Claude.' },
-        check: 'Claude antwoordt op je bericht zonder opnieuw om een login te vragen.',
-        help: 'Zie je geen Claude-icoon? Open het opdrachtenpalet met <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> en zoek op <em>Claude Code</em>. Zie je een melding over je licentie, vraag dan de trainer om toegang.'
+        img: { file: 'm1-s2-power-platform-tools.png', caption: 'Het Extensions-paneel in VS Code met Power Platform Tools van Microsoft geïnstalleerd, en het Power Platform-icoon in de linkerbalk.' },
+        check: 'Power Platform Tools staat onder <em>Installed</em> en je ziet het Power Platform-icoon in de linkerbalk.',
+        help: 'Kun je de extensie niet installeren? Vraag de trainer of je laptop extensies uit de Marketplace mag installeren.'
       },
       {
         id: 'm1-s3',
-        title: 'Laat Claude je installaties controleren',
-        goal: 'Node.js, Git en de PAC CLI zijn aanwezig en Git is ingesteld met jouw naam.',
+        title: 'Laat Claude controleren of je klaar bent',
+        goal: 'Claude bevestigt dat Node.js, Git, de PAC CLI en je Git-instellingen in orde zijn.',
         mark: 'Vanaf nu werk je zo: jij vraagt, Claude doet, jij keurt goed. Commando\'s typen hoeft niet.',
         do: [
-          { text: 'Kopieer de prompt, vul je naam en e-mail in en stuur hem naar Claude.', prompt: 'check-installaties' },
-          'Claude vraagt toestemming om commando\'s uit te voeren. Lees wat Claude wil doen en klik <kbd>Yes</kbd> (of <kbd>Allow</kbd>).',
-          'Lees de samenvatting die Claude geeft.'
+          'Open in VS Code je werkmap (bijvoorbeeld <code>Projecten</code>) via <kbd>File</kbd> &gt; <kbd>Open Folder</kbd>.',
+          'Open het Claude Code-paneel via het <strong>Spark-icoon (✱)</strong> rechtsboven in de editor, of rechtsonder in de statusbalk via <strong>✱ Claude Code</strong>.',
+          { text: 'Stuur deze prompt naar Claude:', prompt: 'check-installaties' },
+          'Claude vraagt toestemming om opdrachten uit te voeren. Lees wat Claude wil doen en geef akkoord.'
         ],
-        img: { file: 'm1-s3-installaties-gecontroleerd.png', caption: 'Het Claude Code-paneel met de samenvatting: versies van Node.js, Git en pac, en de bevestiging dat Git is ingesteld.' },
-        check: 'Claude meldt voor Node.js, Git en pac een versienummer en dat je Git-naam en e-mail zijn ingesteld.',
-        help: 'Ontbreekt iets? Volg het installatieadvies van Claude (Node.js LTS via nodejs.org, Git via git-scm.com, pac via de Power Platform Tools-extensie), herstart VS Code en stuur dezelfde prompt nog een keer.'
-      },
-      {
-        id: 'm1-s4',
-        title: 'Meld je aan bij GitHub',
-        goal: 'VS Code kan namens jou bij GitHub, zodat Claude straks kan pushen.',
-        do: [
-          'Klik linksonder in VS Code op het persoonsicoon <kbd>Accounts</kbd> en kies <kbd>Sign in with GitHub</kbd>.',
-          'Rond de aanmelding af in de browser en geef VS Code toegang.'
-        ],
-        img: { file: 'm1-s4-github-login.png', caption: 'Het Accounts-menu linksonder in VS Code met het aangemelde GitHub-account.' },
-        check: 'Onder <kbd>Accounts</kbd> zie je je GitHub-gebruikersnaam.',
-        help: 'Heb je nog geen GitHub-account? Maak er een aan op github.com met je Cegeka-mailadres en vraag de trainer om toegang tot de organisatie als dat nodig is.'
+        img: { file: 'm1-s3-klaar-voor-de-start.png', caption: 'Het Claude Code-paneel met de samenvatting: versies van Node.js, Git en pac, en de ingestelde Git-naam en e-mail.' },
+        check: 'Claude meldt voor Node.js, Git en pac een versienummer en bevestigt dat je Git-naam en e-mail zijn ingesteld.',
+        help: 'Vindt Claude <code>pac</code> niet? Herstart VS Code helemaal en stuur de prompt opnieuw. Ontbreekt iets anders, ga dan terug naar de betreffende stap in de handleiding.'
       }
     ]
   },
@@ -500,22 +494,21 @@ const MODULES = [
     title: 'Je project klaarzetten',
     duration: '10 min',
     badge: 'Op orde',
-    intro: 'Maak een repo, zet je bouwplan en de skills erin en laat Claude de structuur, CLAUDE.md en de eerste commit maken.',
+    intro: 'Maak een projectmap, zet je bouwplan en de skills erin, laat Claude de structuur, CLAUDE.md en de eerste commit maken en publiceer het op GitHub.',
     mark: 'Een opgeruimde werkplaats bouwt beter. Dat geldt voor mijn magazijn en voor jouw repo.',
     steps: [
       {
         id: 'm3-s1',
-        title: 'Maak een GitHub-repo en open hem in VS Code',
-        goal: 'Je hebt een lege repo op GitHub, geopend in VS Code.',
+        title: 'Maak je projectmap',
+        goal: 'Je hebt een lege projectmap in je werkmap, geopend in VS Code.',
         do: [
-          'Ga naar github.com en klik <kbd>New</kbd> (nieuwe repository).',
-          'Naam: <code>hardware-manager</code>. Kies <kbd>Private</kbd> en vink <kbd>Add a README file</kbd> aan. Klik <kbd>Create repository</kbd>.',
-          'Klik op de groene knop <kbd>Code</kbd> en kopieer de HTTPS-URL.',
-          'Ga in VS Code naar <kbd>Source Control</kbd> (linkerbalk) en klik <kbd>Clone Repository</kbd>. Plak de URL, kies je trainingsmap en klik <kbd>Open</kbd>.'
+          'Maak in je werkmap (buiten OneDrive, bijvoorbeeld <code>C:\\Users\\jouwnaam\\Projecten</code>) een nieuwe map <code>hardware-manager</code>.',
+          'Open de map in VS Code via <kbd>File</kbd> &gt; <kbd>Open Folder</kbd>.',
+          'Vraagt VS Code of je de makers van de map vertrouwt? Kies <kbd>Yes, I trust the authors</kbd>. Zonder dat vertrouwen werkt Claude Code niet.'
         ],
-        img: { file: 'm3-s1-github-nieuwe-repo.png', caption: 'Het scherm Create a new repository op GitHub met naam hardware-manager, Private en Add a README file aangevinkt.' },
-        check: 'VS Code toont de map <code>hardware-manager</code> met een README.md in de Explorer.',
-        help: 'Vraagt VS Code om in te loggen bij het clonen? Meld je aan met je GitHub-account uit module 1.'
+        img: { file: 'm3-s1-projectmap-geopend.png', caption: 'VS Code met de lege map hardware-manager geopend in de Explorer.' },
+        check: 'VS Code toont de map <code>hardware-manager</code> in de Explorer.',
+        help: 'Staat je map toch in OneDrive, Documenten of op je bureaublad? Verplaats hem naar je werkmap. Synchronisatie botst met Git.'
       },
       {
         id: 'm3-s2',
@@ -524,11 +517,11 @@ const MODULES = [
         mark: 'Die skills zijn het vakmanschap van Cegeka. Daarmee bouwt Claude zoals jullie dat afspraken.',
         do: [
           'Download beide skills van de <a href="#skills">Skills-pagina</a>. Ze heten <code>cegeka-building-plan-SKILL.md</code> en <code>cegeka-building-standards-SKILL.md</code>.',
-          'Sleep de twee skillbestanden en je <code>building-plan.md</code> uit module 2 naar de Explorer van VS Code, in de root van <code>hardware-manager</code>.',
+          'Sleep de twee skillbestanden en je <code>building-plan.md</code> uit module 2 naar de Explorer van VS Code, in de map <code>hardware-manager</code>.',
           'Je hoeft niets te verplaatsen of te hernoemen: dat doet Claude in de volgende stap.'
         ],
-        img: { file: 'm3-s2-bestanden-in-project.png', caption: 'De Explorer in VS Code met README.md, building-plan.md, cegeka-building-plan-SKILL.md en cegeka-building-standards-SKILL.md in de root van hardware-manager.' },
-        check: 'Je ziet de drie bestanden naast README.md in de Explorer.',
+        img: { file: 'm3-s2-bestanden-in-project.png', caption: 'De Explorer in VS Code met building-plan.md, cegeka-building-plan-SKILL.md en cegeka-building-standards-SKILL.md in de map hardware-manager.' },
+        check: 'Je ziet de drie bestanden in de Explorer.',
         help: 'Heeft je browser het bestand opgeslagen met <code>.txt</code> erachter? Geen probleem, Claude herkent het. Noem het in de volgende prompt wel even.'
       },
       {
@@ -536,7 +529,7 @@ const MODULES = [
         title: 'Laat Claude de projectstructuur maken',
         goal: 'Je repo heeft de mappen docs/, solution/ en .claude/skills/ met alles op de juiste plek.',
         do: [
-          'Open Claude Code in het project <code>hardware-manager</code> via het Claude-icoon.',
+          'Open het Claude Code-paneel via het <strong>Spark-icoon (✱)</strong>.',
           { text: 'Stuur deze prompt:', prompt: 'project-setup' },
           'Keur de acties goed die Claude voorstelt.',
           'Bekijk de structuur die Claude laat zien.'
@@ -555,21 +548,22 @@ const MODULES = [
           'Controleer de inhoud die Claude laat zien en geef akkoord.'
         ],
         img: { file: 'm3-s4-claude-md.png', caption: 'CLAUDE.md geopend in VS Code met de ingevulde omgeving-URL, solutionnaam HardwareManager en publisher prefix cgk.' },
-        check: '<code>CLAUDE.md</code> staat in de root (naast README.md) en bevat jouw omgeving-URL.',
+        check: '<code>CLAUDE.md</code> staat in de hoofdmap van je project en bevat jouw omgeving-URL.',
         help: 'Wil je later iets toevoegen aan CLAUDE.md? Vraag het Claude: "Voeg aan CLAUDE.md toe dat..."'
       },
       {
         id: 'm3-s5',
-        title: 'Laat Claude de eerste commit maken',
-        goal: 'Je startpunt is vastgelegd in GitHub.',
+        title: 'Eerste commit en publiceren op GitHub',
+        goal: 'Je startpunt is vastgelegd en staat als private repository op GitHub.',
         do: [
-          { text: 'Stuur de commit-prompt. Deze gebruik je na elke bouwstap opnieuw.', prompt: 'commit' },
-          'Keur de commit message en de push goed.',
-          'Ververs je repo op github.com.'
+          { text: 'Laat Claude de eerste commit maken. Deze prompt gebruik je na elke bouwstap opnieuw.', prompt: 'commit' },
+          'Open <kbd>Source Control</kbd> (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd>) en klik <kbd>Publish Branch</kbd>.',
+          'Kies <strong>private repository</strong> en houd de naam <code>hardware-manager</code>.',
+          'Open de repo op github.com via de melding rechtsonder.'
         ],
-        img: { file: 'm3-s5-eerste-commit-github.png', caption: 'De repo op github.com met de mappen .claude, docs, het bestand CLAUDE.md en de eerste commit-melding.' },
-        check: 'Op GitHub zie je <code>.claude</code>, <code>docs</code> en <code>CLAUDE.md</code>. De lege map <code>solution</code> zie je nog niet; dat is normaal.',
-        help: 'Lukt het pushen niet? Controleer of je in VS Code bent aangemeld bij GitHub (module 1, stap 4) en vraag Claude: "De push mislukt, wat is de oorzaak?"'
+        img: { file: 'm3-s5-publish-branch.png', caption: 'Het Source Control-paneel in VS Code met de knop Publish Branch en de keuze voor een private repository.' },
+        check: 'Op GitHub staat de private repo <code>hardware-manager</code> met <code>.claude</code>, <code>docs</code> en <code>CLAUDE.md</code>. De lege map <code>solution</code> zie je nog niet; dat is normaal.',
+        help: 'Zie je geen Publish Branch? Controleer of je in VS Code bent ingelogd met GitHub (handleiding, stap 5). Let op: zet nooit wachtwoorden, API-sleutels, connection strings of klantdata in de repo.'
       }
     ]
   },
@@ -627,7 +621,7 @@ const MODULES = [
         title: 'Controleer of Claude de skills kent',
         goal: 'Claude Code werkt in je project en heeft beide Cegeka skills gevonden.',
         do: [
-          'Open Claude Code in het project <code>hardware-manager</code> via het Claude-icoon.',
+          'Open het Claude Code-paneel via het <strong>Spark-icoon (✱)</strong>.',
           { text: 'Stuur deze prompt:', prompt: 'skills-check' }
         ],
         img: { file: 'm5-s1-skills-check.png', caption: 'Het Claude Code-paneel in het project hardware-manager met de samenvatting van de building plan skill en de building standards skill.' },
