@@ -26,10 +26,10 @@
   const totalDone = () => COUNTED.filter(s => state.done[s.id]).length;
 
   /* ---------- Tip ---------- */
-  const tipBox = text => `
+  const tipBox = (text, label = 'Tip') => `
     <aside class="tip" aria-label="Tip">
       <img src="img/cegeka-icon.png" alt="" class="tip-icon" onerror="this.remove()">
-      <div><span class="tip-label">Tip</span>${text}</div>
+      <div><span class="tip-label">${esc(label)}</span>${text}</div>
     </aside>`;
 
   /* ---------- Bouwstenen ---------- */
@@ -79,8 +79,8 @@
     if (a.prompt) html += promptBlock(a.prompt);
     if (a.copyfile) {
       const sk = CONFIG.skills[a.copyfile] || CONFIG[a.copyfile];
-      html += `<p style="margin:10px 0 4px"><button type="button" class="btn primary small" data-copyfile="${esc(sk.file)}">${COPY_ICON} Kopieer ${esc(sk.name.toLowerCase())}</button>${a.view ? '' : ' <a href="#skills" style="font-size:.9rem;margin-left:8px">Wat staat erin?</a>'}</p>`;
-      if (a.view) html += `<details class="skill-view"><summary>Bekijk ${esc(sk.name.toLowerCase())}</summary><div class="code prompt"><div class="code-head"><span>${esc(sk.name)}</span>${copyBtn(sk.name)}</div><pre><code data-skillsrc="${esc(sk.file)}">Laden...</code></pre></div></details>`;
+      html += `<p style="margin:10px 0 4px"><button type="button" class="btn primary small" data-copyfile="${esc(sk.file)}">${COPY_ICON} Kopieer ${esc(sk.name.charAt(0).toLowerCase() + sk.name.slice(1))}</button>${a.view ? '' : ' <a href="#skills" style="font-size:.9rem;margin-left:8px">Wat staat erin?</a>'}</p>`;
+      if (a.view) html += `<details class="skill-view"><summary>Bekijk ${esc(sk.name.charAt(0).toLowerCase() + sk.name.slice(1))}</summary><div class="code prompt"><div class="code-head"><span>${esc(sk.name)}</span>${copyBtn(sk.name)}</div><pre><code data-skillsrc="${esc(sk.file)}">Laden...</code></pre></div></details>`;
     }
     return html + '</li>';
   };
@@ -187,7 +187,7 @@
     ${intro}
     ${step.index === 0 ? `<p>${esc(m.intro)}</p>` : ''}
     ${m.info ? '' : `<div class="box goal"><h3>Doel</h3><p>${step.goal}</p></div>`}
-    ${step.tip && !intro ? tipBox(esc(step.tip)) : ''}
+    ${step.tip ? tipBox(esc(step.tip), step.tipLabel || 'Tip') : ''}
     ${step.video ? videoSlot() : ''}
     ${m.info ? '' : '<h2>Wat ga je doen?</h2>'}
     ${step.lead ? `<p>${step.lead}</p>` : ''}

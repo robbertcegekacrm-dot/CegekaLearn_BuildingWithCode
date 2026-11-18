@@ -60,7 +60,6 @@ Maak op basis van de bijgevoegde input het bouwplan voor de oplossing "Hardware 
 Input:
 - transcript van de intake met Mark (Hardware Manager), hieronder geplakt
 - mijn eigen notities (indien aanwezig)
-- samenvatting uit Work IQ (indien beschikbaar)
 
 Zet het hele plan in één Markdown-blok, zodat ik het kan opslaan als building-plan.md.`,
     tip: 'De skill bevat de vaste structuur en de regels, zoals "verzin geen eisen" en "zet aannames apart". Daardoor blijft de prompt kort, krijgt iedereen hetzelfde soort plan, en zie je meteen welke aannames de AI heeft gedaan.'
@@ -419,16 +418,17 @@ const MODULES = [
       {
         id: 'm2-s1',
         title: 'Verzamel je input',
+        tipLabel: 'In de praktijk',
+        tip: 'In een echt project heb je vaak meer input dan één transcript. Vraag dan in Microsoft 365 Copilot via Work IQ naar relevante mails, chats, Teams-opnames en documenten van de klant, en geef die samenvatting mee aan het bouwplan.',
         goal: 'Je hebt alle bronnen voor het bouwplan bij elkaar.',
         do: [
           'Lees het <strong>transcript van de intake</strong> met Mark: een opgenomen Teams-overleg waarin hij zijn probleem en wensen bespreekt met consultant Lotte en Ahmed van de servicedesk.',
           { text: 'Kopieer het transcript. Je plakt het in de volgende stap in de chat.', copyfile: 'transcript', view: true },
           'Optioneel: schrijf je eigen notities en vragen erbij.',
-          'Optioneel: vraag in Microsoft 365 Copilot via <strong>Work IQ</strong> naar relevante mails, chats of documenten over hardwarebeheer en onboarding, en kopieer de samenvatting.',
                   ],
         img: null,
         check: 'Je hebt het transcript gelezen en gekopieerd, en weet wat Mark belangrijk vindt.',
-        help: 'Geen Work IQ beschikbaar? Geen probleem: het transcript is genoeg voor deze training.'
+        help: 'Lukt kopiëren niet? Klap het transcript open, selecteer de tekst en kopieer met <kbd>Ctrl</kbd>+<kbd>C</kbd>.'
       },
       {
         id: 'm2-s2',
@@ -437,7 +437,7 @@ const MODULES = [
         do: [
           'Open <strong>Claude</strong> (claude.ai) of <strong>Microsoft 365 Copilot</strong> en start een nieuwe chat.',
           { text: 'Kopieer de building plan skill en plak hem in het berichtveld:', copyfile: 'plan' },
-          'Plak het transcript eronder, met eventueel je eigen notities en de Work IQ-samenvatting. Verstuur nog niets.'
+          'Plak het transcript eronder, met eventueel je eigen notities. Verstuur nog niets.'
         ],
         img: { file: 'm2-s2-chat-met-input.png', caption: 'Een nieuwe chat in Claude of Copilot met de geplakte building plan skill en het transcript in het berichtveld.' },
         check: 'De skill en je input staan in het berichtveld en zijn nog niet verstuurd.',
