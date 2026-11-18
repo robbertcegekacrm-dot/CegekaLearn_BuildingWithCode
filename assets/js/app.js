@@ -266,34 +266,115 @@ ${m.info ? '' : `    <div class="done-row">
 
   function renderCert() {
     const all = totalDone() === COUNTED.length;
-    const left = COUNTED.length - totalDone();
+    const doneMods = TASK_MODULES.filter(isComplete).length;
     const date = new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
     return `
     <nav class="breadcrumb"><a href="#start">Overzicht</a> / Certificaat</nav>
     <h1>Certificaat</h1>
-    ${all ? tipBox('Gefeliciteerd! Je hebt de Hardware Manager gebouwd. Vul je naam in en print of bewaar je certificaat als PDF.')
-          : `<div class="lock-note no-print">Nog ${left} ${left === 1 ? 'stap' : 'stappen'} te gaan. Rond alle modules af om je certificaat te ontgrendelen.</div>`}
+    ${tipBox(all
+      ? 'Gefeliciteerd! Je hebt alle modules afgerond. Vul je naam in en download je certificaat.'
+      : 'Je kunt je certificaat altijd downloaden. De modules die je hebt afgerond, staan erop met een gekleurde badge.')}
     <div class="cert-form no-print">
-      <label for="certName" class="sr-only" style="font-weight:700">Je naam</label>
+      <label for="certName" style="font-weight:700">Je naam</label>
       <input id="certName" type="text" placeholder="Vul je naam in" value="${esc(state.name)}" autocomplete="name">
-      <button type="button" class="btn primary" id="printBtn" ${all ? '' : 'disabled'}>Print of bewaar als PDF</button>
+      <button type="button" class="btn primary" id="certDownload">Download certificaat</button>
     </div>
-    <p class="no-print" id="printHint" hidden style="font-size:.9rem">Opent er geen printvenster? In sommige omgevingen (zoals een ingesloten preview) is printen geblokkeerd. Maak dan een screenshot van je certificaat, of open de site via GitHub Pages.</p>
-    <div class="certificate${all ? '' : ' cert-locked'}" id="certificate">
+    <p class="no-print" id="certMsg" hidden style="font-size:.9rem"></p>
+    <div class="certificate" id="certificate">
       <img src="img/cegeka-logo.png" alt="Cegeka" class="cert-logo" onerror="this.remove()">
       <div class="cert-kicker">Certificaat van deelname</div>
-      <div class="cert-title">Gefeliciteerd!</div>
+      <div class="cert-title">${all ? 'Gefeliciteerd!' : 'Goed bezig!'}</div>
       <div>Hierbij verklaren wij dat</div>
       <div class="cert-name" id="certNameOut">${esc(state.name || 'Jouw naam')}</div>
-      <div>de training heeft afgerond</div>
+      <div>${all ? 'de training heeft afgerond' : 'heeft deelgenomen aan de training'}</div>
       <p class="cert-course">${esc(CONFIG.title)}</p>
-      <div>en met Claude Code, de PAC CLI en de Cegeka skills een complete Dataverse-oplossing heeft gebouwd.</div>
+      <div>${all ? 'en met Claude Code, de PAC CLI en de Cegeka skills een complete Dataverse-oplossing heeft gebouwd.' : `en daarvan ${doneMods} van de ${TASK_MODULES.length} modules heeft afgerond.`}</div>
       ${badgesHtml()}
       <div class="cert-foot">
         <div><strong>Datum</strong><br>${date}</div>
         <div class="cert-tagline">shaping digital together</div>
       </div>
     </div>`;
+  }
+
+  /* Certificaat als PNG tekenen */
+  function loadImg(src) {
+    return new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; });
+  }
+  async function certificateBlob() {
+    try { await document.fonts.ready; } catch (e) { /* ok */ }
+    const W = 1600, H = 1131, c = document.createElement('canvas');
+    c.width = W; c.height = H;
+    const x = c.getContext('2d'), F = "'Nunito Sans', 'Segoe UI', sans-serif";
+    const all = totalDone() === COUNTED.length;
+    const doneMods = TASK_MODULES.filter(isComplete).length;
+    x.fillStyle = '#fff'; x.fillRect(0, 0, W, H);
+    x.save(); x.beginPath(); x.rect(40, 40, W - 80, H - 80); x.clip();
+    x.fillStyle = '#E5F9FE';
+    x.beginPath(); x.arc(W - 100, 80, 240, 0, Math.PI * 2); x.fill();
+    x.beginPath(); x.arc(100, H - 80, 170, 0, Math.PI * 2); x.fill();
+    x.restore();
+    x.strokeStyle = '#000'; x.lineWidth = 4; x.strokeRect(40, 40, W - 80, H - 80);
+    x.fillStyle = '#00C7F9'; x.fillRect(40, H - 52, W - 80, 12);
+    const logo = await loadImg('img/cegeka-logo.png');
+    if (logo) { const h = 70, w = logo.width * h / logo.height; x.drawImage(logo, (W - w) / 2, 100, w, h); }
+    x.textAlign = 'center';
+    const t = (txt, y, size, weight, color, spacing) => {
+      x.font = `${weight} ${size}px ${F}`; x.fillStyle = color;
+      if (spacing && 'letterSpacing' in x) x.letterSpacing = spacing; x.fillText(txt, W / 2, y);
+      if ('letterSpacing' in x) x.letterSpacing = '0px';
+    };
+    t('CERTIFICAAT VAN DEELNAME', 230, 22, 800, '#0095BB', '4px');
+    t(all ? 'Gefeliciteerd!' : 'Goed bezig!', 310, 64, 800, '#000');
+    t('Hierbij verklaren wij dat', 375, 28, 400, '#3D3D3D');
+    const name = state.name || 'Jouw naam';
+    t(name, 455, 64, 800, '#632064');
+    x.font = `800 64px ${F}`; const nw = Math.max(420, x.measureText(name).width + 60);
+    x.fillStyle = '#00C7F9'; x.fillRect((W - nw) / 2, 478, nw, 5);
+    t(all ? 'de training heeft afgerond' : 'heeft deelgenomen aan de training', 540, 28, 400, '#3D3D3D');
+    t(CONFIG.title, 600, 38, 800, '#000');
+    t(all ? 'en met Claude Code, de PAC CLI en de Cegeka skills een complete Dataverse-oplossing heeft gebouwd.'
+          : `en daarvan ${doneMods} van de ${TASK_MODULES.length} modules heeft afgerond.`, 655, 26, 400, '#3D3D3D');
+    const n = TASK_MODULES.length, gap = 170, x0 = W / 2 - gap * (n - 1) / 2, y0 = 770;
+    TASK_MODULES.forEach((m, i) => {
+      const cx = x0 + i * gap, ok = isComplete(m);
+      x.beginPath(); x.arc(cx, y0, 40, 0, Math.PI * 2);
+      if (ok) { x.fillStyle = '#632064'; x.fill(); x.lineWidth = 6; x.strokeStyle = '#00C7F9'; x.setLineDash([]); x.stroke(); }
+      else { x.fillStyle = '#F1F1F1'; x.fill(); x.lineWidth = 3; x.strokeStyle = '#B8B8B8'; x.setLineDash([8, 6]); x.stroke(); x.setLineDash([]); }
+      x.font = `800 30px ${F}`; x.fillStyle = ok ? '#fff' : '#B8B8B8'; x.textBaseline = 'middle'; x.fillText(String(m.number), cx, y0 + 1); x.textBaseline = 'alphabetic';
+      x.font = `700 18px ${F}`; x.fillStyle = ok ? '#000' : '#7A7A7A';
+      const words = m.badge.split(' '); let line = '', ly = y0 + 75;
+      words.forEach(w => { const test = line ? line + ' ' + w : w; if (x.measureText(test).width > 150 && line) { x.fillText(line, cx, ly); line = w; ly += 22; } else line = test; });
+      x.fillText(line, cx, ly);
+    });
+    const date = new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+    x.textAlign = 'left'; x.font = `800 22px ${F}`; x.fillStyle = '#000'; x.fillText('Datum', 110, 980);
+    x.font = `400 22px ${F}`; x.fillStyle = '#3D3D3D'; x.fillText(date, 110, 1012);
+    x.textAlign = 'right'; x.font = `700 24px ${F}`; x.fillStyle = '#00647D'; x.fillText('shaping digital together', W - 110, 1012);
+    return new Promise(res => c.toBlob(res, 'image/png'));
+  }
+  async function downloadCertificate(btn) {
+    const msg = $('#certMsg'); msg.hidden = true;
+    btn.disabled = true;
+    const label = btn.textContent; btn.textContent = 'Bezig...';
+    const filename = `certificaat-${(state.name || 'deelnemer').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'deelnemer'}.png`;
+    try {
+      const blob = await certificateBlob();
+      let saved = false;
+      if (window.claude && typeof window.claude.use === 'function') {
+        const dl = await window.claude.use('downloads');
+        if (dl) { await dl.save({ filename, data: blob }); saved = true; }
+      }
+      if (!saved) {
+        const url = URL.createObjectURL(blob), a = document.createElement('a');
+        a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
+      }
+    } catch (err) {
+      msg.textContent = 'Downloaden is niet gelukt. Probeer het opnieuw, of maak een screenshot van je certificaat.';
+      msg.hidden = false;
+    }
+    btn.disabled = false; btn.textContent = label;
   }
 
   /* ---------- Router ---------- */
@@ -417,7 +498,7 @@ ${m.info ? '' : `    <div class="done-row">
     }
     const jump = e.target.closest('[data-jump]');
     if (jump) { e.preventDefault(); const el = document.getElementById(jump.dataset.jump); if (el) el.scrollIntoView({ behavior: 'smooth' }); return; }
-    if (e.target.id === 'printBtn') { try { window.print(); } catch (err) { /* geblokkeerd */ } $('#printHint').hidden = false; return; }
+    if (e.target.id === 'certDownload') { downloadCertificate(e.target); return; }
     const sc = e.target.closest('[data-copyfile]');
     if (sc) { copyFile(sc); return; }
     if (e.target.id === 'resetBtn') {
