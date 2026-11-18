@@ -95,7 +95,7 @@
   /* ---------- Sidebar ---------- */
   function renderSidebar(activeStepId, activePage) {
     const activeModule = activeStepId ? STEPS.find(s => s.id === activeStepId).module.id : null;
-    const links = [['home', '#/', 'Overzicht'], ['skills', '#/skills', 'Skills'], ['prompts', '#/prompts', 'Voorbeeldprompts'], ['woordenlijst', '#/woordenlijst', 'Woordenlijst'], ['certificaat', '#/certificaat', 'Certificaat']];
+    const links = [['home', '#start', 'Overzicht'], ['skills', '#skills', 'Skills'], ['prompts', '#prompts', 'Voorbeeldprompts'], ['woordenlijst', '#woordenlijst', 'Woordenlijst'], ['certificaat', '#certificaat', 'Certificaat']];
     let html = `<ul class="sb-links">${links.map(([k, h, t]) => `<li><a href="${h}" class="${activePage === k ? 'active' : ''}">${t}</a></li>`).join('')}</ul>`;
     html += MODULES.map(m => {
       const open = m.id === activeModule || state.open[m.id];
@@ -108,7 +108,7 @@
           <span class="sb-count">${done}/${m.steps.length}</span>
         </button>
         <ul class="sb-steps">
-          ${m.steps.map(s => `<li><a href="#/stap/${s.id}" class="${s.id === activeStepId ? 'active' : ''}" ${s.id === activeStepId ? 'aria-current="page"' : ''}><span class="sb-dot${state.done[s.id] ? ' done' : ''}"></span><span>${esc(s.title)}</span></a></li>`).join('')}
+          ${m.steps.map(s => `<li><a href="#${s.id}" class="${s.id === activeStepId ? 'active' : ''}" ${s.id === activeStepId ? 'aria-current="page"' : ''}><span class="sb-dot${state.done[s.id] ? ' done' : ''}"></span><span>${esc(s.title)}</span></a></li>`).join('')}
         </ul>
       </div>`;
     }).join('');
@@ -138,7 +138,7 @@
           <span class="pill">${esc(CONFIG.totalDuration)}</span>
           <span class="pill">${pct}% klaar</span>
         </div>
-        <a class="btn primary" href="#/stap/${next ? next.id : STEPS[0].id}" style="border-color:#000;background:#fff">${totalDone() ? 'Ga verder' : 'Start de training'} →</a>
+        <a class="btn primary" href="#${next ? next.id : STEPS[0].id}" style="border-color:#000;background:#fff">${totalDone() ? 'Ga verder' : 'Start de training'} →</a>
       </div>
       <div class="hero-mark">${MARK_SVG}</div>
     </section>
@@ -149,7 +149,7 @@
     <div class="cards">
       ${MODULES.map(m => {
         const d = moduleDone(m), p = Math.round(d / m.steps.length * 100);
-        return `<a class="card${isComplete(m) ? ' complete' : ''}" href="#/stap/${(m.steps.find(s => !state.done[s.id]) || m.steps[0]).id}">
+        return `<a class="card${isComplete(m) ? ' complete' : ''}" href="#${(m.steps.find(s => !state.done[s.id]) || m.steps[0]).id}">
           <span class="card-num">Module ${m.number} · ${esc(m.duration)}</span>
           <h3>${esc(m.title)}</h3>
           <p>${esc(m.intro)}</p>
@@ -165,7 +165,7 @@
       <li>Een laptop met VS Code, Node.js, Git, de PAC CLI en Claude Code (dat controleer je in module 1)</li>
       <li>Een Cegeka Claude-licentie en een GitHub-account</li>
       <li>Een Power Platform dev-omgeving met maker-rechten</li>
-      <li>De twee Cegeka skills (zie <a href="#/skills">Skills</a>) en de casevideo van Mark</li>
+      <li>De twee Cegeka skills (zie <a href="#skills">Skills</a>) en de casevideo van Mark</li>
     </ul>
     <p class="no-print"><button type="button" class="btn ghost small" id="resetBtn">Voortgang wissen</button></p>`;
   }
@@ -181,7 +181,7 @@
     const prev = STEPS[i - 1], next = STEPS[i + 1];
     const intro = step.index === 0 && m.mark ? markBubble(esc(m.mark)) : '';
     return `
-    <nav class="breadcrumb" aria-label="Kruimelpad"><a href="#/">Overzicht</a> / Module ${m.number}: ${esc(m.title)}</nav>
+    <nav class="breadcrumb" aria-label="Kruimelpad"><a href="#start">Overzicht</a> / Module ${m.number}: ${esc(m.title)}</nav>
     <h1>${esc(step.title)}</h1>
     <div class="meta">
       <span class="pill blue">Module ${m.number} · stap ${step.index + 1} van ${m.steps.length}</span>
@@ -200,11 +200,11 @@
     <details class="box help"><summary>Hulp nodig?</summary><div class="help-body"><p>${step.help}</p></div></details>
     <div class="done-row">
       <label class="done-toggle"><input type="checkbox" id="doneBox" data-step="${step.id}" ${state.done[step.id] ? 'checked' : ''}> Markeer als klaar</label>
-      ${next ? `<a class="btn primary small" href="#/stap/${next.id}" id="nextQuick">Volgende stap →</a>` : `<a class="btn primary small" href="#/certificaat">Naar je certificaat →</a>`}
+      ${next ? `<a class="btn primary small" href="#${next.id}" id="nextQuick">Volgende stap →</a>` : `<a class="btn primary small" href="#certificaat">Naar je certificaat →</a>`}
     </div>
     <div class="pager">
-      ${prev ? `<a class="btn ghost" href="#/stap/${prev.id}">← ${esc(prev.title)}</a>` : '<span></span>'}
-      ${next ? `<a class="btn" href="#/stap/${next.id}">${esc(next.title)} →</a>` : ''}
+      ${prev ? `<a class="btn ghost" href="#${prev.id}">← ${esc(prev.title)}</a>` : '<span></span>'}
+      ${next ? `<a class="btn" href="#${next.id}">${esc(next.title)} →</a>` : ''}
     </div>`;
   }
 
@@ -220,10 +220,11 @@
         <h3>Waar sla je hem op?</h3>
         <div class="path-box">.claude/skills/${esc(sk.folder)}/SKILL.md</div>
         <p style="margin-top:14px"><a class="btn primary small" href="${esc(sk.file)}" download="${esc(sk.download)}">Download ${esc(sk.download)}</a>
-        <a class="btn ghost small" href="${esc(sk.file)}" target="_blank" rel="noopener">Bekijk de inhoud</a></p>
+        <button type="button" class="btn ghost small" data-copyfile="${esc(sk.file)}">Kopieer inhoud</button></p>
+        <p style="font-size:.85rem;color:var(--grey-400);margin:0">Werkt downloaden niet in jouw browser? Kopieer de inhoud en plak die in een nieuw bestand met de naam ${esc(sk.download)}.</p>
       </article>`;
     return `
-    <nav class="breadcrumb"><a href="#/">Overzicht</a> / Skills</nav>
+    <nav class="breadcrumb"><a href="#start">Overzicht</a> / Skills</nav>
     <h1>De Cegeka skills</h1>
     <p>Een skill is een map met een <code>SKILL.md</code>-bestand: instructies en best practices die Claude automatisch gebruikt als ze relevant zijn. Met deze twee skills bouwt Claude volgens de werkwijze en standaarden van Cegeka.</p>
     ${markBubble('Zie de skills als het vakmanschap van Cegeka in een bestand. Zonder skills bouwt Claude ook, maar mét skills bouwt Claude zoals wij dat afspreken.')}
@@ -243,10 +244,10 @@
 
   function renderPrompts() {
     return `
-    <nav class="breadcrumb"><a href="#/">Overzicht</a> / Voorbeeldprompts</nav>
+    <nav class="breadcrumb"><a href="#start">Overzicht</a> / Voorbeeldprompts</nav>
     <h1>Voorbeeldprompts</h1>
     <p>Alle prompts uit de training op één plek. Kopieer, pas aan waar <code>[haken]</code> staan en plak in Copilot, Claude of Claude Code.</p>
-    <div class="toc">${PROMPTS.map(p => `<a href="#/prompts" data-jump="p-${p.id}">${esc(p.title)}</a>`).join('')}</div>
+    <div class="toc">${PROMPTS.map(p => `<a href="#prompts" data-jump="p-${p.id}">${esc(p.title)}</a>`).join('')}</div>
     ${PROMPTS.map(p => `
       <section class="prompt-entry" id="p-${p.id}">
         <h2>${esc(p.title)}</h2>
@@ -257,7 +258,7 @@
 
   function renderGlossary() {
     return `
-    <nav class="breadcrumb"><a href="#/">Overzicht</a> / Woordenlijst</nav>
+    <nav class="breadcrumb"><a href="#start">Overzicht</a> / Woordenlijst</nav>
     <h1>Woordenlijst</h1>
     <p>De begrippen die je in deze training tegenkomt.</p>
     <input type="search" class="search" id="glossSearch" placeholder="Zoek een begrip..." aria-label="Zoek in de woordenlijst">
@@ -271,7 +272,7 @@
     const left = STEPS.length - totalDone();
     const date = new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
     return `
-    <nav class="breadcrumb"><a href="#/">Overzicht</a> / Certificaat</nav>
+    <nav class="breadcrumb"><a href="#start">Overzicht</a> / Certificaat</nav>
     <h1>Certificaat</h1>
     ${all ? markBubble('Gefeliciteerd! Je hebt de Hardware Manager gebouwd. Vul je naam in en print of bewaar je certificaat als PDF.')
           : `<div class="lock-note no-print">Nog ${left} ${left === 1 ? 'stap' : 'stappen'} te gaan. Rond alle modules af om je certificaat te ontgrendelen.</div>`}
@@ -280,6 +281,7 @@
       <input id="certName" type="text" placeholder="Vul je naam in" value="${esc(state.name)}" autocomplete="name">
       <button type="button" class="btn primary" id="printBtn" ${all ? '' : 'disabled'}>Print of bewaar als PDF</button>
     </div>
+    <p class="no-print" id="printHint" hidden style="font-size:.9rem">Opent er geen printvenster? In sommige omgevingen (zoals een ingesloten preview) is printen geblokkeerd. Maak dan een screenshot van je certificaat, of open de site via GitHub Pages.</p>
     <div class="certificate${all ? '' : ' cert-locked'}" id="certificate">
       <img src="img/cegeka-logo.png" alt="Cegeka" class="cert-logo" onerror="this.remove()">
       <div class="cert-kicker">Certificaat van deelname</div>
@@ -299,12 +301,12 @@
 
   /* ---------- Router ---------- */
   function route() {
-    const hash = location.hash.replace(/^#\/?/, '');
-    const [page, id] = hash.split('/');
+    const hash = location.hash.replace(/^#\/?/, '').replace(/^stap\//, '');
+    const page = hash, id = hash;
     const main = $('#main');
     let active = 'home', stepId = null;
 
-    if (page === 'stap' && STEPS.find(s => s.id === id)) {
+    if (STEPS.find(s => s.id === id)) {
       stepId = id; active = null;
       main.innerHTML = renderStep(STEPS.find(s => s.id === id));
     } else if (page === 'skills') { active = 'skills'; main.innerHTML = renderSkills(); }
@@ -385,6 +387,16 @@
     setTimeout(() => { btn.classList.remove('copied'); btn.querySelector('span').textContent = 'Kopieer'; }, 1800);
   }
 
+  async function copyFile(btn) {
+    const label = btn.textContent;
+    try {
+      const txt = await (await fetch(btn.dataset.copyfile)).text();
+      await navigator.clipboard.writeText(txt);
+      btn.textContent = 'Gekopieerd';
+    } catch (err) { btn.textContent = 'Kopiëren lukt niet'; }
+    setTimeout(() => { btn.textContent = label; }, 1800);
+  }
+
   function openMenu() { $('#sidebar').classList.add('open'); $('#scrim').hidden = false; $('#menuBtn').setAttribute('aria-expanded', 'true'); }
   function closeMenu() { $('#sidebar').classList.remove('open'); $('#scrim').hidden = true; $('#menuBtn').setAttribute('aria-expanded', 'false'); }
 
@@ -401,9 +413,13 @@
     }
     const jump = e.target.closest('[data-jump]');
     if (jump) { e.preventDefault(); const el = document.getElementById(jump.dataset.jump); if (el) el.scrollIntoView({ behavior: 'smooth' }); return; }
-    if (e.target.id === 'printBtn') return window.print();
+    if (e.target.id === 'printBtn') { try { window.print(); } catch (err) { /* geblokkeerd */ } $('#printHint').hidden = false; return; }
+    const sc = e.target.closest('[data-copyfile]');
+    if (sc) { copyFile(sc); return; }
     if (e.target.id === 'resetBtn') {
-      if (confirm('Weet je zeker dat je al je voortgang wilt wissen?')) { state = Object.assign({}, defaults, { done: {}, badges: {}, open: {} }); save(); route(); }
+      const b = e.target;
+      if (b.dataset.armed) { state = Object.assign({}, defaults, { done: {}, badges: {}, open: {} }); save(); route(); }
+      else { b.dataset.armed = '1'; b.textContent = 'Klik nogmaals om alles te wissen'; setTimeout(() => { if (b.isConnected) { delete b.dataset.armed; b.textContent = 'Voortgang wissen'; } }, 4000); }
     }
   });
 

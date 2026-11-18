@@ -453,7 +453,7 @@ const MODULES = [
         goal: 'Je hebt een chat open waarin de building plan skill beschikbaar is.',
         do: [
           'Kies je tool: <strong>Claude</strong> (claude.ai) of <strong>Microsoft 365 Copilot</strong>.',
-          'In Claude: controleer onder <kbd>Settings</kbd> &gt; <kbd>Capabilities</kbd> &gt; <kbd>Skills</kbd> dat de building plan skill aan staat. Staat hij er niet tussen, upload dan de skill van de <a href="#/skills">Skills-pagina</a>.',
+          'In Claude: controleer onder <kbd>Settings</kbd> &gt; <kbd>Capabilities</kbd> &gt; <kbd>Skills</kbd> dat de building plan skill aan staat. Staat hij er niet tussen, upload dan de skill van de <a href="#skills">Skills-pagina</a>.',
           'In Copilot: voeg het bestand <code>cegeka-building-plan-SKILL.md</code> toe als bijlage, samen met je input.',
           'Start een nieuwe chat en voeg je input toe (transcript, notities, Work IQ-samenvatting).'
         ],
@@ -523,7 +523,7 @@ const MODULES = [
         goal: 'De bestanden die Claude nodig heeft staan in je project.',
         mark: 'Die skills zijn het vakmanschap van Cegeka. Daarmee bouwt Claude zoals jullie dat afspraken.',
         do: [
-          'Download beide skills van de <a href="#/skills">Skills-pagina</a>. Ze heten <code>cegeka-building-plan-SKILL.md</code> en <code>cegeka-building-standards-SKILL.md</code>.',
+          'Download beide skills van de <a href="#skills">Skills-pagina</a>. Ze heten <code>cegeka-building-plan-SKILL.md</code> en <code>cegeka-building-standards-SKILL.md</code>.',
           'Sleep de twee skillbestanden en je <code>building-plan.md</code> uit module 2 naar de Explorer van VS Code, in de root van <code>hardware-manager</code>.',
           'Je hoeft niets te verplaatsen of te hernoemen: dat doet Claude in de volgende stap.'
         ],
@@ -676,7 +676,7 @@ const MODULES = [
         ],
         img: { file: 'm5-s4-datamodel-tabellen.png', caption: 'De solution HardwareManager in make.powerapps.com met de nieuwe tabellen (Apparaat, Onboarding, Bestelling) en hun kolommen.' },
         check: 'Je ziet de nieuwe tabellen met prefix <code>cgk_</code> in de solution.',
-        help: 'Lukt een stap niet? Gebruik de <a href="#/prompts">fix-prompt</a> en plak de volledige foutmelding.'
+        help: 'Lukt een stap niet? Gebruik de <a href="#prompts">fix-prompt</a> en plak de volledige foutmelding.'
       },
       {
         id: 'm5-s5',
@@ -758,7 +758,7 @@ const MODULES = [
         ],
         img: { file: 'm6-s1-deploy-geslaagd.png', caption: 'Het Claude Code-paneel met de samenvatting van de deploy: gecontroleerde omgeving, ingepakte solution en geslaagde import.' },
         check: 'De import eindigt zonder fouten en <code>dist/HardwareManager.zip</code> bestaat.',
-        help: 'Mislukt de import, bijvoorbeeld door een ontbrekende afhankelijkheid? Claude ziet de fout zelf ook. Vraag: "Los deze fout op" of gebruik de <a href="#/prompts">fix-prompt</a>.'
+        help: 'Mislukt de import, bijvoorbeeld door een ontbrekende afhankelijkheid? Claude ziet de fout zelf ook. Vraag: "Los deze fout op" of gebruik de <a href="#prompts">fix-prompt</a>.'
       },
       {
         id: 'm6-s2',
@@ -837,7 +837,7 @@ const MODULES = [
           '<strong>Bonus 1, dashboard:</strong> laat Claude een dashboard maken met apparaten per status en openstaande bestellingen.',
           '<strong>Bonus 2, voorraadmelding:</strong> laat een flow een melding sturen als er minder dan drie laptops op voorraad zijn.',
           '<strong>Bonus 3, Copilot-agent voor Mark:</strong> maak in Copilot Studio een agent waaraan Mark kan vragen: "Welke apparaten heeft Sanne?"',
-          'Klaar? Haal je <a href="#/certificaat">certificaat</a> op!'
+          'Klaar? Haal je <a href="#certificaat">certificaat</a> op!'
         ],
         img: { file: 'm7-s3-bonus-dashboard.png', caption: 'Een bonusresultaat: het dashboard in de Hardware Manager-app met een grafiek van apparaten per status.' },
         check: 'Je hebt je reflectie gedeeld en weet welke bonusuitdaging je als volgende oppakt.',
