@@ -66,8 +66,8 @@
       <video controls preload="metadata" src="${esc(CONFIG.caseVideo)}" onerror="this.closest('.video').classList.add('missing')"></video>
       <div class="ph">
         <div class="play-icon"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l12 7-12 7z" fill="#000"/></svg></div>
-        <strong>Casevideo volgt</strong><code>${esc(CONFIG.caseVideo)}</code>
-        <span>Mark, de nieuwe Hardware Manager, vertelt over zijn uitdaging met hardwareregistratie, onboarding en bestellingen.</span>
+        <strong>Introvideo volgt</strong><code>${esc(CONFIG.caseVideo)}</code>
+        <span>Introductie: maak kennis met Mark, de nieuwe Hardware Manager van Cegeka.</span>
       </div>
     </div>`;
 
@@ -162,7 +162,7 @@
       <li>De voorbereiding uit de handleiding <a href="${esc(CONFIG.prepGuideUrl)}" target="_blank" rel="noopener">Aan de slag met Claude Code in VS Code</a>: licentie, VS Code, Node.js, Git, Claude Code, GitHub en een werkmap buiten OneDrive</li>
       <li>De Power Platform Tools-extensie in VS Code (module 1)</li>
       <li>Een Power Platform dev-omgeving met maker-rechten</li>
-      <li>De Cegeka skills (zie <a href="#skills">Skills</a>) en de casevideo van Mark</li>
+      <li>De Cegeka skills (zie <a href="#skills">Skills</a>) en het transcript van de intake met Mark (module 2)</li>
     </ul>
     <p class="no-print"><button type="button" class="btn ghost small" id="resetBtn">Voortgang wissen</button></p>`;
   }

@@ -1,4 +1,0 @@
-[PLACEHOLDER] Transcript van de casevideo van Mark, de Hardware Manager.
-
-Vervang deze tekst door het echte transcript (platte tekst). De site toont en kopieert automatisch wat in dit bestand staat:
-content/transcript-casevideo.txt

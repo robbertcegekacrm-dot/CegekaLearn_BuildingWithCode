@@ -17,7 +17,7 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 | | Bestand | Stap | Wat moet erop te zien zijn |
 |---|---|---|---|
 | [ ] | `img/m0-s2-eindresultaat-app.png` | Wat ga je bouwen? | De model-driven app Hardware Manager met een medewerkerformulier, daarop de gekoppelde apparaten en een bestelactiviteit in de tijdlijn. |
-| [ ] | `img/m0-s3-aanpak-plan-bouw.png` | De aanpak: eerst plannen, dan bouwen | Schema van de aanpak: input (video, notities, Work IQ), bouwplan, review met klant, bouwen met Claude Code en skills, testen. |
+| [ ] | `img/m0-s3-aanpak-plan-bouw.png` | De aanpak: eerst plannen, dan bouwen | Schema van de aanpak: input (transcript, notities, Work IQ), bouwplan, review met klant, bouwen met Claude Code en skills, testen. |
 
 ## Module 1 – Voorbereiding
 
@@ -30,8 +30,7 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 
 | | Bestand | Stap | Wat moet erop te zien zijn |
 |---|---|---|---|
-| [ ] | `img/m2-s1-input-verzamelen.png` | Verzamel je input | Een map met het transcript van de casevideo, een notitiebestand en de Work IQ-samenvatting. |
-| [ ] | `img/m2-s2-chat-met-input.png` | Open Copilot of Claude chat | Een nieuwe chat in Claude of Copilot met de geplakte building plan skill in het berichtveld en het transcript en de notities als bijlagen. |
+| [ ] | `img/m2-s2-chat-met-input.png` | Open Copilot of Claude chat | Een nieuwe chat in Claude of Copilot met de geplakte building plan skill en het transcript in het berichtveld. |
 | [ ] | `img/m2-s3-bouwplan-resultaat.png` | Voer de bouwplan-prompt uit | Het gegenereerde bouwplan in de chat met de elf hoofdstukken, met het datamodel als tabel zichtbaar. |
 | [ ] | `img/m2-s4-plan-kopieren.png` | Review het plan en kopieer het | Het definitieve bouwplan in de chat, met de kopieerknop van het Markdown-blok gemarkeerd. |
 
@@ -83,7 +82,7 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 
 ---
 
-Totaal: 30 screenshots, 1 logo en 1 video.
+Totaal: 29 screenshots, 1 logo en 1 video.
 
 **Tips**
 

@@ -1,0 +1,115 @@
+Transcript: Intake Hardware Manager
+Fictief overleg voor de training "Agentic bouwen in het Power Platform"
+Datum: dinsdag 10 november 2026, 10:00 tot 10:35, Microsoft Teams (opname)
+Deelnemers:
+- Mark Jansen, Hardware Manager Cegeka Nederland
+- Lotte Bakker, Power Platform consultant Cegeka
+- Ahmed El Idrissi, servicedesk medewerker
+
+[00:00:12] Lotte Bakker: Goedemorgen allemaal. Dank dat jullie tijd hebben. Mark, je bent sinds kort de nieuwe Hardware Manager. Zullen we beginnen met waar je nu tegenaan loopt?
+
+[00:00:24] Mark Jansen: Ja, graag. Kort gezegd: ik weet niet goed wie welk apparaat heeft. We hebben een Excel-lijst die ik van mijn voorganger heb overgenomen, maar die klopt niet meer. Er staan laptops in van mensen die al een jaar weg zijn, en nieuwe collega's staan er niet in.
+
+[00:00:45] Lotte Bakker: Over welke apparaten hebben we het?
+
+[00:00:49] Mark Jansen: Vooral laptops. Daarnaast telefoons en monitoren. Headsets en docking stations ook, maar die vind ik minder belangrijk. Als het systeem straks laptops, telefoons en monitoren goed doet, ben ik al heel blij.
+
+[00:01:08] Ahmed El Idrissi: Bij de servicedesk krijgen we regelmatig de vraag welke laptop iemand heeft, bijvoorbeeld bij een storing. Dan zoeken we in die Excel en vaak klopt het niet.
+
+[00:01:20] Lotte Bakker: Wat wil je per apparaat vastleggen?
+
+[00:01:24] Mark Jansen: Het type, dus laptop, telefoon of monitor. Merk en model. Het serienummer, dat is echt belangrijk, dat is uniek. De aanschafdatum en wanneer de garantie afloopt. En natuurlijk bij wie het apparaat is.
+
+[00:01:42] Lotte Bakker: En de status van een apparaat? Zoals op voorraad of in gebruik?
+
+[00:01:47] Mark Jansen: Ja, precies. Ik denk aan: op voorraad, in gebruik, in reparatie, en afgeschreven. Afgeschreven betekent dat het weg is, kapot of ingeleverd bij de recycler. Die wil ik niet meer zien in mijn normale lijsten, maar wel terug kunnen vinden.
+
+[00:02:05] Lotte Bakker: Helder. Dan de medewerkers. Hebben jullie daar al een bron voor?
+
+[00:02:10] Ahmed El Idrissi: Er is geen koppeling met het HR-systeem op dit moment. Dat komt misschien later.
+
+[00:02:16] Mark Jansen: Voor nu is het prima als we medewerkers zelf vastleggen. Naam, e-mailadres, afdeling en wie hun manager is. Dat laatste is belangrijk voor de onboarding, daar kom ik zo op.
+
+[00:02:29] Lotte Bakker: Kan één medewerker meerdere apparaten hebben?
+
+[00:02:33] Mark Jansen: Zeker. Iemand heeft vaak een laptop, een telefoon en soms twee monitoren. Maar een apparaat is altijd van maar één persoon tegelijk. Of van niemand, als het op voorraad ligt.
+
+[00:02:46] Lotte Bakker: En als een medewerker uit dienst gaat?
+
+[00:02:50] Mark Jansen: Dan moeten de apparaten terug naar voorraad. Ze mogen in ieder geval niet verdwijnen uit het systeem. Ik wil de medewerker dan op uit dienst kunnen zetten en zien welke apparaten nog ingeleverd moeten worden.
+
+[00:03:05] Lotte Bakker: Goed punt. Dan de onboarding. Hoe gaat dat nu?
+
+[00:03:10] Mark Jansen: Dat is eigenlijk mijn grootste ergernis. Een manager mailt me een paar dagen voor de startdatum: "Er begint maandag iemand, kun je een laptop regelen?" Dan moet ik nog vragen welk type, of er een telefoon bij moet, en dan is het vaak al te laat om te bestellen.
+
+[00:03:30] Lotte Bakker: Hoe zou je het willen?
+
+[00:03:33] Mark Jansen: Ik wil dat er een onboarding wordt aangemaakt zodra we weten dat iemand begint. Met de nieuwe medewerker, de startdatum en de manager. Dan moet de manager automatisch een verzoek krijgen om een apparaat te kiezen. Uit een vaste lijst, niet vrij invullen.
+
+[00:03:50] Lotte Bakker: Wat voor lijst?
+
+[00:03:53] Mark Jansen: We hebben drie standaardpakketten. Standaard laptop, dat is voor de meeste mensen. Developer laptop, met meer geheugen. En een lichte laptop voor mensen die veel onderweg zijn. Een telefoon kan de manager er los bij aanvinken.
+
+[00:04:10] Lotte Bakker: En wie maakt die onboarding aan?
+
+[00:04:13] Mark Jansen: Voorlopig ik of iemand van mijn team. Later misschien HR, maar dat is niet voor nu.
+
+[00:04:20] Lotte Bakker: Wat gebeurt er als de manager een keuze heeft gemaakt?
+
+[00:04:24] Mark Jansen: Dan wil ik dat er automatisch een bestelling klaarstaat. Gekoppeld aan de onboarding en aan de nieuwe medewerker, zodat ik niet alles opnieuw hoef over te typen. Ik bestel nu bij onze leverancier via hun portaal, dat blijft zo. Ik hoef dus geen koppeling met de leverancier, maar ik wil wel in ons systeem de bestelling bijhouden.
+
+[00:04:45] Lotte Bakker: Welke statussen heeft een bestelling?
+
+[00:04:48] Mark Jansen: Aangevraagd, besteld, geleverd. En geannuleerd, want dat gebeurt soms als iemand toch niet begint.
+
+[00:04:57] Lotte Bakker: En de onboarding zelf, welke stappen doorloopt die?
+
+[00:05:01] Mark Jansen: Nieuw, dan wacht op keuze manager, dan besteld, en dan afgerond als de medewerker zijn apparaat heeft. Het zou mooi zijn als de onboarding vanzelf op besteld gaat als de bestelling is aangemaakt.
+
+[00:05:15] Ahmed El Idrissi: Mag ik iets toevoegen? Het zou fijn zijn als we bij een bestelling kunnen zien wat er allemaal gebeurd is. Wie wat wanneer heeft gedaan. Nu zit dat in losse mailtjes.
+
+[00:05:26] Mark Jansen: Ja, dat wil ik ook. Bij elke bestelling een soort logboek. Dus een bestelactiviteit: wanneer aangevraagd, wanneer besteld, welke leverancier, verwachte leverdatum. Het liefst in de tijdlijn, zoals je dat ook bij klanten in het CRM ziet. En dan ook bij de medewerker, zodat je daar alles bij elkaar ziet.
+
+[00:05:44] Lotte Bakker: Duidelijk. Wie gaan er met de oplossing werken?
+
+[00:05:48] Mark Jansen: Ik en mijn team, dat zijn nu drie mensen. Wij moeten alles kunnen: apparaten, medewerkers, onboardings en bestellingen. De managers moeten alleen hun keuze kunnen maken voor hun eigen nieuwe medewerkers. Ze hoeven niet alle apparaten van iedereen te zien.
+
+[00:06:05] Ahmed El Idrissi: En de servicedesk wil kunnen opzoeken welke apparaten iemand heeft. Alleen lezen is genoeg.
+
+[00:06:11] Lotte Bakker: Hoe gaan de managers die keuze maken? In een app of via een melding?
+
+[00:06:16] Mark Jansen: Dat maakt me eerlijk gezegd niet zoveel uit, zolang het simpel is. Een taak of goedkeuring in Teams of Outlook vind ik prima. Ze moeten er geen nieuwe applicatie voor hoeven te leren.
+
+[00:06:28] Lotte Bakker: Dan de app voor jou en je team. Wat wil je zien als je hem opent?
+
+[00:06:33] Mark Jansen: Een overzicht. Hoeveel apparaten er in gebruik zijn, hoeveel er op voorraad liggen, hoeveel onboardings er lopen en hoeveel bestellingen nog openstaan. En vooral: wat aandacht nodig heeft. Onboardings waar de manager nog niks gekozen heeft terwijl de startdatum dichtbij is, en bestellingen die nog niet geleverd zijn.
+
+[00:06:55] Lotte Bakker: Hoe dichtbij is dichtbij?
+
+[00:06:58] Mark Jansen: Binnen tien werkdagen. Dan moet ik echt gaan bellen.
+
+[00:07:03] Lotte Bakker: En verder in de app?
+
+[00:07:06] Mark Jansen: Gewoon lijsten. Alle apparaten, met filters op type en status. Mijn eigen lijstje met apparaten in reparatie. Medewerkers met hun apparaten. En op het scherm van een medewerker wil ik in één keer zien: welke apparaten heeft deze persoon, welke onboarding, welke bestellingen.
+
+[00:07:25] Ahmed El Idrissi: Kunnen we ook zien wanneer garanties aflopen?
+
+[00:07:28] Mark Jansen: Goed idee, een lijst met apparaten waarvan de garantie binnen drie maanden afloopt. Maar dat is een nice to have.
+
+[00:07:36] Lotte Bakker: Is er iets wat expliciet niet in de eerste versie hoeft?
+
+[00:07:40] Mark Jansen: Geen koppeling met de leverancier, geen koppeling met HR en niets met afschrijvingen of financiën, dat doet finance in hun eigen systeem. Ook geen app voor de medewerkers zelf. Misschien later dat ze een defect kunnen melden, maar niet nu.
+
+[00:07:56] Lotte Bakker: Hoe weet je straks dat het werkt?
+
+[00:07:59] Mark Jansen: Als ik dit kan doen zonder Excel en zonder mailtjes: ik registreer een nieuwe laptop met serienummer, ik koppel hem aan een medewerker en zie hem terug op die medewerker. Ik maak een onboarding aan voor iemand die over twee weken begint, de manager krijgt automatisch het verzoek, kiest een standaard laptop, en dan staat er een bestelling klaar met een activiteit in de tijdlijn. En op mijn startscherm zie ik dat allemaal terug.
+
+[00:08:24] Lotte Bakker: Mooi, dat is een helder scenario. Nog een paar vragen die ik nu nog niet kan beantwoorden: moet een manager ook zelf een onboarding kunnen starten? En wat gebeurt er als een manager niet binnen een paar dagen kiest?
+
+[00:08:38] Mark Jansen: Goede vragen. Daar wil ik even over nadenken. Misschien een herinnering na drie dagen, maar dat weet ik nog niet zeker.
+
+[00:08:46] Lotte Bakker: Dan zet ik die als open vragen in het bouwplan. Ik werk alles uit in een bouwplan en dat lopen we samen door voordat we iets bouwen.
+
+[00:08:54] Mark Jansen: Perfect. Graag in gewone taal, ik ben geen developer.
+
+[00:08:58] Lotte Bakker: Afgesproken. Dank jullie wel.

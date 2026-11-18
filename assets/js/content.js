@@ -14,7 +14,7 @@ const CONFIG = {
   repoName: 'hardware-manager',
   prepGuideUrl: 'https://cegekagroup-my.sharepoint.com/:w:/g/personal/daan_degraaff_cegeka_com/IQBshG45kfB5RpKY2jZrgvwVAQN4xo6hzj7-HWJvicc_UtA?e=g1doad',
   caseVideo: 'video/hardware-manager-case.mp4',
-  transcript: { file: 'content/transcript-casevideo.txt', name: 'Transcript casevideo' },
+  transcript: { file: 'content/transcript-overleg-mark.txt', name: 'Transcript intake met Mark' },
   skills: {
     plan: {
       folder: 'cegeka-building-plan',
@@ -58,8 +58,8 @@ Pas niets aan. Ontbreekt er iets, vertel me dan in één zin wat ik moet doen.`,
 
 Maak op basis van de bijgevoegde input het bouwplan voor de oplossing "Hardware Manager".
 Input:
-- transcript van de casevideo van Mark (Hardware Manager), hieronder geplakt
-- mijn eigen notities
+- transcript van de intake met Mark (Hardware Manager), hieronder geplakt
+- mijn eigen notities (indien aanwezig)
 - samenvatting uit Work IQ (indien beschikbaar)
 
 Zet het hele plan in één Markdown-blok, zodat ik het kan opslaan als building-plan.md.`,
@@ -301,22 +301,21 @@ const MODULES = [
     duration: '5 min',
     badge: 'Kick-off',
     intro: 'Maak kennis met Mark, de nieuwe Hardware Manager van Cegeka, ontdek wat je vandaag bouwt en hoe, en zorg dat je de voorbereiding uit de handleiding hebt gedaan.',
-    tip: 'Bekijk eerst de casevideo. Alles wat je vandaag bouwt, begint bij de vraag van de klant.',
+    tip: 'Alles wat je vandaag bouwt, begint bij de vraag van de klant.',
     steps: [
       {
         id: 'm0-s1',
-        title: 'Bekijk de casevideo van Mark',
-        goal: 'Je begrijpt de vraag van de klant voordat je iets gaat bouwen.',
-        tip: 'Noteer tijdens het kijken de woorden die de klant zelf gebruikt. Die namen komen straks terug in je tabellen en statussen.',
+        title: 'Bekijk de introvideo',
+        goal: 'Je weet wie Mark is en waar de training over gaat.',
+        tip: 'De video is de introductie. De wensen van Mark staan in het transcript van de intake, dat je in module 2 als input voor je bouwplan gebruikt.',
         video: true,
         do: [
-          'Start de video hieronder en kijk hem helemaal uit.',
-          'Noteer de wensen die je hoort, bijvoorbeeld: hardware registreren, apparaten koppelen aan medewerkers, onboarding, bestellen.',
-          'Schrijf ook op wat je níet hoort maar wel wilt weten. Dat zijn je open vragen voor later.'
+          'Start de video hieronder en maak kennis met Mark, de nieuwe Hardware Manager van Cegeka.',
+          'Mark heeft al een intakeoverleg gehad met een Cegeka-consultant. Het transcript daarvan gebruik je in module 2 om het bouwplan te maken.'
         ],
         img: null,
         check: 'Je hebt minstens vier wensen en twee open vragen genoteerd.',
-        help: 'Speelt de video niet af? Vraag de trainer om het transcript. Dat heb je in module 2 toch nodig.'
+        help: 'Speelt de video niet af? Geen probleem: alles wat je nodig hebt, staat in het transcript in module 2.'
       },
       {
         id: 'm0-s2',
@@ -337,13 +336,13 @@ const MODULES = [
         goal: 'Je kent de werkwijze van de training.',
         tip: 'Een goed plan is sneller dan een snelle app die niet doet wat de klant vroeg.',
         do: [
-          '<strong>Plan eerst.</strong> Je maakt met Copilot of Claude een bouwplan op basis van de casevideo, en controleert dat plan zoals je dat met een klant zou doen.',
+          '<strong>Plan eerst.</strong> Je maakt met Copilot of Claude een bouwplan op basis van het transcript van de intake met Mark, en controleert dat plan zoals je dat met een klant zou doen.',
           '<strong>Bouw daarna.</strong> Claude Code bouwt de oplossing stap voor stap in Dataverse, met de building standards skill als vakmanschap en het bouwplan als opdracht.',
           '<strong>Jij houdt de regie.</strong> Na elke stap review je het resultaat en laat je Claude een commit maken.',
           '<strong>Je bouwt vanuit een gesprek.</strong> Je typt geen commando\'s: je vraagt Claude wat je wilt, Claude stelt de acties voor en jij keurt ze goed. De building standards skill beschrijft hoe Claude het doet.',
           'De training bestaat uit 8 modules. Vink elke stap af met <em>Markeer als klaar</em>; je voortgang wordt in deze browser bewaard.'
         ],
-        img: { file: 'm0-s3-aanpak-plan-bouw.png', caption: 'Schema van de aanpak: input (video, notities, Work IQ), bouwplan, review met klant, bouwen met Claude Code en skills, testen.' },
+        img: { file: 'm0-s3-aanpak-plan-bouw.png', caption: 'Schema van de aanpak: input (transcript, notities, Work IQ), bouwplan, review met klant, bouwen met Claude Code en skills, testen.' },
         check: 'Je weet waarom het bouwplan vóór het bouwen komt.',
         help: 'Je kunt de training op elk moment onderbreken. Je voortgang blijft bewaard zolang je dezelfde browser gebruikt.'
       },
@@ -422,14 +421,14 @@ const MODULES = [
         title: 'Verzamel je input',
         goal: 'Je hebt alle bronnen voor het bouwplan bij elkaar.',
         do: [
-          { text: 'Kopieer het <strong>transcript van de casevideo</strong> van Mark. Je plakt het in de volgende stap in de chat.', copyfile: 'transcript', view: true },
-          'Pak je <strong>notities</strong> uit module 0 erbij: wensen en open vragen.',
+          'Lees het <strong>transcript van de intake</strong> met Mark: een opgenomen Teams-overleg waarin hij zijn probleem en wensen bespreekt met consultant Lotte en Ahmed van de servicedesk.',
+          { text: 'Kopieer het transcript. Je plakt het in de volgende stap in de chat.', copyfile: 'transcript', view: true },
+          'Optioneel: schrijf je eigen notities en vragen erbij.',
           'Optioneel: vraag in Microsoft 365 Copilot via <strong>Work IQ</strong> naar relevante mails, chats of documenten over hardwarebeheer en onboarding, en kopieer de samenvatting.',
-          'Zet alles in één map of in één document, zodat je het straks in één keer kunt toevoegen.'
-        ],
-        img: { file: 'm2-s1-input-verzamelen.png', caption: 'Een map met het transcript van de casevideo, een notitiebestand en de Work IQ-samenvatting.' },
-        check: 'Je hebt minstens het transcript en je eigen notities klaarstaan.',
-        help: 'Geen Work IQ beschikbaar? Geen probleem: het transcript en je notities zijn genoeg voor deze training.'
+                  ],
+        img: null,
+        check: 'Je hebt het transcript gelezen en gekopieerd, en weet wat Mark belangrijk vindt.',
+        help: 'Geen Work IQ beschikbaar? Geen probleem: het transcript is genoeg voor deze training.'
       },
       {
         id: 'm2-s2',
@@ -438,9 +437,9 @@ const MODULES = [
         do: [
           'Open <strong>Claude</strong> (claude.ai) of <strong>Microsoft 365 Copilot</strong> en start een nieuwe chat.',
           { text: 'Kopieer de building plan skill en plak hem in het berichtveld:', copyfile: 'plan' },
-          'Voeg je input toe als bijlage of plak hem eronder: transcript, notities en eventueel de Work IQ-samenvatting. Verstuur nog niets.'
+          'Plak het transcript eronder, met eventueel je eigen notities en de Work IQ-samenvatting. Verstuur nog niets.'
         ],
-        img: { file: 'm2-s2-chat-met-input.png', caption: 'Een nieuwe chat in Claude of Copilot met de geplakte building plan skill in het berichtveld en het transcript en de notities als bijlagen.' },
+        img: { file: 'm2-s2-chat-met-input.png', caption: 'Een nieuwe chat in Claude of Copilot met de geplakte building plan skill en het transcript in het berichtveld.' },
         check: 'De skill en je input staan in het berichtveld en zijn nog niet verstuurd.',
         help: 'Is het bericht te lang voor Copilot? Verstuur de skill dan eerst met de zin "Gebruik deze instructies voor mijn volgende vraag." en stuur daarna je input met de prompt.'
       },
@@ -738,7 +737,7 @@ const MODULES = [
     badge: 'Live',
     certLabel: 'De oplossing deployen en testen',
     intro: 'Pak de solution in, importeer hem via de PAC CLI en test het scenario van Mark van begin tot eind.',
-    tip: 'Test met het scenario uit de casevideo: dan weet je of de oplossing doet wat de klant vroeg.',
+    tip: 'Test met het scenario dat Mark in de intake beschreef: dan weet je of de oplossing doet wat de klant vroeg.',
     steps: [
       {
         id: 'm6-s1',
