@@ -32,6 +32,37 @@ const CONFIG = {
 };
 
 /* -------------------------------------------------------------------------
+   Trainingen op de startpagina. Alleen de actieve training heeft een link.
+   ------------------------------------------------------------------------- */
+const TRAININGS = [
+  {
+    title: 'Agentic bouwen in het Power Platform',
+    subtitle: 'Dataverse en model-driven apps',
+    description: 'Bouw de Hardware Manager voor Mark: van intake en bouwplan tot datamodel, app, flows en startpagina, gebouwd door een coding agent.',
+    tags: ['Dataverse', 'Model-driven app', 'Cloud flows', 'Claude Code'],
+    icon: 'database',
+    href: '#start',
+    active: true
+  },
+  {
+    title: 'Canvas apps bouwen met een coding agent',
+    subtitle: 'Canvas apps',
+    description: 'Laat een coding agent een canvas app voor eindgebruikers ontwerpen en bouwen, met de Cegeka-standaarden als basis.',
+    tags: ['Canvas app', 'Power Fx', 'Claude Code'],
+    icon: 'phone',
+    active: false
+  },
+  {
+    title: 'Power Pages bouwen met een coding agent',
+    subtitle: 'Power Pages',
+    description: 'Bouw een portaal voor klanten of partners in Power Pages, van bouwplan tot gepubliceerde site.',
+    tags: ['Power Pages', 'Portaal', 'Claude Code'],
+    icon: 'globe',
+    active: false
+  }
+];
+
+/* -------------------------------------------------------------------------
    Prompts. Worden inline in stappen getoond (via prompt: 'id') en
    allemaal samen op de pagina Voorbeeldprompts.
    ------------------------------------------------------------------------- */

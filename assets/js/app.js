@@ -88,7 +88,7 @@
   /* ---------- Sidebar ---------- */
   function renderSidebar(activeStepId, activePage) {
     const activeModule = activeStepId ? STEPS.find(s => s.id === activeStepId).module.id : null;
-    const links = [['home', '#start', 'Overzicht'], ['skills', '#skills', 'Skills'], ['prompts', '#prompts', 'Voorbeeldprompts'], ['woordenlijst', '#woordenlijst', 'Woordenlijst'], ['certificaat', '#certificaat', 'Certificaat']];
+    const links = [['trainingen', '#trainingen', 'Alle trainingen'], ['home', '#start', 'Overzicht'], ['skills', '#skills', 'Skills'], ['prompts', '#prompts', 'Voorbeeldprompts'], ['woordenlijst', '#woordenlijst', 'Woordenlijst'], ['certificaat', '#certificaat', 'Certificaat']];
     let html = `<ul class="sb-links">${links.map(([k, h, t]) => `<li><a href="${h}" class="${activePage === k ? 'active' : ''}">${t}</a></li>`).join('')}</ul>`;
     html += MODULES.map(m => {
       const open = m.id === activeModule || state.open[m.id];
@@ -392,6 +392,48 @@ ${m.info ? '' : `    <div class="done-row">
     btn.disabled = false; btn.textContent = label;
   }
 
+  /* ---------- Startpagina met trainingen ---------- */
+  const ICONS = {
+    database: '<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><ellipse cx="12" cy="5.5" rx="7.5" ry="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.5 5.5v13c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3v-13M4.5 12c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>',
+    phone: '<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 18.5h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+    globe: '<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>'
+  };
+
+  function renderLanding() {
+    const pct = Math.round(totalDone() / COUNTED.length * 100);
+    return `
+    <section class="landing-hero">
+      <div class="landing-hero-inner">
+        <span class="landing-kicker">Cegeka trainingen</span>
+        <h1><span class="grad">Agentic bouwen</span> in het Power Platform</h1>
+        <p>Leer stap voor stap hoe je met een coding agent oplossingen bouwt in het Power Platform: van intake en bouwplan tot een werkende, geteste oplossing.</p>
+        <a class="btn primary" href="#start">Start met de eerste training →</a>
+      </div>
+    </section>
+    <section class="landing-body">
+      <h2>Kies je training</h2>
+      <p class="landing-intro">Elke training volgt dezelfde aanpak: plan eerst, bouw daarna, en jij houdt de regie.</p>
+      <div class="training-grid">
+        ${TRAININGS.map(t => {
+          const inner = `
+            <div class="training-icon">${ICONS[t.icon] || ''}</div>
+            <span class="training-sub">${esc(t.subtitle)}</span>
+            <h3>${esc(t.title)}</h3>
+            <p>${esc(t.description)}</p>
+            <div class="training-tags">${t.tags.map(g => `<span>${esc(g)}</span>`).join('')}</div>
+            ${t.active
+              ? `<div class="training-progress"><div class="card-bar"><span style="width:${pct}%"></span></div><span>${pct}% klaar</span></div>
+                 <span class="btn primary small training-cta">${totalDone() ? 'Ga verder' : 'Start training'} →</span>`
+              : '<span class="training-soon">Binnenkort beschikbaar</span>'}`;
+          return t.active
+            ? `<a class="training-card" href="${esc(t.href)}"><span class="pill green training-status">Beschikbaar</span>${inner}</a>`
+            : `<div class="training-card soon" aria-disabled="true"><span class="pill training-status">Binnenkort</span>${inner}</div>`;
+        }).join('')}
+      </div>
+      <p class="landing-tagline">shaping digital together</p>
+    </section>`;
+  }
+
   /* ---------- Router ---------- */
   function route() {
     const hash = location.hash.replace(/^#\/?/, '').replace(/^stap\//, '');
@@ -406,7 +448,11 @@ ${m.info ? '' : `    <div class="done-row">
     else if (page === 'prompts') { active = 'prompts'; main.innerHTML = renderPrompts(); }
     else if (page === 'woordenlijst') { active = 'woordenlijst'; main.innerHTML = renderGlossary(); }
     else if (page === 'certificaat') { active = 'certificaat'; main.innerHTML = renderCert(); }
-    else { main.innerHTML = renderHome(); }
+    else if (page === 'start') { main.innerHTML = renderHome(); }
+    else { active = 'trainingen'; main.innerHTML = renderLanding(); }
+    const landing = active === 'trainingen';
+    document.body.classList.toggle('landing', landing);
+    $('#brandTitle').textContent = landing ? 'Trainingen' : CONFIG.title;
 
     document.querySelectorAll('[data-skillsrc]').forEach(async el => {
       const f = el.dataset.skillsrc;
@@ -419,7 +465,7 @@ ${m.info ? '' : `    <div class="done-row">
     window.scrollTo(0, 0);
     main.focus({ preventScroll: true });
     const t = stepId ? STEPS.find(s => s.id === stepId).title : ({ skills: 'Skills', prompts: 'Voorbeeldprompts', woordenlijst: 'Woordenlijst', certificaat: 'Certificaat' }[active] || 'Overzicht');
-    document.title = `${t} | ${CONFIG.title}`;
+    document.title = landing ? 'Cegeka trainingen | Agentic bouwen in het Power Platform' : `${t} | ${CONFIG.title}`;
   }
 
   /* ---------- Interactie ---------- */
