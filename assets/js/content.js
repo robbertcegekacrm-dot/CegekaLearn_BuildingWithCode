@@ -1,11 +1,11 @@
 /* =========================================================================
-   Inhoud van de training "Bouwen met Claude Code in Dataverse".
+   Inhoud van de training "Agentic bouwen in het Power Platform".
    Alle teksten, prompts, stappen en screenshots staan in dit bestand.
    Aanpassen = dit bestand bewerken; app.js hoeft niet te veranderen.
    ========================================================================= */
 
 const CONFIG = {
-  title: 'Bouwen met Claude Code in Dataverse',
+  title: 'Agentic bouwen in het Power Platform',
   storageKey: 'cegeka-ccd-training-v1',
   totalDuration: 'circa 1 uur',
   solutionName: 'HardwareManager',
@@ -41,7 +41,7 @@ const PROMPTS = [
     where: 'Claude Code',
     module: 1,
     text:
-`Controleer of mijn laptop klaar is voor de training "Bouwen met Claude Code in Dataverse":
+`Controleer of mijn laptop klaar is voor de training "Agentic bouwen in het Power Platform":
 - Node.js (versie 18 of hoger), Git en de Power Platform CLI (pac): geef per onderdeel de versie
 - Git: staan mijn naam en e-mailadres ingesteld? Laat zien wat er staat.
 Pas niets aan. Ontbreekt er iets, vertel me dan in één zin wat ik moet doen.`,

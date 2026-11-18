@@ -1,4 +1,4 @@
-# Bouwen met Claude Code in Dataverse
+# Agentic bouwen in het Power Platform
 
 Responsive trainingswebsite (Nederlands) in Microsoft Learn-stijl en Cegeka-huisstijl. Deelnemers bouwen de **Hardware Manager**-case in Dataverse met VS Code, Claude Code, GitHub en de PAC CLI.
 
