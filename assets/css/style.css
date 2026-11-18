@@ -348,3 +348,7 @@ dl.glossary dd { margin: 0; }
 .hero-icon { width: 120px; height: auto; }
 .cert-tagline { font-weight: 700; color: var(--cg-blue-700); }
 @media (max-width: 900px) { .hero-icon { display: none; } }
+
+.skill-view { margin-top: 12px; }
+.skill-view summary { cursor: pointer; font-weight: 700; color: var(--cg-blue-700); padding: 4px 0; }
+.skill-view .code pre { max-height: 520px; overflow: auto; white-space: pre-wrap; }

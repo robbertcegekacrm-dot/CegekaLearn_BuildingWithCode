@@ -17,6 +17,7 @@
   /* ---------- Afgeleide data ---------- */
   const STEPS = [];
   MODULES.forEach(m => m.steps.forEach((s, i) => STEPS.push(Object.assign({}, s, { module: m, index: i }))));
+  const FILE_CACHE = {};
   const PROMPT = Object.fromEntries(PROMPTS.map(p => [p.id, p]));
   const moduleDone = m => m.steps.filter(s => state.done[s.id]).length;
   const isComplete = m => moduleDone(m) === m.steps.length;
@@ -203,6 +204,10 @@
         <h3>Waar zet je hem?</h3>
         ${where}
         <p style="margin-top:14px"><button type="button" class="btn primary small" data-copyfile="${esc(sk.file)}">${COPY_ICON} Kopieer de skill</button></p>
+        <details class="skill-view">
+          <summary>Bekijk de skill</summary>
+          <div class="code"><div class="code-head"><span>SKILL.md</span>${copyBtn('skill')}</div><pre><code data-skillsrc="${esc(sk.file)}">Laden...</code></pre></div>
+        </details>
       </article>`;
     return `
     <nav class="breadcrumb"><a href="#start">Overzicht</a> / Skills</nav>
@@ -298,6 +303,11 @@
     else if (page === 'certificaat') { active = 'certificaat'; main.innerHTML = renderCert(); }
     else { main.innerHTML = renderHome(); }
 
+    document.querySelectorAll('[data-skillsrc]').forEach(async el => {
+      const f = el.dataset.skillsrc;
+      try { el.textContent = FILE_CACHE[f] || (FILE_CACHE[f] = await (await fetch(f)).text()); }
+      catch (err) { el.textContent = 'De skill kon niet worden geladen.'; }
+    });
     renderSidebar(stepId, active);
     updateProgress();
     closeMenu();
@@ -370,7 +380,6 @@
     setTimeout(() => { btn.classList.remove('copied'); btn.querySelector('span').textContent = 'Kopieer'; }, 1800);
   }
 
-  const FILE_CACHE = {};
   Object.values(CONFIG.skills).forEach(sk => fetch(sk.file).then(r => r.ok ? r.text() : null).then(t => { if (t) FILE_CACHE[sk.file] = t; }).catch(() => {}));
 
   async function copyFile(btn) {
