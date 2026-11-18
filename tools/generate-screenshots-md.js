@@ -12,7 +12,7 @@ let md = `# Screenshots en media checklist\n\nZet elk bestand in de map \`img/\`
 md += `## Algemeen\n\n| | Bestand | Wat moet erop te zien zijn |\n|---|---|---|\n`;
 md += `| ${box('img/cegeka-logo.png')} | \`img/cegeka-logo.png\` | Officieel Cegeka-logo (gekleurde versie) voor de header en het certificaat. Favicon: \`img/cegeka-icon.png\`. |\n`;
 md += `| ${box(CONFIG.caseVideo)} | \`${CONFIG.caseVideo}\` | De casevideo van Mark, de Hardware Manager (MP4, H.264). Module 0, stap 1. |\n`;
-md += `| ${box('img/skills-mappenstructuur.png')} | \`img/skills-mappenstructuur.png\` | Skills-pagina: de Explorer in VS Code met .claude/skills en daarin de mappen ${CONFIG.skills.plan.folder} en ${CONFIG.skills.standards.folder}, elk met een SKILL.md. |\n\n`;
+md += `| ${box('img/skills-mappenstructuur.png')} | \`img/skills-mappenstructuur.png\` | Skills-pagina: de Explorer in VS Code met .claude/skills/${CONFIG.skills.standards.folder}/SKILL.md. |\n\n`;
 let n = 0;
 for (const m of MODULES) {
   md += `## Module ${m.number} – ${m.title}\n\n| | Bestand | Stap | Wat moet erop te zien zijn |\n|---|---|---|---|\n`;

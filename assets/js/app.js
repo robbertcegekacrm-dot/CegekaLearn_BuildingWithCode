@@ -164,7 +164,7 @@
       <li>De voorbereiding uit de handleiding <a href="${esc(CONFIG.prepGuideUrl)}" target="_blank" rel="noopener">Aan de slag met Claude Code in VS Code</a>: licentie, VS Code, Node.js, Git, Claude Code, GitHub en een werkmap buiten OneDrive</li>
       <li>De Power Platform Tools-extensie in VS Code (module 1)</li>
       <li>Een Power Platform dev-omgeving met maker-rechten</li>
-      <li>De twee Cegeka skills (zie <a href="#skills">Skills</a>) en de casevideo van Mark</li>
+      <li>De Cegeka skills (zie <a href="#skills">Skills</a>) en de casevideo van Mark</li>
     </ul>
     <p class="no-print"><button type="button" class="btn ghost small" id="resetBtn">Voortgang wissen</button></p>`;
   }
@@ -208,15 +208,15 @@
 
   function renderSkills() {
     const s = CONFIG.skills;
-    const card = (sk, desc, uses, modules) => `
+    const card = (sk, desc, uses, modules, where) => `
       <article class="skill-card">
         <h2>${esc(sk.name)}</h2>
         <div class="skill-uses">${modules.map(m => `<span class="pill purple">Module ${m}</span>`).join('')}</div>
         <p>${desc}</p>
         <h3>Wanneer gebruik je hem?</h3>
         <ul>${uses.map(u => `<li>${u}</li>`).join('')}</ul>
-        <h3>Waar sla je hem op?</h3>
-        <div class="path-box">.claude/skills/${esc(sk.folder)}/SKILL.md</div>
+        <h3>Waar zet je hem?</h3>
+        ${where}
         <p style="margin-top:14px"><a class="btn primary small" href="${esc(sk.file)}" download="${esc(sk.download)}">Download ${esc(sk.download)}</a>
         <button type="button" class="btn ghost small" data-copyfile="${esc(sk.file)}">Kopieer inhoud</button></p>
         <p style="font-size:.85rem;color:var(--grey-400);margin:0">Werkt downloaden niet in jouw browser? Kopieer de inhoud en plak die in een nieuw bestand met de naam ${esc(sk.download)}.</p>
@@ -224,20 +224,22 @@
     return `
     <nav class="breadcrumb"><a href="#start">Overzicht</a> / Skills</nav>
     <h1>De Cegeka skills</h1>
-    <p>Een skill is een map met een <code>SKILL.md</code>-bestand: instructies en best practices die Claude automatisch gebruikt als ze relevant zijn. Met deze twee skills bouwt Claude volgens de werkwijze en standaarden van Cegeka.</p>
+    <p>Een skill is een <code>SKILL.md</code>-bestand met instructies en best practices die Claude automatisch gebruikt als ze relevant zijn. Cegeka heeft er twee: de building plan skill gebruik je in de chat om het bouwplan te maken, de building standards skill zet je in je project zodat Claude Code volgens de Cegeka-standaarden bouwt.</p>
     ${markBubble('Zie de skills als het vakmanschap van Cegeka in een bestand. Zonder skills bouwt Claude ook, maar mét skills bouwt Claude zoals wij dat afspreken.')}
     ${card(s.plan,
       'Helpt Copilot of Claude om van klantinput (transcripten, notities, Work IQ) een gestructureerd bouwplan te maken: datamodel, relaties, security, app, flows en acceptatiecriteria, met aannames en open vragen apart.',
-      ['In module 2, als je het bouwplan maakt in Copilot of Claude chat.', 'In Claude chat: upload de skill onder <kbd>Settings</kbd> &gt; <kbd>Capabilities</kbd> &gt; <kbd>Skills</kbd>. In Copilot: voeg het skillbestand toe als bijlage.', 'In je repo, zodat Claude Code het bouwplan later met dezelfde structuur kan aanvullen.'],
-      [2])}
+      ['In module 2, als je het bouwplan maakt in Copilot of Claude chat.', 'Niet in Claude Code: in je project heb je alleen het bouwplan zelf nodig (docs/building-plan.md).'],
+      [2],
+      '<p>In de chat, niet in je project. In Claude chat: upload de skill onder <kbd>Settings</kbd> &gt; <kbd>Capabilities</kbd> &gt; <kbd>Skills</kbd>. In Copilot: voeg het skillbestand als bijlage toe aan je chat.</p>')}
     ${card(s.standards,
       'Legt de Cegeka bouwstandaarden vast voor Power Platform en Dataverse: projectstructuur en CLAUDE.md, naamgeving en publisher prefix, hoe Claude verbinding maakt met een omgeving en de publisher en solution aanmaakt, security roles, connection references en environment variables, deployen via de PAC CLI en de manier van reviewen en committen. Daardoor hoef jij geen commando\'s te kennen: je vraagt het Claude in gewone taal.',
       ['In module 3, als Claude het project klaarzet en CLAUDE.md maakt.', 'In module 4, als Claude verbinding maakt met Dataverse en de solution aanmaakt.', 'In module 5 en 6, bij elke bouwstap, de review en de deploy.'],
-      [3, 4, 5, 6])}
-    <h2>Zo zet je de skills op de juiste plek</h2>
-    <p>Je hoeft de mappen niet zelf te maken. In module 3 sleep je de gedownloade bestanden naar je project en zet Claude ze op de juiste plek. Dit is het resultaat:</p>
-    ${codeBlock('.claude/\n  skills/\n    ' + s.plan.folder + '/\n      SKILL.md\n    ' + s.standards.folder + '/\n      SKILL.md', 'Structuur')}
-    ${shot({ file: 'skills-mappenstructuur.png', caption: 'De Explorer in VS Code met .claude/skills en daarin de mappen ' + s.plan.folder + ' en ' + s.standards.folder + ', elk met een SKILL.md.' })}`;
+      [3, 4, 5, 6],
+      '<p>In je project. Claude zet hem in module 3 op de juiste plek:</p><div class="path-box">.claude/skills/' + esc(s.standards.folder) + '/SKILL.md</div>')}
+    <h2>Zo staat de skill in je project</h2>
+    <p>Je hoeft de map niet zelf te maken. In module 3 sleep je het gedownloade bestand naar je project en zet Claude het op de juiste plek. Dit is het resultaat:</p>
+    ${codeBlock('.claude/\n  skills/\n    ' + s.standards.folder + '/\n      SKILL.md', 'Structuur')}
+    ${shot({ file: 'skills-mappenstructuur.png', caption: 'De Explorer in VS Code met .claude/skills/' + s.standards.folder + '/SKILL.md.' })}`;
   }
 
   function renderPrompts() {

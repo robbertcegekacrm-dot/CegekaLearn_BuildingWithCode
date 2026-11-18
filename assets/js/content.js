@@ -90,7 +90,6 @@ Regels:
 - maak een README.md met één zin over dit project
 - maak de mappen docs/, solution/ en .claude/skills/
 - verplaats building-plan.md naar docs/building-plan.md
-- zet cegeka-building-plan-SKILL.md in .claude/skills/cegeka-building-plan/SKILL.md
 - zet cegeka-building-standards-SKILL.md in .claude/skills/cegeka-building-standards/SKILL.md
 - maak een .gitignore die dist/ en tijdelijke bestanden uitsluit
 Laat daarna de mappenstructuur zien.`,
@@ -106,7 +105,7 @@ Laat daarna de mappenstructuur zien.`,
 - Dev environment URL: [plak hier de URL van je dev-omgeving]
 - Solution (unique name): HardwareManager
 - Publisher: Cegeka Training, prefix: cgk
-- Werkwijze: lees altijd eerst docs/building-plan.md en de skills, plan eerst en vraag akkoord voor elke bouwstap, alles in de solution HardwareManager, controleer de omgeving voordat je iets wijzigt, sluit elke stap af met een samenvatting en een commit.
+- Werkwijze: lees altijd eerst docs/building-plan.md en de building standards skill, plan eerst en vraag akkoord voor elke bouwstap, alles in de solution HardwareManager, controleer de omgeving voordat je iets wijzigt, sluit elke stap af met een samenvatting en een commit.
 - Standaarden: schemanamen met prefix cgk_, Nederlandse labels, geen secrets in de repo.
 Laat me de inhoud zien voordat je het bestand opslaat.`,
     tip: 'CLAUDE.md is het geheugen van je project: Claude leest het bij elke sessie. Door de inhoud eerst te laten tonen, weet je zeker dat de omgeving-URL en prefix kloppen.'
@@ -150,8 +149,8 @@ Vertel me wat je hebt aangetroffen en wat je hebt aangemaakt.`,
     where: 'Claude Code',
     module: 5,
     text:
-`Welke skills heb je in dit project beschikbaar? Vat per skill in twee zinnen samen wat je eruit gaat gebruiken bij het bouwen van de Hardware Manager.`,
-    tip: 'Een snelle check of Claude de Cegeka skills echt gevonden en gelezen heeft, voordat je gaat bouwen.'
+`Welke skills heb je in dit project beschikbaar? Vat de building standards skill samen in maximaal vijf punten: wat ga je eruit gebruiken bij het bouwen van de Hardware Manager?`,
+    tip: 'Een snelle check of Claude de building standards skill echt gevonden en gelezen heeft, voordat je gaat bouwen.'
   },
   {
     id: 'eerste-claude',
@@ -159,7 +158,7 @@ Vertel me wat je hebt aangetroffen en wat je hebt aangemaakt.`,
     where: 'Claude Code (terminal in VS Code)',
     module: 5,
     text:
-`Lees CLAUDE.md, alle skills in .claude/skills/ en docs/building-plan.md.
+`Lees CLAUDE.md, de building standards skill in .claude/skills/ en docs/building-plan.md.
 
 Maak daarna een implementatieplan in docs/implementation-plan.md met:
 - de bouwstappen in volgorde (datamodel, relaties, model-driven app, flows voor onboarding en bestelling, bestelactiviteit)
@@ -284,7 +283,7 @@ const GLOSSARY = [
   { term: 'Claude Code', def: 'De AI-coding agent van Anthropic die in je terminal of in VS Code draait. Claude Code leest bestanden in je project, voert zelf de benodigde commando\'s uit (zoals Git en de PAC CLI) en bouwt stap voor stap. Jij geeft opdrachten in gewone taal en keurt elke actie goed.' },
   { term: 'PAC CLI', def: 'De Power Platform command line interface (commando: pac). Hiermee verbind je met een omgeving, maak je solutions aan en pak je ze in en uit. In deze training gebruikt Claude Code de PAC CLI voor je: jij vraagt het in gewone taal, de building standards skill beschrijft hoe Claude het doet.' },
   { term: 'Solution', def: 'Een pakket in Power Platform waarin alle onderdelen van een oplossing zitten: tabellen, apps, flows, security roles. Via een solution breng je je werk van de ene naar de andere omgeving (ALM).' },
-  { term: 'Skill', def: 'Een map met een SKILL.md-bestand met instructies en best practices die Claude automatisch gebruikt als ze relevant zijn. Cegeka levert twee skills: de building plan skill en de building standards skill. Ze staan in .claude/skills/<skill-naam>/SKILL.md.' },
+  { term: 'Skill', def: 'Een map met een SKILL.md-bestand met instructies en best practices die Claude automatisch gebruikt als ze relevant zijn. Cegeka levert twee skills: de building plan skill gebruik je in de chat (Copilot of Claude) voor het bouwplan, de building standards skill zet je in je project in .claude/skills/cegeka-building-standards/SKILL.md, zodat Claude Code ermee bouwt.' },
   { term: 'CLAUDE.md', def: 'Een bestand in de root van je repo dat Claude Code bij elke sessie leest. Hierin zet je projectcontext: de omgeving-URL, de publisher prefix, de solutionnaam en de afspraken over werkwijze en standaarden.' },
   { term: 'Bouwplan (building plan)', def: 'Het functioneel en technisch plan voor de oplossing: datamodel, relaties, security, app, flows en acceptatiecriteria. Je maakt het eerst met de klant (docs/building-plan.md) en Claude Code bouwt er daarna op voort.' },
   { term: 'Dataverse', def: 'Het dataplatform onder Power Platform en Dynamics 365. Data staat in tabellen met kolommen en relaties, met ingebouwde security, auditing en API\'s.' },
@@ -350,9 +349,9 @@ const MODULES = [
         mark: 'Ik heb liever een goed plan dan een snelle app die niet doet wat ik vroeg.',
         do: [
           '<strong>Plan eerst.</strong> Je maakt met Copilot of Claude een bouwplan op basis van de casevideo, en controleert dat plan zoals je dat met een klant zou doen.',
-          '<strong>Bouw daarna.</strong> Claude Code bouwt de oplossing stap voor stap in Dataverse, met de Cegeka skills als vakmanschap en het bouwplan als opdracht.',
+          '<strong>Bouw daarna.</strong> Claude Code bouwt de oplossing stap voor stap in Dataverse, met de building standards skill als vakmanschap en het bouwplan als opdracht.',
           '<strong>Jij houdt de regie.</strong> Na elke stap review je het resultaat en laat je Claude een commit maken.',
-          '<strong>Je bouwt vanuit een gesprek.</strong> Je typt geen commando\'s: je vraagt Claude wat je wilt, Claude stelt de acties voor en jij keurt ze goed. De Cegeka skills beschrijven hoe Claude het doet.',
+          '<strong>Je bouwt vanuit een gesprek.</strong> Je typt geen commando\'s: je vraagt Claude wat je wilt, Claude stelt de acties voor en jij keurt ze goed. De building standards skill beschrijft hoe Claude het doet.',
           'De training bestaat uit 8 modules. Vink elke stap af met <em>Markeer als klaar</em>; je voortgang wordt in deze browser bewaard.'
         ],
         img: { file: 'm0-s3-aanpak-plan-bouw.png', caption: 'Schema van de aanpak: input (video, notities, Work IQ), bouwplan, review met klant, bouwen met Claude Code en skills, testen.' },
@@ -494,7 +493,7 @@ const MODULES = [
     title: 'Je project klaarzetten',
     duration: '10 min',
     badge: 'Op orde',
-    intro: 'Maak een projectmap, zet je bouwplan en de skills erin, laat Claude de structuur, CLAUDE.md en de eerste commit maken en publiceer het op GitHub.',
+    intro: 'Maak een projectmap, zet je bouwplan en de building standards skill erin, laat Claude de structuur, CLAUDE.md en de eerste commit maken en publiceer het op GitHub.',
     mark: 'Een opgeruimde werkplaats bouwt beter. Dat geldt voor mijn magazijn en voor jouw repo.',
     steps: [
       {
@@ -512,16 +511,16 @@ const MODULES = [
       },
       {
         id: 'm3-s2',
-        title: 'Zet je bouwplan en de skills in de projectmap',
+        title: 'Zet je bouwplan en de building standards skill in de projectmap',
         goal: 'De bestanden die Claude nodig heeft staan in je project.',
         mark: 'Die skills zijn het vakmanschap van Cegeka. Daarmee bouwt Claude zoals jullie dat afspraken.',
         do: [
-          'Download beide skills van de <a href="#skills">Skills-pagina</a>. Ze heten <code>cegeka-building-plan-SKILL.md</code> en <code>cegeka-building-standards-SKILL.md</code>.',
-          'Sleep de twee skillbestanden en je <code>building-plan.md</code> uit module 2 naar de Explorer van VS Code, in de map <code>hardware-manager</code>.',
+          'Download de building standards skill van de <a href="#skills">Skills-pagina</a>. Het bestand heet <code>cegeka-building-standards-SKILL.md</code>. De building plan skill heb je hier niet nodig: die gebruikte je in module 2 in de chat.',
+          'Sleep het skillbestand en je <code>building-plan.md</code> uit module 2 naar de Explorer van VS Code, in de map <code>hardware-manager</code>.',
           'Je hoeft niets te verplaatsen of te hernoemen: dat doet Claude in de volgende stap.'
         ],
-        img: { file: 'm3-s2-bestanden-in-project.png', caption: 'De Explorer in VS Code met building-plan.md, cegeka-building-plan-SKILL.md en cegeka-building-standards-SKILL.md in de map hardware-manager.' },
-        check: 'Je ziet de drie bestanden in de Explorer.',
+        img: { file: 'm3-s2-bestanden-in-project.png', caption: 'De Explorer in VS Code met building-plan.md en cegeka-building-standards-SKILL.md in de map hardware-manager.' },
+        check: 'Je ziet beide bestanden in de Explorer.',
         help: 'Heeft je browser het bestand opgeslagen met <code>.txt</code> erachter? Geen probleem, Claude herkent het. Noem het in de volgende prompt wel even.'
       },
       {
@@ -534,8 +533,8 @@ const MODULES = [
           'Keur de acties goed die Claude voorstelt.',
           'Bekijk de structuur die Claude laat zien.'
         ],
-        img: { file: 'm3-s3-projectstructuur.png', caption: 'De Explorer met .claude/skills/cegeka-building-plan/SKILL.md, .claude/skills/cegeka-building-standards/SKILL.md, docs/building-plan.md en de map solution, met daarnaast de samenvatting van Claude.' },
-        check: 'Elke skill staat in een eigen map als <code>SKILL.md</code>, en het bouwplan staat in <code>docs/building-plan.md</code>.',
+        img: { file: 'm3-s3-projectstructuur.png', caption: 'De Explorer met .claude/skills/cegeka-building-standards/SKILL.md, docs/building-plan.md en de map solution, met daarnaast de samenvatting van Claude.' },
+        check: 'De skill staat in <code>.claude/skills/cegeka-building-standards/SKILL.md</code>, en het bouwplan staat in <code>docs/building-plan.md</code>.',
         help: 'Iets op de verkeerde plek? Zeg het gewoon tegen Claude, bijvoorbeeld: "De skill staat nog in de root, zet hem in de juiste map."'
       },
       {
@@ -618,15 +617,15 @@ const MODULES = [
     steps: [
       {
         id: 'm5-s1',
-        title: 'Controleer of Claude de skills kent',
-        goal: 'Claude Code werkt in je project en heeft beide Cegeka skills gevonden.',
+        title: 'Controleer of Claude de skill kent',
+        goal: 'Claude Code werkt in je project en heeft de building standards skill gevonden.',
         do: [
           'Open het Claude Code-paneel via het <strong>Spark-icoon (✱)</strong>.',
           { text: 'Stuur deze prompt:', prompt: 'skills-check' }
         ],
         img: { file: 'm5-s1-skills-check.png', caption: 'Het Claude Code-paneel in het project hardware-manager met de samenvatting van de building plan skill en de building standards skill.' },
-        check: 'Claude noemt beide Cegeka skills en vat ze kloppend samen.',
-        help: 'Kent Claude de skills niet? Vraag: "Controleer of de skills in .claude/skills/<naam>/SKILL.md staan en zet ze goed als dat niet zo is." Sluit daarna het Claude-paneel en open het opnieuw.'
+        check: 'Claude noemt de building standards skill en vat die kloppend samen.',
+        help: 'Kent Claude de skill niet? Vraag: "Controleer of de skill in .claude/skills/cegeka-building-standards/SKILL.md staat en zet hem goed als dat niet zo is." Sluit daarna het Claude-paneel en open het opnieuw.'
       },
       {
         id: 'm5-s2',
@@ -638,7 +637,7 @@ const MODULES = [
           'Geef toestemming als Claude bestanden wil lezen.',
           'Beantwoord de vragen die Claude stelt.'
         ],
-        img: { file: 'm5-s2-implementatieplan.png', caption: 'Claude Code in de terminal tijdens het lezen van CLAUDE.md, de skills en het bouwplan, en daarna docs/implementation-plan.md geopend in de editor.' },
+        img: { file: 'm5-s2-implementatieplan.png', caption: 'Claude Code in de terminal tijdens het lezen van CLAUDE.md, de building standards skill en het bouwplan, en daarna docs/implementation-plan.md geopend in de editor.' },
         check: 'Er staat een nieuw bestand <code>docs/implementation-plan.md</code> en er is nog niets gewijzigd in je omgeving.',
         help: 'Begint Claude toch te bouwen? Druk op <kbd>Esc</kbd> om te stoppen en herhaal: "Stop. Bouw nog niets, maak alleen het plan."'
       },
