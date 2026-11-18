@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bouwen met Claude Code in Dataverse | Cegeka training</title>
+  <meta name="description" content="Stap-voor-stap training: bouw een Dataverse-oplossing met Claude Code, PAC CLI en de Cegeka skills.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Naar de inhoud</a>
+
+  <header class="topbar">
+    <button class="menu-btn" id="menuBtn" aria-label="Menu openen" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <a class="brand" href="#/">
+      <img src="img/cegeka-logo.svg" alt="Cegeka" class="brand-logo" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'brand-text',textContent:'Cegeka'}))">
+      <span class="brand-divider" aria-hidden="true"></span>
+      <span class="brand-title">Bouwen met Claude Code in Dataverse</span>
+    </a>
+    <nav class="topnav" aria-label="Hoofdmenu">
+      <a href="#/" data-nav="home">Overzicht</a>
+      <a href="#/skills" data-nav="skills">Skills</a>
+      <a href="#/prompts" data-nav="prompts">Voorbeeldprompts</a>
+      <a href="#/woordenlijst" data-nav="woordenlijst">Woordenlijst</a>
+      <a href="#/certificaat" data-nav="certificaat">Certificaat</a>
+    </nav>
+  </header>
+
+  <div class="progress" role="progressbar" aria-label="Voortgang training" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress">
+    <div class="progress-fill" id="progressFill"></div>
+    <span class="progress-label" id="progressLabel">0% klaar</span>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar" aria-label="Modules en stappen">
+      <div class="sidebar-inner" id="sidebarInner"></div>
+    </aside>
+    <div class="scrim" id="scrim" hidden></div>
+    <main id="main" class="content" tabindex="-1"></main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <script src="assets/js/content.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
