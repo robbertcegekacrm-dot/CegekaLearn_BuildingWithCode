@@ -313,7 +313,7 @@ const GLOSSARY = [
    Modules en stappen.
    Per stap:
      goal   : doel van de stap
-     tip    : (optioneel) tip met het Cegeka-icoon
+     tip    : (optioneel) tip met het Cegeka-icoon; tipLabel wijzigt het label
      do     : lijst van acties. Een actie is een string, of een object:
               { text, code, lang }  -> codeblok met kopieerknop
               { text, prompt: id }  -> prompt uit PROMPTS met kopieerknop
