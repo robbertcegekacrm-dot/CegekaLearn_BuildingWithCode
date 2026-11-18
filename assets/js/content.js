@@ -14,6 +14,7 @@ const CONFIG = {
   repoName: 'hardware-manager',
   prepGuideUrl: 'https://cegekagroup-my.sharepoint.com/:w:/g/personal/daan_degraaff_cegeka_com/IQBshG45kfB5RpKY2jZrgvwVAQN4xo6hzj7-HWJvicc_UtA?e=g1doad',
   caseVideo: 'video/hardware-manager-case.mp4',
+  transcript: { file: 'content/transcript-casevideo.txt', name: 'Transcript casevideo' },
   skills: {
     plan: {
       folder: 'cegeka-building-plan',
@@ -57,7 +58,7 @@ Pas niets aan. Ontbreekt er iets, vertel me dan in één zin wat ik moet doen.`,
 
 Maak op basis van de bijgevoegde input het bouwplan voor de oplossing "Hardware Manager".
 Input:
-- transcript van de casevideo van Mark (Hardware Manager)
+- transcript van de casevideo van Mark (Hardware Manager), hieronder geplakt
 - mijn eigen notities
 - samenvatting uit Work IQ (indien beschikbaar)
 
@@ -421,7 +422,7 @@ const MODULES = [
         title: 'Verzamel je input',
         goal: 'Je hebt alle bronnen voor het bouwplan bij elkaar.',
         do: [
-          'Download het <strong>transcript van de casevideo</strong> van Mark (je krijgt het van de trainer).',
+          { text: 'Kopieer het <strong>transcript van de casevideo</strong> van Mark. Je plakt het in de volgende stap in de chat.', copyfile: 'transcript', view: true },
           'Pak je <strong>notities</strong> uit module 0 erbij: wensen en open vragen.',
           'Optioneel: vraag in Microsoft 365 Copilot via <strong>Work IQ</strong> naar relevante mails, chats of documenten over hardwarebeheer en onboarding, en kopieer de samenvatting.',
           'Zet alles in één map of in één document, zodat je het straks in één keer kunt toevoegen.'

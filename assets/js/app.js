@@ -77,7 +77,11 @@
     if (a.code) html += codeBlock(a.code, a.lang === 'markdown' ? 'CLAUDE.md' : a.lang === 'text' ? 'Structuur' : 'Terminal');
     if (a.codes) html += a.codes.map(c => codeBlock(c.code, c.label)).join('');
     if (a.prompt) html += promptBlock(a.prompt);
-    if (a.copyfile) { const sk = CONFIG.skills[a.copyfile]; html += `<p style="margin:10px 0 4px"><button type="button" class="btn primary small" data-copyfile="${esc(sk.file)}">${COPY_ICON} Kopieer ${esc(sk.name.toLowerCase())}</button> <a href="#skills" style="font-size:.9rem;margin-left:8px">Wat staat erin?</a></p>`; }
+    if (a.copyfile) {
+      const sk = CONFIG.skills[a.copyfile] || CONFIG[a.copyfile];
+      html += `<p style="margin:10px 0 4px"><button type="button" class="btn primary small" data-copyfile="${esc(sk.file)}">${COPY_ICON} Kopieer ${esc(sk.name.toLowerCase())}</button>${a.view ? '' : ' <a href="#skills" style="font-size:.9rem;margin-left:8px">Wat staat erin?</a>'}</p>`;
+      if (a.view) html += `<details class="skill-view"><summary>Bekijk ${esc(sk.name.toLowerCase())}</summary><div class="code prompt"><div class="code-head"><span>${esc(sk.name)}</span>${copyBtn(sk.name)}</div><pre><code data-skillsrc="${esc(sk.file)}">Laden...</code></pre></div></details>`;
+    }
     return html + '</li>';
   };
 
@@ -481,7 +485,7 @@ ${m.info ? '' : `    <div class="done-row">
     setTimeout(() => { btn.classList.remove('copied'); btn.querySelector('span').textContent = 'Kopieer'; }, 1800);
   }
 
-  Object.values(CONFIG.skills).forEach(sk => fetch(sk.file).then(r => r.ok ? r.text() : null).then(t => { if (t) FILE_CACHE[sk.file] = t; }).catch(() => {}));
+  [...Object.values(CONFIG.skills), CONFIG.transcript].forEach(sk => fetch(sk.file).then(r => r.ok ? r.text() : null).then(t => { if (t) FILE_CACHE[sk.file] = t; }).catch(() => {}));
 
   async function copyFile(btn) {
     const label = btn.innerHTML;
