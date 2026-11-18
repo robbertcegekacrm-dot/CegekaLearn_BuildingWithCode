@@ -367,6 +367,7 @@ const MODULES = [
     number: 1,
     title: 'Voorbereiding',
     badge: 'Klaar voor de start',
+    certLabel: 'Visual Studio Code, Claude Code, Node.js en GitHub opzetten',
     intro: 'Voeg de Power Platform Tools toe en laat Claude controleren of alles klaarstaat. De handleiding uit de introductie heb je dan al doorlopen.',
     tip: 'Het meeste gereedschap heb je al geïnstalleerd met de handleiding. Hier komen alleen de Power Platform Tools erbij.',
     steps: [
@@ -407,6 +408,7 @@ const MODULES = [
     title: 'Het bouwplan maken',
     duration: '10 min',
     badge: 'Architect',
+    certLabel: 'Een bouwplan maken met AI',
     intro: 'Verzamel input, laat Copilot of Claude een bouwplan maken met de building plan skill en review het kritisch.',
     tip: 'Laat het plan eerst controleren door de klant, voordat er iets gebouwd wordt. Aanpassen op papier is sneller dan in de app.',
     steps: [
@@ -478,6 +480,7 @@ const MODULES = [
     title: 'Je project klaarzetten',
     duration: '10 min',
     badge: 'Op orde',
+    certLabel: 'Project, skill en GitHub-repo opzetten',
     intro: 'Maak een projectmap, zet je bouwplan en de building standards skill erin, laat Claude de structuur, CLAUDE.md en de eerste commit maken en publiceer het op GitHub.',
     tip: 'Een vaste structuur in je repo helpt Claude: het weet dan precies waar het plan, de skill en de solution staan.',
     steps: [
@@ -560,6 +563,7 @@ const MODULES = [
     title: 'Verbinden met Dataverse',
     duration: '5 min',
     badge: 'Verbonden',
+    certLabel: 'Verbinden met het Power Platform',
     intro: 'Laat Claude verbinding maken met je dev-omgeving en de publisher en solution klaarzetten.',
     tip: 'Controleer altijd eerst in welke omgeving je zit, voordat je iets bouwt.',
     steps: [
@@ -599,6 +603,7 @@ const MODULES = [
     title: 'Bouwen met Claude Code',
     duration: '20 min',
     badge: 'Bouwer',
+    certLabel: 'Datamodel, app en flows laten bouwen door een coding agent',
     intro: 'Laat Claude Code eerst plannen en bouw daarna stap voor stap: datamodel, relaties, app, flows en bestelactiviteit. Na elke stap: review en commit.',
     tip: 'Bouw rustig stap voor stap: review na elke stap en laat Claude committen. Zo kun je altijd terug.',
     steps: [
@@ -725,6 +730,7 @@ const MODULES = [
     title: 'Deployen en testen',
     duration: '5 min',
     badge: 'Live',
+    certLabel: 'De oplossing deployen en testen',
     intro: 'Pak de solution in, importeer hem via de PAC CLI en test het scenario van Mark van begin tot eind.',
     tip: 'Test met het scenario uit de casevideo: dan weet je of de oplossing doet wat de klant vroeg.',
     steps: [
@@ -779,6 +785,7 @@ const MODULES = [
     title: 'Afronden',
     duration: '5 min',
     badge: 'Afgerond',
+    certLabel: 'Resultaat reviewen en vastleggen in GitHub',
     intro: 'Leg alles vast, vergelijk het resultaat met het bouwplan en kijk terug op de samenwerking met de agent.',
     tip: 'Kijk terug: waar hield jij de regie en wat deed de agent? Dat is de kern van werken met Claude Code.',
     steps: [

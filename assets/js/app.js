@@ -273,7 +273,7 @@ ${m.info ? '' : `    <div class="done-row">
     <h1>Certificaat</h1>
     ${tipBox(all
       ? 'Gefeliciteerd! Je hebt alle modules afgerond. Vul je naam in en download je certificaat.'
-      : 'Je kunt je certificaat altijd downloaden. De modules die je hebt afgerond, staan erop met een gekleurde badge.')}
+      : 'Je kunt je certificaat altijd downloaden. Wat je hebt afgerond, staat erop met een vinkje.')}
     <div class="cert-form no-print">
       <label for="certName" style="font-weight:700">Je naam</label>
       <input id="certName" type="text" placeholder="Vul je naam in" value="${esc(state.name)}" autocomplete="name">
@@ -290,7 +290,7 @@ ${m.info ? '' : `    <div class="done-row">
       <div>${all ? 'de training heeft afgerond' : 'heeft deelgenomen aan de training'}</div>
       <p class="cert-course">${esc(CONFIG.title)}</p>
       <div>${all ? 'en met Claude Code, de PAC CLI en de Cegeka skills een complete Dataverse-oplossing heeft gebouwd.' : `en daarvan ${doneMods} van de ${TASK_MODULES.length} modules heeft afgerond.`}</div>
-      ${badgesHtml()}
+      <ul class="cert-list">${TASK_MODULES.map(m => `<li class="${isComplete(m) ? 'done' : ''}"><span class="cert-check" aria-hidden="true"></span>${esc(m.certLabel)}<span class="sr-only">${isComplete(m) ? ' (afgerond)' : ' (nog niet afgerond)'}</span></li>`).join('')}</ul>
       <div class="cert-foot">
         <div><strong>Datum</strong><br>${date}</div>
         <div class="cert-tagline">shaping digital together</div>
@@ -338,17 +338,25 @@ ${m.info ? '' : `    <div class="done-row">
     t(CONFIG.title, 600, 38, 800, '#000');
     t(all ? 'en met Claude Code, de PAC CLI en de Cegeka skills een complete Dataverse-oplossing heeft gebouwd.'
           : `en daarvan ${doneMods} van de ${TASK_MODULES.length} modules heeft afgerond.`, 655, 26, 400, '#3D3D3D');
-    const n = TASK_MODULES.length, gap = 170, x0 = W / 2 - gap * (n - 1) / 2, y0 = 770;
+    const colX = [230, 850], rowH = 62, y0 = 715, perCol = Math.ceil(TASK_MODULES.length / 2);
     TASK_MODULES.forEach((m, i) => {
-      const cx = x0 + i * gap, ok = isComplete(m);
-      x.beginPath(); x.arc(cx, y0, 40, 0, Math.PI * 2);
-      if (ok) { x.fillStyle = '#632064'; x.fill(); x.lineWidth = 6; x.strokeStyle = '#00C7F9'; x.setLineDash([]); x.stroke(); }
-      else { x.fillStyle = '#F1F1F1'; x.fill(); x.lineWidth = 3; x.strokeStyle = '#B8B8B8'; x.setLineDash([8, 6]); x.stroke(); x.setLineDash([]); }
-      x.font = `800 30px ${F}`; x.fillStyle = ok ? '#fff' : '#B8B8B8'; x.textBaseline = 'middle'; x.fillText(String(m.number), cx, y0 + 1); x.textBaseline = 'alphabetic';
-      x.font = `700 18px ${F}`; x.fillStyle = ok ? '#000' : '#7A7A7A';
-      const words = m.badge.split(' '); let line = '', ly = y0 + 75;
-      words.forEach(w => { const test = line ? line + ' ' + w : w; if (x.measureText(test).width > 150 && line) { x.fillText(line, cx, ly); line = w; ly += 22; } else line = test; });
-      x.fillText(line, cx, ly);
+      const cx = colX[Math.floor(i / perCol)], cy = y0 + (i % perCol) * rowH, ok = isComplete(m);
+      x.beginPath(); x.arc(cx, cy, 16, 0, Math.PI * 2);
+      if (ok) {
+        x.fillStyle = '#632064'; x.fill();
+        x.strokeStyle = '#fff'; x.lineWidth = 4; x.lineCap = 'round'; x.lineJoin = 'round';
+        x.beginPath(); x.moveTo(cx - 7, cy + 1); x.lineTo(cx - 2, cy + 6); x.lineTo(cx + 8, cy - 6); x.stroke();
+      } else {
+        x.fillStyle = '#F1F1F1'; x.fill(); x.lineWidth = 2; x.strokeStyle = '#B8B8B8'; x.setLineDash([5, 4]); x.stroke(); x.setLineDash([]);
+      }
+      x.textAlign = 'left'; x.textBaseline = 'middle';
+      x.font = `${ok ? 700 : 400} 21px ${F}`; x.fillStyle = ok ? '#000' : '#7A7A7A';
+      const lines = []; let line = '';
+      m.certLabel.split(' ').forEach(w => { const t2 = line ? line + ' ' + w : w; if (x.measureText(t2).width > 500 && line) { lines.push(line); line = w; } else line = t2; });
+      lines.push(line);
+      const lh = 25, top = cy - (lines.length - 1) * lh / 2;
+      lines.forEach((l, k) => x.fillText(l, cx + 30, top + k * lh + 1));
+      x.textBaseline = 'alphabetic';
     });
     const date = new Date().toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
     x.textAlign = 'left'; x.font = `800 22px ${F}`; x.fillStyle = '#000'; x.fillText('Datum', 110, 980);
