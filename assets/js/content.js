@@ -342,14 +342,14 @@ const MODULES = [
       {
         id: 'm0-s3',
         title: 'De aanpak: eerst plannen, dan bouwen',
-        goal: 'Je kent de werkwijze en de tijdsindeling van de training.',
+        goal: 'Je kent de werkwijze van de training.',
         mark: 'Ik heb liever een goed plan dan een snelle app die niet doet wat ik vroeg.',
         do: [
           '<strong>Plan eerst.</strong> Je maakt met Copilot of Claude een bouwplan op basis van de casevideo, en controleert dat plan zoals je dat met een klant zou doen.',
           '<strong>Bouw daarna.</strong> Claude Code bouwt de oplossing stap voor stap in Dataverse, met de Cegeka skills als vakmanschap en het bouwplan als opdracht.',
           '<strong>Jij houdt de regie.</strong> Na elke stap review je het resultaat en laat je Claude een commit maken.',
           '<strong>Je bouwt vanuit een gesprek.</strong> Je typt geen commando\'s: je vraagt Claude wat je wilt, Claude stelt de acties voor en jij keurt ze goed. De Cegeka skills beschrijven hoe Claude het doet.',
-          `Duur: circa een uur, verdeeld over 8 modules. Vink elke stap af met <em>Markeer als klaar</em>; je voortgang wordt in deze browser bewaard.`
+          'De training bestaat uit 8 modules. Vink elke stap af met <em>Markeer als klaar</em>; je voortgang wordt in deze browser bewaard.'
         ],
         img: { file: 'm0-s3-aanpak-plan-bouw.png', caption: 'Schema van de aanpak: input (video, notities, Work IQ), bouwplan, review met klant, bouwen met Claude Code en skills, testen.' },
         check: 'Je weet waarom het bouwplan vóór het bouwen komt.',

@@ -135,7 +135,6 @@
         <div class="hero-stats">
           <span class="pill">${MODULES.length} modules</span>
           <span class="pill">${STEPS.length} stappen</span>
-          <span class="pill">${esc(CONFIG.totalDuration)}</span>
           <span class="pill">${pct}% klaar</span>
         </div>
         <a class="btn primary" href="#${next ? next.id : STEPS[0].id}" style="border-color:#000;background:#fff">${totalDone() ? 'Ga verder' : 'Start de training'} →</a>
@@ -150,7 +149,7 @@
       ${MODULES.map(m => {
         const d = moduleDone(m), p = Math.round(d / m.steps.length * 100);
         return `<a class="card${isComplete(m) ? ' complete' : ''}" href="#${(m.steps.find(s => !state.done[s.id]) || m.steps[0]).id}">
-          <span class="card-num">Module ${m.number} · ${esc(m.duration)}</span>
+          <span class="card-num">Module ${m.number}</span>
           <h3>${esc(m.title)}</h3>
           <p>${esc(m.intro)}</p>
           <div class="card-bar"><span style="width:${p}%"></span></div>
@@ -185,7 +184,6 @@
     <h1>${esc(step.title)}</h1>
     <div class="meta">
       <span class="pill blue">Module ${m.number} · stap ${step.index + 1} van ${m.steps.length}</span>
-      <span class="pill">${esc(m.duration)} voor de module</span>
       ${state.done[step.id] ? '<span class="pill green">Klaar</span>' : ''}
     </div>
     ${intro}
