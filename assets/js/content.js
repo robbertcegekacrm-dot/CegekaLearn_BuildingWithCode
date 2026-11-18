@@ -53,7 +53,7 @@ Pas niets aan. Ontbreekt er iets, vertel me dan in één zin wat ik moet doen.`,
     where: 'Microsoft 365 Copilot of Claude (chat)',
     module: 2,
     text:
-`Gebruik de building plan skill (cegeka-building-plan). Werk je in Copilot, volg dan de regels en het sjabloon uit het bijgevoegde skillbestand.
+`Volg de regels en het sjabloon van de building plan skill hierboven.
 
 Maak op basis van de bijgevoegde input het bouwplan voor de oplossing "Hardware Manager".
 Input:
@@ -73,8 +73,7 @@ Zet het hele plan in één Markdown-blok, zodat ik het kan opslaan als building-
 `Zet dit project klaar volgens de building standards skill:
 - zet de map onder versiebeheer met Git
 - maak een README.md met één zin over dit project
-- maak de mappen solution/ en .claude/skills/ (docs/building-plan.md staat er al)
-- zet cegeka-building-standards-SKILL.md in .claude/skills/cegeka-building-standards/SKILL.md
+- maak de map solution/ (docs/ en .claude/skills/ staan er al)
 - maak een .gitignore die dist/ en tijdelijke bestanden uitsluit
 Laat daarna de mappenstructuur zien.`,
     tip: 'Je beschrijft de gewenste eindsituatie, niet de commando\'s. Claude doet het werk en laat het resultaat zien, zodat jij in één oogopslag kunt controleren of alles op de goede plek staat.'
@@ -427,16 +426,15 @@ const MODULES = [
       {
         id: 'm2-s2',
         title: 'Open Copilot of Claude chat',
-        goal: 'Je hebt een chat open waarin de building plan skill beschikbaar is.',
+        goal: 'Je hebt een nieuwe chat open met de building plan skill en je input.',
         do: [
-          'Kies je tool: <strong>Claude</strong> (claude.ai) of <strong>Microsoft 365 Copilot</strong>.',
-          'In Claude: controleer onder <kbd>Settings</kbd> &gt; <kbd>Capabilities</kbd> &gt; <kbd>Skills</kbd> dat de building plan skill aan staat. Staat hij er niet tussen, upload dan de skill van de <a href="#skills">Skills-pagina</a>.',
-          'In Copilot: voeg het bestand <code>cegeka-building-plan-SKILL.md</code> toe als bijlage, samen met je input.',
-          'Start een nieuwe chat en voeg je input toe (transcript, notities, Work IQ-samenvatting).'
+          'Open <strong>Claude</strong> (claude.ai) of <strong>Microsoft 365 Copilot</strong> en start een nieuwe chat.',
+          { text: 'Kopieer de building plan skill en plak hem in het berichtveld:', copyfile: 'plan' },
+          'Voeg je input toe als bijlage of plak hem eronder: transcript, notities en eventueel de Work IQ-samenvatting. Verstuur nog niets.'
         ],
-        img: { file: 'm2-s2-chat-met-input.png', caption: 'Een nieuwe chat in Claude of Copilot met het transcript, de notities en (bij Copilot) SKILL.md als bijlagen.' },
-        check: 'Je bijlagen staan in de chat en zijn nog niet verstuurd.',
-        help: 'Kun je geen bestanden toevoegen? Plak de tekst van het transcript en je notities direct in de chat.'
+        img: { file: 'm2-s2-chat-met-input.png', caption: 'Een nieuwe chat in Claude of Copilot met de geplakte building plan skill in het berichtveld en het transcript en de notities als bijlagen.' },
+        check: 'De skill en je input staan in het berichtveld en zijn nog niet verstuurd.',
+        help: 'Is het bericht te lang voor Copilot? Verstuur de skill dan eerst met de zin "Gebruik deze instructies voor mijn volgende vraag." en stuur daarna je input met de prompt.'
       },
       {
         id: 'm2-s3',
@@ -444,7 +442,7 @@ const MODULES = [
         goal: 'Je hebt een eerste versie van het bouwplan in Markdown.',
         mark: 'Let op het hoofdstuk aannames. Daar zie je wat de AI zelf heeft ingevuld. Dat wil ik zeker weten!',
         do: [
-          { text: 'Kopieer de prompt en plak hem in de chat, onder je bijlagen. Verstuur.', prompt: 'bouwplan' },
+          { text: 'Kopieer de prompt en plak hem onder de skill en je input. Verstuur.', prompt: 'bouwplan' },
           'Wacht tot het volledige plan klaar is.',
           'Vraag Claude of Copilot het plan in één Markdown-codeblok te zetten als dat nog niet zo is.'
         ],
@@ -497,18 +495,19 @@ const MODULES = [
       },
       {
         id: 'm3-s2',
-        title: 'Plak je bouwplan en zet de skill in je project',
+        title: 'Plak je bouwplan en de skill in je project',
         goal: 'De bestanden die Claude nodig heeft staan in je project.',
-        mark: 'Die skills zijn het vakmanschap van Cegeka. Daarmee bouwt Claude zoals jullie dat afspraken.',
+        mark: 'Die skill is het vakmanschap van Cegeka. Daarmee bouwt Claude zoals jullie dat afspraken.',
         do: [
           'Klik in de Explorer van VS Code op het icoon <kbd>New File</kbd> (of rechtermuisknop &gt; <kbd>New File</kbd>).',
           'Typ als naam <code>docs/building-plan.md</code> en druk <kbd>Enter</kbd>. VS Code maakt de map <code>docs</code> er vanzelf bij.',
           'Plak je bouwplan uit de chat van module 2 (<kbd>Ctrl</kbd>+<kbd>V</kbd>) en sla op (<kbd>Ctrl</kbd>+<kbd>S</kbd>).',
-          'Download de building standards skill van de <a href="#skills">Skills-pagina</a> (<code>cegeka-building-standards-SKILL.md</code>) en sleep het bestand naar de Explorer, in de map <code>hardware-manager</code>. Claude zet het in de volgende stap op de juiste plek.'
+          'Maak op dezelfde manier een tweede bestand: <code>.claude/skills/cegeka-building-standards/SKILL.md</code>.',
+          { text: 'Kopieer de building standards skill, plak hem in het nieuwe bestand en sla op:', copyfile: 'standards' }
         ],
-        img: { file: 'm3-s2-bestanden-in-project.png', caption: 'De Explorer in VS Code met docs/building-plan.md geopend (het geplakte bouwplan) en cegeka-building-standards-SKILL.md in de map hardware-manager.' },
-        check: 'Je ziet <code>docs/building-plan.md</code> met je bouwplan en het skillbestand in de Explorer.',
-        help: 'Ziet het plan er rommelig uit? Controleer of je het hele Markdown-blok hebt gekopieerd. Klik rechtsboven op het preview-icoon om het opgemaakt te zien. Heeft je browser het skillbestand opgeslagen met <code>.txt</code> erachter? Geen probleem, Claude herkent het.'
+        img: { file: 'm3-s2-bestanden-in-project.png', caption: 'De Explorer in VS Code met docs/building-plan.md en .claude/skills/cegeka-building-standards/SKILL.md, met het geplakte bouwplan geopend.' },
+        check: 'Je ziet <code>docs/building-plan.md</code> en <code>.claude/skills/cegeka-building-standards/SKILL.md</code> in de Explorer, allebei gevuld en opgeslagen.',
+        help: 'Ziet het plan er rommelig uit? Controleer of je het hele Markdown-blok hebt gekopieerd. Klik rechtsboven op het preview-icoon om het opgemaakt te zien. Let op: het skillbestand heet exact <code>SKILL.md</code>, in hoofdletters.'
       },
       {
         id: 'm3-s3',
@@ -521,8 +520,8 @@ const MODULES = [
           'Bekijk de structuur die Claude laat zien.'
         ],
         img: { file: 'm3-s3-projectstructuur.png', caption: 'De Explorer met .claude/skills/cegeka-building-standards/SKILL.md, docs/building-plan.md en de map solution, met daarnaast de samenvatting van Claude.' },
-        check: 'De skill staat in <code>.claude/skills/cegeka-building-standards/SKILL.md</code>, en de mappen <code>docs</code> en <code>solution</code> bestaan.',
-        help: 'Iets op de verkeerde plek? Zeg het gewoon tegen Claude, bijvoorbeeld: "De skill staat nog in de root, zet hem in de juiste map."'
+        check: 'Claude toont de structuur met <code>docs</code>, <code>solution</code>, <code>.claude/skills</code>, README.md en .gitignore.',
+        help: 'Iets op de verkeerde plek? Zeg het gewoon tegen Claude, bijvoorbeeld: "Het bouwplan staat niet in docs/, zet het daar."'
       },
       {
         id: 'm3-s4',

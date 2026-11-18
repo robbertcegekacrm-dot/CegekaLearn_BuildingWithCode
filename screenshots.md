@@ -31,7 +31,7 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 | | Bestand | Stap | Wat moet erop te zien zijn |
 |---|---|---|---|
 | [ ] | `img/m2-s1-input-verzamelen.png` | Verzamel je input | Een map met het transcript van de casevideo, een notitiebestand en de Work IQ-samenvatting. |
-| [ ] | `img/m2-s2-chat-met-input.png` | Open Copilot of Claude chat | Een nieuwe chat in Claude of Copilot met het transcript, de notities en (bij Copilot) SKILL.md als bijlagen. |
+| [ ] | `img/m2-s2-chat-met-input.png` | Open Copilot of Claude chat | Een nieuwe chat in Claude of Copilot met de geplakte building plan skill in het berichtveld en het transcript en de notities als bijlagen. |
 | [ ] | `img/m2-s3-bouwplan-resultaat.png` | Voer de bouwplan-prompt uit | Het gegenereerde bouwplan in de chat met de elf hoofdstukken, met het datamodel als tabel zichtbaar. |
 | [ ] | `img/m2-s4-plan-kopieren.png` | Review het plan en kopieer het | Het definitieve bouwplan in de chat, met de kopieerknop van het Markdown-blok gemarkeerd. |
 
@@ -40,7 +40,7 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 | | Bestand | Stap | Wat moet erop te zien zijn |
 |---|---|---|---|
 | [ ] | `img/m3-s1-projectmap-geopend.png` | Maak je projectmap | VS Code met de lege map hardware-manager geopend in de Explorer. |
-| [ ] | `img/m3-s2-bestanden-in-project.png` | Plak je bouwplan en zet de skill in je project | De Explorer in VS Code met docs/building-plan.md geopend (het geplakte bouwplan) en cegeka-building-standards-SKILL.md in de map hardware-manager. |
+| [ ] | `img/m3-s2-bestanden-in-project.png` | Plak je bouwplan en de skill in je project | De Explorer in VS Code met docs/building-plan.md en .claude/skills/cegeka-building-standards/SKILL.md, met het geplakte bouwplan geopend. |
 | [ ] | `img/m3-s3-projectstructuur.png` | Laat Claude de projectstructuur maken | De Explorer met .claude/skills/cegeka-building-standards/SKILL.md, docs/building-plan.md en de map solution, met daarnaast de samenvatting van Claude. |
 | [ ] | `img/m3-s4-claude-md.png` | Laat Claude CLAUDE.md maken | CLAUDE.md geopend in VS Code met de ingevulde omgeving-URL, solutionnaam HardwareManager en publisher prefix cgk. |
 | [ ] | `img/m3-s5-publish-branch.png` | Eerste commit en publiceren op GitHub | Het Source Control-paneel in VS Code met de knop Publish Branch en de keuze voor een private repository. |

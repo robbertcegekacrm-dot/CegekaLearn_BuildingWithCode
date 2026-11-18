@@ -89,6 +89,7 @@
     if (a.code) html += codeBlock(a.code, a.lang === 'markdown' ? 'CLAUDE.md' : a.lang === 'text' ? 'Structuur' : 'Terminal');
     if (a.codes) html += a.codes.map(c => codeBlock(c.code, c.label)).join('');
     if (a.prompt) html += promptBlock(a.prompt);
+    if (a.copyfile) { const sk = CONFIG.skills[a.copyfile]; html += `<p style="margin:10px 0 4px"><button type="button" class="btn primary small" data-copyfile="${esc(sk.file)}">${COPY_ICON} Kopieer ${esc(sk.name.toLowerCase())}</button> <a href="#skills" style="font-size:.9rem;margin-left:8px">Wat staat erin?</a></p>`; }
     return html + '</li>';
   };
 
@@ -217,9 +218,7 @@
         <ul>${uses.map(u => `<li>${u}</li>`).join('')}</ul>
         <h3>Waar zet je hem?</h3>
         ${where}
-        <p style="margin-top:14px"><a class="btn primary small" href="${esc(sk.file)}" download="${esc(sk.download)}">Download ${esc(sk.download)}</a>
-        <button type="button" class="btn ghost small" data-copyfile="${esc(sk.file)}">Kopieer inhoud</button></p>
-        <p style="font-size:.85rem;color:var(--grey-400);margin:0">Werkt downloaden niet in jouw browser? Kopieer de inhoud en plak die in een nieuw bestand met de naam ${esc(sk.download)}.</p>
+        <p style="margin-top:14px"><button type="button" class="btn primary small" data-copyfile="${esc(sk.file)}">${COPY_ICON} Kopieer de skill</button></p>
       </article>`;
     return `
     <nav class="breadcrumb"><a href="#start">Overzicht</a> / Skills</nav>
@@ -230,14 +229,14 @@
       'Helpt Copilot of Claude om van klantinput (transcripten, notities, Work IQ) een gestructureerd bouwplan te maken: datamodel, relaties, security, app, flows en acceptatiecriteria, met aannames en open vragen apart.',
       ['In module 2, als je het bouwplan maakt in Copilot of Claude chat.', 'Niet in Claude Code: in je project heb je alleen het bouwplan zelf nodig (docs/building-plan.md).'],
       [2],
-      '<p>In de chat, niet in je project. In Claude chat: upload de skill onder <kbd>Settings</kbd> &gt; <kbd>Capabilities</kbd> &gt; <kbd>Skills</kbd>. In Copilot: voeg het skillbestand als bijlage toe aan je chat.</p>')}
+      '<p>In de chat, niet in je project. Kopieer de skill en plak hem bovenaan je bericht in Claude of Copilot, samen met je input (module 2, stap 2).</p>')}
     ${card(s.standards,
       'Legt de Cegeka bouwstandaarden vast voor Power Platform en Dataverse: projectstructuur en CLAUDE.md, naamgeving en publisher prefix, hoe Claude verbinding maakt met een omgeving en de publisher en solution aanmaakt, security roles, connection references en environment variables, deployen via de PAC CLI en de manier van reviewen en committen. Daardoor hoef jij geen commando\'s te kennen: je vraagt het Claude in gewone taal.',
       ['In module 3, als Claude het project klaarzet en CLAUDE.md maakt.', 'In module 4, als Claude verbinding maakt met Dataverse en de solution aanmaakt.', 'In module 5 en 6, bij elke bouwstap, de review en de deploy.'],
       [3, 4, 5, 6],
-      '<p>In je project. Claude zet hem in module 3 op de juiste plek:</p><div class="path-box">.claude/skills/' + esc(s.standards.folder) + '/SKILL.md</div>')}
+      '<p>In je project. In module 3 maak je in de Explorer een nieuw bestand op dit pad en plak je de skill erin:</p><div class="path-box">.claude/skills/' + esc(s.standards.folder) + '/SKILL.md</div>')}
     <h2>Zo staat de skill in je project</h2>
-    <p>Je hoeft de map niet zelf te maken. In module 3 sleep je het gedownloade bestand naar je project en zet Claude het op de juiste plek. Dit is het resultaat:</p>
+    <p>Je maakt in de Explorer van VS Code een nieuw bestand met het volledige pad hieronder. VS Code maakt de mappen er vanzelf bij. Dit is het resultaat:</p>
     ${codeBlock('.claude/\n  skills/\n    ' + s.standards.folder + '/\n      SKILL.md', 'Structuur')}
     ${shot({ file: 'skills-mappenstructuur.png', caption: 'De Explorer in VS Code met .claude/skills/' + s.standards.folder + '/SKILL.md.' })}`;
   }
@@ -387,14 +386,17 @@
     setTimeout(() => { btn.classList.remove('copied'); btn.querySelector('span').textContent = 'Kopieer'; }, 1800);
   }
 
+  const FILE_CACHE = {};
+  Object.values(CONFIG.skills).forEach(sk => fetch(sk.file).then(r => r.ok ? r.text() : null).then(t => { if (t) FILE_CACHE[sk.file] = t; }).catch(() => {}));
+
   async function copyFile(btn) {
-    const label = btn.textContent;
+    const label = btn.innerHTML;
     try {
-      const txt = await (await fetch(btn.dataset.copyfile)).text();
+      const txt = FILE_CACHE[btn.dataset.copyfile] || await (await fetch(btn.dataset.copyfile)).text();
       await navigator.clipboard.writeText(txt);
       btn.textContent = 'Gekopieerd';
     } catch (err) { btn.textContent = 'Kopiëren lukt niet'; }
-    setTimeout(() => { btn.textContent = label; }, 1800);
+    setTimeout(() => { btn.innerHTML = label; }, 1800);
   }
 
   function openMenu() { $('#sidebar').classList.add('open'); $('#scrim').hidden = false; $('#menuBtn').setAttribute('aria-expanded', 'true'); }
