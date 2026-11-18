@@ -73,8 +73,7 @@ Zet het hele plan in één Markdown-blok, zodat ik het kan opslaan als building-
 `Zet dit project klaar volgens de building standards skill:
 - zet de map onder versiebeheer met Git
 - maak een README.md met één zin over dit project
-- maak de mappen docs/, solution/ en .claude/skills/
-- verplaats building-plan.md naar docs/building-plan.md
+- maak de mappen solution/ en .claude/skills/ (docs/building-plan.md staat er al)
 - zet cegeka-building-standards-SKILL.md in .claude/skills/cegeka-building-standards/SKILL.md
 - maak een .gitignore die dist/ en tijdelijke bestanden uitsluit
 Laat daarna de mappenstructuur zien.`,
@@ -455,8 +454,8 @@ const MODULES = [
       },
       {
         id: 'm2-s4',
-        title: 'Review het plan en sla het op',
-        goal: 'Je bouwplan klopt met de casus en staat als building-plan.md klaar.',
+        title: 'Review het plan en kopieer het',
+        goal: 'Je bouwplan klopt met de casus en je hebt de definitieve versie gekopieerd.',
         do: [
           '<strong>Componentkeuzes:</strong> staat er ergens BEVESTIGEN? Neem een besluit en laat het plan aanpassen.',
           '<strong>Tabellen:</strong> zijn apparaat, medewerker, onboarding en bestelling aanwezig? Hebben de kolommen logische datatypes?',
@@ -464,10 +463,11 @@ const MODULES = [
           '<strong>Security:</strong> wie mag apparaten zien en wie mag bestellen? Klopt dat met wat Mark zei?',
           '<strong>App en flows:</strong> staat de keuze door de manager erin, en de bestelling die daaruit volgt?',
           '<strong>Acceptatiecriteria:</strong> kun je elk criterium straks echt testen?',
-          'Laat ontbrekende punten aanvullen in de chat. Kopieer daarna het plan en sla het op als <code>building-plan.md</code>.'
+          'Laat ontbrekende punten aanvullen in de chat.',
+          'Kopieer het definitieve plan met de kopieerknop van het Markdown-blok in de chat. Laat de chat open: in module 3 plak je het plan in VS Code.'
         ],
-        img: { file: 'm2-s4-building-plan-md.png', caption: 'Het bestand building-plan.md geopend in VS Code met de Markdown-preview ernaast.' },
-        check: 'Je hebt een bestand <code>building-plan.md</code> en je kunt elke tabel en flow uitleggen.',
+        img: { file: 'm2-s4-plan-kopieren.png', caption: 'Het definitieve bouwplan in de chat, met de kopieerknop van het Markdown-blok gemarkeerd.' },
+        check: 'Je kunt elke tabel en flow in het plan uitleggen, en de chat met het definitieve plan staat nog open.',
         help: 'In een echt project bespreek je het plan nu met de klant. In deze training is de trainer de klant: twijfel je, vraag het hem of haar.'
       }
     ]
@@ -497,17 +497,18 @@ const MODULES = [
       },
       {
         id: 'm3-s2',
-        title: 'Zet je bouwplan en de building standards skill in de projectmap',
+        title: 'Plak je bouwplan en zet de skill in je project',
         goal: 'De bestanden die Claude nodig heeft staan in je project.',
         mark: 'Die skills zijn het vakmanschap van Cegeka. Daarmee bouwt Claude zoals jullie dat afspraken.',
         do: [
-          'Download de building standards skill van de <a href="#skills">Skills-pagina</a>. Het bestand heet <code>cegeka-building-standards-SKILL.md</code>. De building plan skill heb je hier niet nodig: die gebruikte je in module 2 in de chat.',
-          'Sleep het skillbestand en je <code>building-plan.md</code> uit module 2 naar de Explorer van VS Code, in de map <code>hardware-manager</code>.',
-          'Je hoeft niets te verplaatsen of te hernoemen: dat doet Claude in de volgende stap.'
+          'Klik in de Explorer van VS Code op het icoon <kbd>New File</kbd> (of rechtermuisknop &gt; <kbd>New File</kbd>).',
+          'Typ als naam <code>docs/building-plan.md</code> en druk <kbd>Enter</kbd>. VS Code maakt de map <code>docs</code> er vanzelf bij.',
+          'Plak je bouwplan uit de chat van module 2 (<kbd>Ctrl</kbd>+<kbd>V</kbd>) en sla op (<kbd>Ctrl</kbd>+<kbd>S</kbd>).',
+          'Download de building standards skill van de <a href="#skills">Skills-pagina</a> (<code>cegeka-building-standards-SKILL.md</code>) en sleep het bestand naar de Explorer, in de map <code>hardware-manager</code>. Claude zet het in de volgende stap op de juiste plek.'
         ],
-        img: { file: 'm3-s2-bestanden-in-project.png', caption: 'De Explorer in VS Code met building-plan.md en cegeka-building-standards-SKILL.md in de map hardware-manager.' },
-        check: 'Je ziet beide bestanden in de Explorer.',
-        help: 'Heeft je browser het bestand opgeslagen met <code>.txt</code> erachter? Geen probleem, Claude herkent het. Noem het in de volgende prompt wel even.'
+        img: { file: 'm3-s2-bestanden-in-project.png', caption: 'De Explorer in VS Code met docs/building-plan.md geopend (het geplakte bouwplan) en cegeka-building-standards-SKILL.md in de map hardware-manager.' },
+        check: 'Je ziet <code>docs/building-plan.md</code> met je bouwplan en het skillbestand in de Explorer.',
+        help: 'Ziet het plan er rommelig uit? Controleer of je het hele Markdown-blok hebt gekopieerd. Klik rechtsboven op het preview-icoon om het opgemaakt te zien. Heeft je browser het skillbestand opgeslagen met <code>.txt</code> erachter? Geen probleem, Claude herkent het.'
       },
       {
         id: 'm3-s3',
@@ -520,7 +521,7 @@ const MODULES = [
           'Bekijk de structuur die Claude laat zien.'
         ],
         img: { file: 'm3-s3-projectstructuur.png', caption: 'De Explorer met .claude/skills/cegeka-building-standards/SKILL.md, docs/building-plan.md en de map solution, met daarnaast de samenvatting van Claude.' },
-        check: 'De skill staat in <code>.claude/skills/cegeka-building-standards/SKILL.md</code>, en het bouwplan staat in <code>docs/building-plan.md</code>.',
+        check: 'De skill staat in <code>.claude/skills/cegeka-building-standards/SKILL.md</code>, en de mappen <code>docs</code> en <code>solution</code> bestaan.',
         help: 'Iets op de verkeerde plek? Zeg het gewoon tegen Claude, bijvoorbeeld: "De skill staat nog in de root, zet hem in de juiste map."'
       },
       {
