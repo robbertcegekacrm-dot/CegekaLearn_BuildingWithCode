@@ -144,7 +144,7 @@ Vertel me wat je hebt aangetroffen en wat je hebt aangemaakt.`,
 `Lees CLAUDE.md, de building standards skill in .claude/skills/ en docs/building-plan.md.
 
 Maak daarna een implementatieplan in docs/implementation-plan.md met:
-- de bouwstappen in volgorde (datamodel, relaties, model-driven app, flows voor onboarding en bestelling, bestelactiviteit)
+- de bouwstappen in volgorde (datamodel, relaties, model-driven app, flows voor onboarding en bestelling, startpagina)
 - per stap welke componenten je maakt, met schemanamen volgens de building standards
 - hoe elk component in de solution HardwareManager terechtkomt
 - per stap hoe ik kan controleren dat het gelukt is
@@ -160,6 +160,7 @@ Bouw nog niets. Stel eerst vragen als iets in het bouwplan onduidelijk of tegens
     text:
 `Voer stap 1 uit het implementatieplan uit: het datamodel.
 Maak de tabellen, kolommen en keuzelijsten uit docs/building-plan.md in de solution HardwareManager, volgens de building standards skill.
+Maak de bestelactiviteit als activiteitstabel, zodat bestellingen straks in de tijdlijn verschijnen.
 
 Werkwijze:
 1. Toon eerst een overzicht van wat je gaat aanmaken (tabel, schemanaam, kolommen, datatypes).
@@ -188,7 +189,7 @@ Toon eerst je voorstel, wacht op akkoord, voer uit, controleer en stel een commi
     text:
 `Voer stap 3 uit het implementatieplan uit: de model-driven app "Hardware Manager".
 Maak de app met navigatie, de views en de formulieren uit hoofdstuk 8 van docs/building-plan.md.
-Zorg dat Mark op het formulier van een medewerker direct de gekoppelde apparaten en onboardings ziet.
+Zorg dat Mark op het formulier van een medewerker direct de gekoppelde apparaten en onboardings ziet, en dat bestelactiviteiten in de tijdlijn staan.
 Volg de building standards voor naamgeving en formulierindeling.
 Toon eerst je voorstel, wacht op akkoord, voer uit, publiceer de wijzigingen en stel een commit message voor.`,
     tip: 'Je beschrijft wat de gebruiker moet zien in plaats van hoe het technisch moet. Dat laat de agent de juiste componenten kiezen en houdt de prompt herbruikbaar.'
@@ -207,16 +208,19 @@ Toon eerst per flow de trigger, de stappen en de uitkomst, wacht op akkoord, bou
     tip: 'Trigger, stappen en uitkomst zijn de drie dingen die je ook in een functioneel ontwerp zou willen zien. Door ze eerst te laten tonen, review je de logica voordat er iets draait.'
   },
   {
-    id: 'activiteit',
-    title: 'Bouwstap: bestelactiviteit',
+    id: 'startpagina',
+    title: 'Bouwstap: startpagina',
     where: 'Claude Code',
     module: 5,
     text:
-`Voer stap 5 uit het implementatieplan uit: de bestelactiviteit.
-Zorg dat bij elke nieuwe bestelling een activiteit zichtbaar wordt in de tijdlijn van de bestelling en de medewerker, met daarin het gekozen apparaat, de status en de besteldatum.
-Kies of dit een eigen activiteitstabel wordt of een bestaande activiteit (zoals een taak) en leg je keuze in twee zinnen uit, op basis van het bouwplan en de building standards.
-Toon eerst je voorstel, wacht op akkoord, voer uit, test met één bestelling en stel een commit message voor.`,
-    tip: 'Je vraagt de agent een ontwerpkeuze te onderbouwen. Zo leer je van de afweging en kun je bijsturen als de keuze niet past bij de klant.'
+`Voer de laatste stap uit het implementatieplan uit: een startpagina voor de app "Hardware Manager".
+Maak een overzichtspagina die Mark als eerste ziet als hij de app opent, volgens de building standards skill (onderdeel Pages, pagina binnen een model-driven app):
+- een rij KPI-tegels, bijvoorbeeld apparaten in gebruik, apparaten op voorraad, lopende onboardings en openstaande bestellingen; elke tegel linkt naar de bijbehorende view
+- een lijst "Wat aandacht nodig heeft": onboardings waarvoor de manager nog geen apparaat heeft gekozen en bestellingen die nog niet zijn geleverd
+- de laatste vijf bestellingen
+Zet de pagina als eerste onderdeel in de navigatie van de app.
+Toon eerst een schets van de indeling en welke data elke tegel en lijst gebruikt, wacht op akkoord, bouw, publiceer en stel een commit message voor.`,
+    tip: 'Je beschrijft wat Mark in één oogopslag moet zien, en de skill zorgt dat de pagina eruitziet als onderdeel van de app. Door eerst een schets te vragen, controleer je de inhoud voordat er iets gebouwd wordt.'
   },
   {
     id: 'review',
@@ -318,7 +322,7 @@ const MODULES = [
         title: 'Wat ga je bouwen?',
         goal: 'Je weet welk eindresultaat je aan het einde van de training in je omgeving hebt staan.',
         do: [
-          'Lees de onderdelen van de Hardware Manager-oplossing: <strong>een datamodel</strong> voor apparaten, medewerkers, onboardings en bestellingen; <strong>relaties</strong> tussen die tabellen; <strong>een model-driven app</strong> voor Mark; <strong>een onboardingflow</strong> waarmee de manager een apparaat kiest; <strong>een bestelflow</strong> en <strong>een bestelactiviteit</strong> in de tijdlijn.',
+          'Lees de onderdelen van de Hardware Manager-oplossing: <strong>een datamodel</strong> voor apparaten, medewerkers, onboardings en bestellingen; <strong>relaties</strong> tussen die tabellen; <strong>een model-driven app</strong> voor Mark; <strong>een onboardingflow</strong> waarmee de manager een apparaat kiest; <strong>een bestelflow</strong> met een bestelactiviteit in de tijdlijn; en <strong>een startpagina</strong> met een overzicht voor Mark.',
           'Bekijk de schets van het eindresultaat in de afbeelding hieronder.',
           'Bedenk welk onderdeel jij het spannendst vindt om te bouwen.'
         ],
@@ -603,8 +607,8 @@ const MODULES = [
     title: 'Bouwen met Claude Code',
     duration: '20 min',
     badge: 'Bouwer',
-    certLabel: 'Datamodel, app en flows laten bouwen door een coding agent',
-    intro: 'Laat Claude Code eerst plannen en bouw daarna stap voor stap: datamodel, relaties, app, flows en bestelactiviteit. Na elke stap: review en commit.',
+    certLabel: 'Datamodel, app, flows en startpagina laten bouwen door een coding agent',
+    intro: 'Laat Claude Code eerst plannen en bouw daarna stap voor stap: datamodel, relaties, app, flows en een startpagina. Na elke stap: review en commit.',
     tip: 'Bouw rustig stap voor stap: review na elke stap en laat Claude committen. Zo kun je altijd terug.',
     steps: [
       {
@@ -708,18 +712,19 @@ const MODULES = [
       },
       {
         id: 'm5-s8',
-        title: 'Bouw de bestelactiviteit en review',
-        goal: 'Bestellingen zijn zichtbaar in de tijdlijn en de solution voldoet aan de standaarden.',
+        title: 'Bouw de startpagina en review',
+        goal: 'Mark opent de app op een overzichtspagina, en de solution voldoet aan de standaarden.',
         do: [
-          { text: 'Geef Claude de prompt voor de bestelactiviteit:', prompt: 'activiteit' },
-          'Beoordeel de uitleg van de ontwerpkeuze en geef akkoord.',
+          { text: 'Geef Claude de prompt voor de startpagina:', prompt: 'startpagina' },
+          'Beoordeel de schets: staan de juiste tegels en lijsten erop? Geef akkoord.',
+          'Open de app en bekijk de startpagina. Klik op een tegel: kom je bij de juiste view?',
           { text: 'Laat daarna de hele solution controleren:', prompt: 'review' },
           'Kies welke punten Claude moet oplossen en laat dat doen.',
           { text: 'Laat Claude committen:', prompt: 'commit' }
         ],
-        img: { file: 'm5-s8-review-tabel.png', caption: 'Claude Code met de reviewtabel: eis of standaard, status, bewijs en voorstel, met een paar punten op afwijking.' },
-        check: 'De reviewtabel heeft geen punten meer op <em>ontbreekt</em>, en je laatste commit staat in je repo.',
-        help: 'Veel afwijkingen? Prima: dat is het nut van een review. Los ze één voor één op en commit tussendoor.'
+        img: { file: 'm5-s8-startpagina.png', caption: 'De startpagina van de Hardware Manager-app: KPI-tegels bovenaan, de lijst Wat aandacht nodig heeft en de laatste bestellingen, in de stijl van de app.' },
+        check: 'De app opent op de startpagina, de tegels linken naar de juiste views, de reviewtabel heeft geen punten meer op <em>ontbreekt</em> en je laatste commit staat in je repo.',
+        help: 'Ziet de pagina eruit als een losse website? Vraag Claude: "Laat de startpagina aansluiten bij de stijl van de app, volgens het onderdeel Pages van de building standards." Veel afwijkingen in de review? Los ze één voor één op en commit tussendoor.'
       }
     ]
   },
@@ -755,7 +760,7 @@ const MODULES = [
           'Klik door alle onderdelen in de navigatie.',
           'Zet de app als favoriet, zodat je hem snel terugvindt.'
         ],
-        img: { file: 'm6-s2-app-geopend.png', caption: 'De Hardware Manager-app geopend in de browser, met het dashboard of de lijst met apparaten als startpagina.' },
+        img: { file: 'm6-s2-app-geopend.png', caption: 'De Hardware Manager-app geopend in de browser, met de startpagina met KPI-tegels en de lijst Wat aandacht nodig heeft.' },
         check: 'Alle onderdelen in de navigatie openen zonder fouten.',
         help: 'Geen toegang? Controleer of je de security role uit het bouwplan hebt. Vraag Claude: "Welke security role heb ik nodig voor de app en hoe wijs ik die toe?"'
       },
@@ -821,12 +826,12 @@ const MODULES = [
         do: [
           '<strong>Reflectie:</strong> waar hield jij de regie (plan, review, akkoord, commit)? Wat deed de agent zelfstandig? Waar moest je bijsturen?',
           'Deel één inzicht met de groep.',
-          '<strong>Bonus 1, dashboard:</strong> laat Claude een dashboard maken met apparaten per status en openstaande bestellingen.',
-          '<strong>Bonus 2, voorraadmelding:</strong> laat een flow een melding sturen als er minder dan drie laptops op voorraad zijn.',
+          '<strong>Bonus 1, voorraadmelding:</strong> laat een flow een melding sturen als er minder dan drie laptops op voorraad zijn.',
+          '<strong>Bonus 2, app voor medewerkers:</strong> laat Claude een eenvoudige canvas app maken waarin een medewerker een defect apparaat kan melden.',
           '<strong>Bonus 3, Copilot-agent voor Mark:</strong> maak in Copilot Studio een agent waaraan Mark kan vragen: "Welke apparaten heeft Sanne?"',
           'Klaar? Haal je <a href="#certificaat">certificaat</a> op!'
         ],
-        img: { file: 'm7-s3-bonus-dashboard.png', caption: 'Een bonusresultaat: het dashboard in de Hardware Manager-app met een grafiek van apparaten per status.' },
+        img: { file: 'm7-s3-bonus-agent.png', caption: 'Een bonusresultaat: de Copilot-agent voor Mark die antwoord geeft op de vraag welke apparaten een medewerker heeft.' },
         check: 'Je hebt je reflectie gedeeld en weet welke bonusuitdaging je als volgende oppakt.',
         help: 'Begin een bonus weer met plan eerst: laat Claude het bouwplan aanvullen voordat er iets gebouwd wordt.'
       }

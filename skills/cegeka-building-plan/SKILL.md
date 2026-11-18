@@ -49,7 +49,7 @@ Per tabel:
 | Rol | Lezen | Aanmaken | Wijzigen | Verwijderen | Opmerking |
 
 ## 8. Apps
-Per app: naam, gebruikers, navigatie (gebieden en onderdelen), views per tabel met filter, formulieren met tabbladen en subgrids.
+Per app: naam, gebruikers, startpagina (KPI's, lijsten, wat aandacht nodig heeft), navigatie (gebieden en onderdelen), views per tabel met filter, formulieren met tabbladen en subgrids.
 
 ## 9. Flows
 Per flow: naam, trigger, stappen, resultaat.

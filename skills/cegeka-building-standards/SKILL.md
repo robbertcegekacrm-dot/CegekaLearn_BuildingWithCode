@@ -54,7 +54,7 @@ The user builds by talking to you. They never type commands: you choose and run 
 - Model-driven app with standard modern look, no custom theme. Set the app setting `HeaderAndNavigationRefresh` to Yes and read it back.
 - Views: Power Apps grid control with colored option sets enabled. Every table gets a default active view with explicit columns and widths, plus the views from the plan.
 - Forms: one main form per table, logical tabs and sections. Choice fields use the OptionSet Wrapper control so colors show. Subgrids show related records only.
-- Start page or overview page only when the plan asks for one (see Pages).
+- Every model-driven app opens on a start page, built as a separate last step (see Pages). Use an HTML web resource that reads data with `Xrm.WebApi` (fully scriptable), set as the first item in the sitemap, unless the plan asks for a custom page.
 
 ## Review checklist
 Use this when the user asks for a review. Report as a table: rule | OK / deviation / missing | evidence | proposal. Change nothing until the user chooses.

@@ -63,14 +63,14 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 | [ ] | `img/m5-s5-relaties.png` | Leg de relaties aan | Het tabblad Relationships van de tabel Apparaat met de relatie naar medewerker (lookup) zichtbaar. |
 | [ ] | `img/m5-s6-model-driven-app.png` | Bouw de model-driven app | De model-driven app Hardware Manager met de navigatie links (Apparaten, Medewerkers, Onboardings, Bestellingen) en een lijstweergave van apparaten. |
 | [ ] | `img/m5-s7-flows.png` | Bouw de onboarding- en bestelflow | De solution met de twee cloud flows (Onboarding en Bestelling) en de flow designer van de onboardingflow met trigger en stappen. |
-| [ ] | `img/m5-s8-review-tabel.png` | Bouw de bestelactiviteit en review | Claude Code met de reviewtabel: eis of standaard, status, bewijs en voorstel, met een paar punten op afwijking. |
+| [ ] | `img/m5-s8-startpagina.png` | Bouw de startpagina en review | De startpagina van de Hardware Manager-app: KPI-tegels bovenaan, de lijst Wat aandacht nodig heeft en de laatste bestellingen, in de stijl van de app. |
 
 ## Module 6 – Deployen en testen
 
 | | Bestand | Stap | Wat moet erop te zien zijn |
 |---|---|---|---|
 | [ ] | `img/m6-s1-deploy-geslaagd.png` | Laat Claude de solution deployen | Het Claude Code-paneel met de samenvatting van de deploy: gecontroleerde omgeving, ingepakte solution en geslaagde import. |
-| [ ] | `img/m6-s2-app-geopend.png` | Open de app in de omgeving | De Hardware Manager-app geopend in de browser, met het dashboard of de lijst met apparaten als startpagina. |
+| [ ] | `img/m6-s2-app-geopend.png` | Open de app in de omgeving | De Hardware Manager-app geopend in de browser, met de startpagina met KPI-tegels en de lijst Wat aandacht nodig heeft. |
 | [ ] | `img/m6-s3-testscenario-tijdlijn.png` | Test het scenario van Mark | Het formulier van een bestelling met de gekoppelde onboarding en medewerker, en de bestelactiviteit zichtbaar in de tijdlijn. |
 
 ## Module 7 – Afronden
@@ -79,7 +79,7 @@ Deze lijst wordt gegenereerd met `node tools/generate-screenshots-md.js` (vinkje
 |---|---|---|---|
 | [ ] | `img/m7-s1-commitgeschiedenis.png` | Laatste commit en push | Het Claude Code-paneel met de commitgeschiedenis: een commit per bouwstap, van projectstructuur tot afronding. |
 | [ ] | `img/m7-s2-vergelijking.png` | Vergelijk het resultaat met het bouwplan | docs/building-plan.md naast de app, of een opleververslag met per hoofdstuk de status klaar, afwijking of ontbreekt. |
-| [ ] | `img/m7-s3-bonus-dashboard.png` | Reflecteer en doe een bonusuitdaging | Een bonusresultaat: het dashboard in de Hardware Manager-app met een grafiek van apparaten per status. |
+| [ ] | `img/m7-s3-bonus-agent.png` | Reflecteer en doe een bonusuitdaging | Een bonusresultaat: de Copilot-agent voor Mark die antwoord geeft op de vraag welke apparaten een medewerker heeft. |
 
 ---
 
